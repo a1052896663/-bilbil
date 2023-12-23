@@ -1,0 +1,25 @@
+{
+  "name": "sp-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "lodash": "^4.17.21",
+    "pinia": "^2.1.7",
+    "qs": "^6.11.2",
+    "vue": "^3.3.11",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@vitejs/plugin-vue": "^4.5.2",
+    "vite": "^5.0.10",
+    "vite-plugin-windicss": "^1.9.2"
+  }
+}
