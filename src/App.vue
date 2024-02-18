@@ -18,7 +18,21 @@ const handleFileSelect = (event) => {
 };
 
 const uploadFile = async () => {
-    await HttpFile('/user/avatar',file,progress)
+  const play={
+    "video":{
+      "url":"",
+      "title":"你好",
+      "brief":"测试",
+      "label":"java;python"
+    },
+
+    "comments":[]
+  }
+   const formData = new FormData();
+    formData.append('video', file.value);
+
+    formData.append('play',JSON.stringify(play))
+    await HttpFile('/video/upload',formData,progress)
     console.log("上传成功")
 };
 </script>

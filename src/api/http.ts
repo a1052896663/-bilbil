@@ -23,7 +23,7 @@ http.interceptors.request.use(config=>{
 
 export function  getToken(){
    // return getUserToken();
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiMTIzNDU1NiIsInN1YiI6ImFkbWluLXRlc3QiLCJleHAiOjE3MDYwMzU5MzYsImp0aSI6IjZmNjhhOTM0LTU0M2YtNGExNS1iYWNmLTM4OGQxY2Y3OGQ0ZSJ9.qIaY6oa85_pkQbqIIp7c3PZ9gEvSLANhmxDd-hksVBE";
+    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiMTIzNDU2Iiwic3ViIjoiYWRtaW4tdGVzdCIsImV4cCI6MTcwODU0NjcyMywianRpIjoiMGUyMzAxZTEtOWM0My00YmZiLTk4NzQtMDIxMzkxNzQ5ZDEyIn0.RtBKY3HYtz3K4TFeUImHS9-oHG-gjp79ZEmq-PL4E_E";
 }
 export  function  setToken(token){
     setUserToken(token)
@@ -57,15 +57,17 @@ export  function  HttpDelete(url:string,data?: object){
 // 设置头像
 /**
  *
- * @param fileVue ref的file
+ * @param url
+ * @param formData
  * @param progressVue ref的数据 上传进度
  * @constructor
  */
-export  function HttpFile(url:string, fileVue:any, progressVue:any){
+export  function HttpFile(url:string, formData:any, progressVue:any){
 
-    const formData = new FormData();
-    formData.append('file', fileVue.value);
-
+    // const formData = new FormData();
+    // formData.append('file', fileVue.value);
+    // const formData = new FormData();
+    // formData.append('file', fileVue.value);
     // 使用 axios 发送 POST 请求，并监听 progress 事件
     return    http({
         timeout:0,
