@@ -10,13 +10,16 @@ onMounted(()=>{
 
 const fileInputRef = ref(null);
 const file = ref(null);
+const image= ref(null)
 // 进度  内容
 const progress = ref(0);
 
 const handleFileSelect = (event) => {
   file.value = event.target.files[0];
 };
-
+const handleFileSelectImage=(e)=>{
+  image.value=e.target.files[0]
+}
 const uploadFile = async () => {
   const play={
     "video":{
@@ -30,7 +33,7 @@ const uploadFile = async () => {
   }
    const formData = new FormData();
     formData.append('video', file.value);
-
+    formData.append('coverImage',image.value)
     formData.append('play',JSON.stringify(play))
     await HttpFile('/video/upload',formData,progress)
     console.log("上传成功")
@@ -38,7 +41,8 @@ const uploadFile = async () => {
 </script>
 
 <template>
-  <input type="file" ref="fileInput" @change="handleFileSelect">
+  <input type="file" ref="fileInput" @change="handleFileSelect"> 视频
+  <input type="file" ref="imagefileInput" @change="handleFileSelectImage"> 封面
   <button @click="uploadFile">上传</button>
   <div v-if="progress > 0">
     上传进度：{{ progress }}%
