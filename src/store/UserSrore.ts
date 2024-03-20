@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 
 export function getUserToken(){
     const userStore2= UserStore();
-    return userStore2.token;
+    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiMTIzNDU1NiIsInN1YiI6ImFkbWluLXRlc3QiLCJleHAiOjE3MDYwMzU5MzYsImp0aSI6IjZmNjhhOTM0LTU0M2YtNGExNS1iYWNmLTM4OGQxY2Y3OGQ0ZSJ9.qIaY6oa85_pkQbqIIp7c3PZ9gEvSLANhmxDd-hksVBE";
 };
 export function setUserToken(token){
     const userStore2= UserStore();

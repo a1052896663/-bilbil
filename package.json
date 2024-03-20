@@ -14,7 +14,8 @@
     "pinia": "^2.1.7",
     "qs": "^6.11.2",
     "vue": "^3.3.11",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue-video-player": "^6.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.5",
