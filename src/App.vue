@@ -1,7 +1,18 @@
 <script setup lang="ts">
 import {HttpGet} from "@/api/http";
-import {onMounted} from "vue";
+import {onMounted,onBeforeUpdate} from "vue";
 import route from "@/router/router";
+
+onBeforeUpdate(async ()=>{
+  try{
+   
+  }catch(e){
+    console.error("error:=== App.vue===",e);
+    
+    
+  }
+  
+})
 onMounted(()=>{
   route.push('/home')
 })
@@ -43,3 +54,4 @@ header {
   }
 }
 </style>
+@/api/Http

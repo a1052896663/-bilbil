@@ -1,6 +1,6 @@
 import axios, {AxiosResponse, AxiosStatic} from "axios";
 import {getUserToken, setUserToken} from "../store/UserSrore";
-import {InitData} from "../util/InitData"
+import {InitData} from "../util/type"
 // @ts-ignore
 import qs from "qs"
 
