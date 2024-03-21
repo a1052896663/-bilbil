@@ -5,7 +5,7 @@ import route from "@/router/router";
 import axios from "axios";
 import {HttpFile} from "@/api/http";
 onMounted(()=>{
-  //route.push('/home')
+  route.push('/home')
 })
 
 const fileInputRef = ref(null);
@@ -41,13 +41,13 @@ const uploadFile = async () => {
 </script>
 
 <template>
-  <input type="file" ref="fileInput" @change="handleFileSelect"> 视频
+  <!-- <input type="file" ref="fileInput" @change="handleFileSelect"> 视频
   <input type="file" ref="imagefileInput" @change="handleFileSelectImage"> 封面
   <button @click="uploadFile">上传</button>
   <div v-if="progress > 0">
     上传进度：{{ progress }}%
   </div>
-  <video src></video>
+  <video src></video> -->
   <keep-alive>
     <router-view></router-view>
   </keep-alive>

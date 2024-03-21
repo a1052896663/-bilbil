@@ -1,11 +1,11 @@
 import axios, {AxiosResponse, AxiosStatic} from "axios";
 import {getUserToken, setUserToken} from "../store/UserSrore";
-import {InitData} from "../util/type"
+import {SERVICE_ROUT} from "../util/type"
 // @ts-ignore
 import qs from "qs"
 
 // 服务器地址
-const ServerPath:string=InitData.ServerPath
+const ServerPath:string=SERVICE_ROUT.ServerPath
 
 // 创建对象
 const http=axios.create({
