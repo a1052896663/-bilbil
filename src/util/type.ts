@@ -5,6 +5,7 @@
   OUT_DELETE="/user/out", // 退出登录
   ENROLL_PUT="/user/enroll" ,//注册
   AVATAR_POST="/user/avatar", // 设置用户头像
+  VIDEO_INIT_GET="/video/init",
   USER_SOCKET="",
   VIDEO_SOCKET=""
 }

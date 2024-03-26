@@ -1,0 +1,163 @@
+@media screen  and (min-device-width: 200px) and (max-device-width:500px){
+
+
+/*    移动端 home*/
+
+
+    #home{
+
+        width: 99vw;
+        height: 99vh;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+    }
+    #home-head{
+        flex: 0 0 11rem;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        box-shadow: -2px 8px 3px -5px rgba(35, 34, 27, 0.5);
+        z-index: 1;
+        position: relative; /* 需要添加position:relative属性来启用z-index */
+    }
+    .van-search{
+        flex: 1 1 0;
+    }
+    #home-main{
+        flex: 1 1 15rem;
+        background: #f1f1f2;;
+        overflow: auto;
+    }
+
+    #home-user{
+        border-radius: 60rem;
+        margin-left: 3rem;
+        flex: 0 0 10rem;
+        display: flex;
+        align-items: center;
+        height: 15rem;
+        overflow: hidden;
+    }
+    #home-search{
+        border: none;
+        outline: none;
+        margin-left: 3rem;
+        margin-right: 3rem;
+        height: 8rem;
+        background: #dcdfe5;
+        font-size: 4rem;
+        text-indent: 5rem;
+        flex: 1 1 15rem;
+         width: 15rem;
+        border-radius: 6rem;
+    }
+    #home-user>img{
+        width: 9rem;
+        height: 9rem;
+        border-radius: 60rem;
+    }
+
+    #home-el-icon{
+
+        display: block;
+        flex: 0 0 10rem;
+        height: 10rem;
+    }
+    #home-search-font{
+        flex: 0 0 13rem;
+        height: 10rem;
+        display: flex;
+        margin-right: 3rem;
+        font-size: 5rem;
+        text-align: center;
+        align-items: center;
+        color: #0264e7;
+    }
+
+
+/*    main组件*/
+    #home-main-home{
+        display: flex;
+        height: 100%;
+        flex: 1 1 0;
+        background: #f1f1f2;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+    }
+
+    #home-main-qr{
+        height: 100%;
+        flex: 1 1 0;
+        background: #f1f1f2;
+    }
+    #home-main-chat{
+        height: 100%;
+        flex: 1 1 0;
+        background: #f1f1f2;
+    }
+    #home-main-manager{
+        height: 100%;
+        flex: 1 1 0;
+        background: #f1f1f2;
+    }
+
+
+    @keyframes flyInR {
+        from {
+            transform: translateX(100%);
+        }
+        to {
+            transform: translateX(0);
+        }
+    }
+
+    .fly-inR {
+        animation: flyInR 1s forwards;
+    }
+    @keyframes flyInL {
+        from {
+            transform: translateX(-100%);
+        }
+        to {
+            transform: translateX(0);
+        }
+    }
+
+    .fly-inL {
+        animation: flyInL 1s forwards;
+    }
+
+/*!*    下边*!*/
+    #home-bottom{
+        margin-top: 1rem;
+        flex: 0 0 11rem;
+
+        height: 13rem;
+
+
+
+    }
+
+
+/*    视频元素*/
+
+
+    .home-main-home-item{
+        margin: 1rem auto;
+        flex: 0 0 48rem;
+        height: 64rem;
+        background: #0264e7;
+        border-radius: 1rem;
+    }
+    #home-main-home>div:first-child{
+
+        margin: 1rem auto;
+        margin-top: 2rem;
+        flex: 0 0 97rem;
+        height: 80rem;
+        background: #0264e7;
+        border-radius: 2rem;
+    }
+}

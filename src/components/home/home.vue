@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import animate from "animate.css";
 import {HttpGet} from "@/api/http";
-import {onMounted, ref,onActivated} from "vue";
-
+import {onMounted, ref, onActivated, onUnmounted, watch} from "vue";
+import {SERVICE_ROUT,Resonse,Play} from '../../util/type'
+import {formatTime} from "../../util/util"
 import route from "@/router/router";
+import {TabsPaneContext} from "element-plus";
+import * as http from "http";
 const player = ref(null)
 let url=ref('')
 const streamUrl = ref('')
@@ -68,25 +72,154 @@ const progressBar = ref(null)
 // 	})
 
 
-onActivated(()=>{
+const play=ref<Resonse<Play[]>>()
+
+onMounted( async ()=>{
   console.log("组件home激活");
-  
+  try {
+    play.value=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data
+    if(play.value.status==404){
+      console.error("home页面错误：404")
+    }
+
+    console.log("得到的数据：",play.value.body)
+  }catch (e){
+    console.error("home页面错误：",e)
+  }
+
+})
+
+onUnmounted(async ()=>{
+  console.log("组件home销毁")
 })
 const  to=()=>{
   route.push("/login")
   console.log("跳转login");
   
 }
+
+// 下面导航卡片
+const activeName = ref('first')
+
+const handleClick = (tab: TabsPaneContext, event: Event) => {
+  console.log(tab, event)
+}
+
+const textActive=ref(false)
+
+const active = ref(0);
+//  动画控件
+const fly=ref("")
+
+watch(active,(newValue,oldValue)=>{
+  if(newValue>oldValue){
+    fly.value="fly-inR"
+  }else {
+    fly.value="fly-inL"
+  }
+})
+
+
+// 输入框
+const input=ref("")
+const onSearch=()=>{
+  // 回车
+}
+
+const errorHandler = () => true
 </script>
 
 <template>
-  <!-- <div>
-    <video ref="player" :src="streamUrl" @timeupdate="updateProgress" controls></video>
-    <progress ref="progressBar" max="100"></progress>
-  </div> -->
-  <button @click="to">跳转login</button>
+<!--  &lt;!&ndash; <div>-->
+<!--    <video ref="player" :src="streamUrl" @timeupdate="updateProgress" controls></video>-->
+<!--    <progress ref="progressBar" max="100"></progress>-->
+<!--  </div> &ndash;&gt;-->
+<!--  <button @click="to">跳转login</button>-->
+<!--  <div id="test">-->
+
+<!--  </div>-->
+
+  <div id="home">
+    <div id="home-head">
+
+        <div id="home-user">
+            <img
+                src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
+            />
+        </div>
+
+<!--        <input placeholder="搜索"  id="home-search">-->
+<!--        <div id="home-search-font">搜索</div>-->
+      <van-search
+          v-model="input"
+
+          shape="round"
+          background="#ffffff"
+          placeholder="请输入搜索关键词"
+          @search="onSearch"
+
+      />
+              <div id="home-search-font"><span>搜索</span></div>
+<!--      <i id="home-el-icon" class="el-icon-search"></i>-->
+
+
+    </div>
+    <div id="home-main">
+
+
+      <div id="home-main-home"  :class="fly"   v-if="active==0">
+        <div v-for="i in 11" :key="i" class="home-main-home-item">
+          <div >
+<!--            图片当作背景-->
+<!--            播放量-->
+<!--            时间-->
+          </div>
+          <div>
+<!--            标题-->
+<!--            作者-->
+          </div>
+        </div>
+      </div>
+
+
+
+      <div id="home-main-qr"  :class="fly"  v-if="active==1">
+        <div>home2</div>
+      </div>
+
+
+
+      <div id="home-main-chat"  :class="fly"  v-if="active==2">
+        <div>home3</div>
+      </div>
+
+
+
+      <div id="home-main-manager" :class="fly"  v-if="active==3">
+        <div>home4</div>
+      </div>
+
+
+    </div>
+    <div id="home-bottom">
+<!--      <el-badge :value="12" class="item">-->
+<!--        <el-button>comments</el-button>-->
+<!--      </el-badge>-->
+
+
+      <van-tabbar v-model="active">
+        <van-tabbar-item icon="wap-home-o">主页</van-tabbar-item>
+        <van-tabbar-item icon="qr">社区</van-tabbar-item>
+        <van-tabbar-item icon="chat-o"  badge="20">消息</van-tabbar-item>
+        <van-tabbar-item icon="manager-o">我的</van-tabbar-item>
+      </van-tabbar>
+    </div>
+  </div>
 </template>
 
-<style scoped>
+<style  scoped>
+@import "@/css/mobile/home.css";
+@import "@/css/pc/home.css";
 
-</style>@/api/Http
+</style>
+
