@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import animate from "animate.css";
 import {HttpGet} from "@/api/http";
-import {onMounted, ref, onActivated, onUnmounted, watch} from "vue";
-import {SERVICE_ROUT,Resonse,Play} from '../../util/type'
+import {onMounted, ref, onActivated, onUnmounted, watch, reactive} from "vue";
+import {SERVICE_ROUT, Resonse, Play, Video} from '../../util/type'
 import {formatTime} from "../../util/util"
 import route from "@/router/router";
 import {TabsPaneContext} from "element-plus";
@@ -71,18 +71,26 @@ const progressBar = ref(null)
 //     	next()
 // 	})
 
-
-const play=ref<Resonse<Play[]>>()
+//const play=reactive<Resonse<Play[]>>(null);
+const play=ref<Resonse<Video[]>>(null)
 
 onMounted( async ()=>{
   console.log("组件home激活");
   try {
+
     play.value=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data
+
+    setTimeout(()=>{
+      loading.value=!loading.value
+    },5000)
+
     if(play.value.status==404){
       console.error("home页面错误：404")
     }
 
-    console.log("得到的数据：",play.value.body)
+    console.log("得到的数据：play.value:",play.value)
+    console.log("得到的数据：play.value.body",play.value.body)
+    console.log("得到的数据：play.value.status",play.value.status)
   }catch (e){
     console.error("home页面错误：",e)
   }
@@ -127,6 +135,12 @@ const onSearch=()=>{
 }
 
 const errorHandler = () => true
+
+
+
+//  骨架
+const loading=ref(true)
+
 </script>
 
 <template>
@@ -168,23 +182,79 @@ const errorHandler = () => true
 
 
       <div id="home-main-home"  :class="fly"   v-if="active==0">
-        <div v-for="i in 11" :key="i" class="home-main-home-item">
-          <div >
+
+
+
+        <div  v-if=" play&& play.body"  v-for="(item,index) in play.body" :key="index" class="home-main-home-item">
+          <van-skeleton   :row="3" :loading="loading" class="home-main-home-loading" title-width="90%">
+            <template #template>
+
+
+              <div :style="{ flex: 1, marginLeft: '16px' }">
+                <van-skeleton-paragraph row-width="60%" :style="index==0? 'width: 124%;height: 73%; margin-left: -5rem;background: white;':  'width: 124%;height: 61%; margin-left: -5rem;background: white;'" />
+                <van-skeleton-paragraph />
+                <van-skeleton-paragraph />
+
+
+              </div>
+            </template>
+          <div class="home-main-home-image">
 <!--            图片当作背景-->
-<!--            播放量-->
-<!--            时间-->
+            <img class="home-main-home-image-url" :src="item.coverImageUrl">
+            <div class="home-main-home-image-url-m"> </div>
+            <div class="home-main-home-item-font">
+              <el-icon :size="index==0?'7rem':'5rem'" style="margin-right: 1rem" color="white"><VideoPlay/></el-icon>
+              <span class="home-main-home-item-viwe"> 20</span>
+              <div class="home-main-home-item-font-time">
+<!--                时间-->
+                <span>06:30</span>
+              </div>
+            </div>
+
+
           </div>
-          <div>
-<!--            标题-->
-<!--            作者-->
+
+          <div class="home-main-home-item-title">
+            <!--            标题-->
+            <div class="home-main-home-item-title-conter" >
+
+              【IGN】9.0分，《黑啊之魂》评测：一部不可多得的魂类游戏巨作
+            </div>
+            <!--            作者-->
+            <div class="home-main-home-item-title-user">
+
+              <el-icon :size="index==0?'5rem':'4rem'"  ><User /></el-icon>
+              <div class="home-main-home-item-title-user-name">
+                ING中国
+              </div>
+
+            </div>
           </div>
+          <!--            标题-->
+          <!--            作者-->
+          </van-skeleton>
         </div>
+
       </div>
 
 
 
       <div id="home-main-qr"  :class="fly"  v-if="active==1">
         <div>home2</div>
+        <van-skeleton>
+          <template #template>
+
+
+              <div :style="{ flex: 1, marginLeft: '16px' }">
+                <van-skeleton-paragraph row-width="60%" />
+                <van-skeleton-paragraph />
+                <van-skeleton-paragraph />
+                <van-skeleton-paragraph />
+
+            </div>
+          </template>
+        </van-skeleton>
+
       </div>
 
 
@@ -201,6 +271,7 @@ const errorHandler = () => true
 
 
     </div>
+
     <div id="home-bottom">
 <!--      <el-badge :value="12" class="item">-->
 <!--        <el-button>comments</el-button>-->

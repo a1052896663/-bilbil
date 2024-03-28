@@ -1,11 +1,18 @@
 <script setup lang="ts">
 
 import {onMounted, ref} from "vue";
-import route from "@/router/router";
+import route from "../src/router/router.js";
 //import axios from "axios";
 //import {HttpFile} from "@/api/http";
 onMounted(()=>{
-  route.push('/home')
+  console.log("跳转home")
+  try {
+    route.push('/home')
+  }catch (e){
+    console.error("error:",e)
+  }
+
+
 })
 //
 //const fileInputRef = ref(null);
@@ -62,16 +69,19 @@ onMounted(()=>{
 <!--  <el-button>按钮</el-button>-->
 <!--</div>-->
 
+  <div>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+  </div>
 
-  <keep-alive>
-    <router-view></router-view>
-  </keep-alive>
 
 </template>
 <style >
 *{
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 html{
   background: #0264e7;

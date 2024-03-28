@@ -5,6 +5,9 @@ export function isOfType<T>(  // 判断是什么类型
     return (target as T)[prop] !== undefined;
   }
 
+
+
+
   export     function formatTime(seconds) {  // 传递一个秒
     const date = new Date(null);
     date.setSeconds(seconds);
