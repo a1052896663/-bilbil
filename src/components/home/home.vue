@@ -7,6 +7,7 @@ import {formatTime} from "../../util/util"
 import route from "@/router/router";
 import {TabsPaneContext} from "element-plus";
 import * as http from "http";
+import HomeMainHome from "@/components/home/main/home-main-home.vue";
 const player = ref(null)
 let url=ref('')
 const streamUrl = ref('')
@@ -141,6 +142,22 @@ const errorHandler = () => true
 //  骨架
 const loading=ref(true)
 
+
+
+
+// 标签页面
+const Tap=ref(['推荐','动漫','生活','影视','其他'])
+const Tap_active=ref(0)
+
+
+/// 下拉刷新
+async function  onRefresh(){
+  play.value=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data
+  count.value++;
+  loading.value=false
+  console.log("下拉刷新:",play.value)
+}
+const count=ref(0)
 </script>
 
 <template>
@@ -178,67 +195,20 @@ const loading=ref(true)
 
 
     </div>
+    <van-tabs v-model:active="Tap_active" scrollspy sticky title-active-color="#1989fa" swipeable="false"  v-show="active==0" >
+      <van-tab v-for="(item,index) in Tap" :title="item" :key="index">
+
+      </van-tab>
+
+    </van-tabs>
     <div id="home-main">
+      <van-pull-refresh v-model="loading"  success-text="刷新成功" @refresh="onRefresh">
 
 
-      <div id="home-main-home"  :class="fly"   v-if="active==0">
+<!--主页显示-->
+      <home-main-home :class="fly"   v-show="active==0&&Tap_active==0"></home-main-home>
 
-
-
-        <div  v-if=" play&& play.body"  v-for="(item,index) in play.body" :key="index" class="home-main-home-item">
-          <van-skeleton   :row="3" :loading="loading" class="home-main-home-loading" title-width="90%">
-            <template #template>
-
-
-              <div :style="{ flex: 1, marginLeft: '16px' }">
-                <van-skeleton-paragraph row-width="60%" :style="index==0? 'width: 124%;height: 73%; margin-left: -5rem;background: white;':  'width: 124%;height: 61%; margin-left: -5rem;background: white;'" />
-                <van-skeleton-paragraph />
-                <van-skeleton-paragraph />
-
-
-              </div>
-            </template>
-          <div class="home-main-home-image">
-<!--            图片当作背景-->
-            <img class="home-main-home-image-url" :src="item.coverImageUrl">
-            <div class="home-main-home-image-url-m"> </div>
-            <div class="home-main-home-item-font">
-              <el-icon :size="index==0?'7rem':'5rem'" style="margin-right: 1rem" color="white"><VideoPlay/></el-icon>
-              <span class="home-main-home-item-viwe"> 20</span>
-              <div class="home-main-home-item-font-time">
-<!--                时间-->
-                <span>06:30</span>
-              </div>
-            </div>
-
-
-          </div>
-
-          <div class="home-main-home-item-title">
-            <!--            标题-->
-            <div class="home-main-home-item-title-conter" >
-
-              【IGN】9.0分，《黑啊之魂》评测：一部不可多得的魂类游戏巨作
-            </div>
-            <!--            作者-->
-            <div class="home-main-home-item-title-user">
-
-              <el-icon :size="index==0?'5rem':'4rem'"  ><User /></el-icon>
-              <div class="home-main-home-item-title-user-name">
-                ING中国
-              </div>
-
-            </div>
-          </div>
-          <!--            标题-->
-          <!--            作者-->
-          </van-skeleton>
-        </div>
-
-      </div>
-
-
-
+      </van-pull-refresh>
       <div id="home-main-qr"  :class="fly"  v-if="active==1">
         <div>home2</div>
         <van-skeleton>
@@ -261,6 +231,7 @@ const loading=ref(true)
 
       <div id="home-main-chat"  :class="fly"  v-if="active==2">
         <div>home3</div>
+
       </div>
 
 

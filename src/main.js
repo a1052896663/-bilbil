@@ -21,19 +21,35 @@ import {
     SkeletonAvatar,
     SkeletonParagraph,
 } from 'vant';
-
-
-
+import { Tab, Tabs } from 'vant';
+import { NavBar } from 'vant';
+import { Image as VanImage } from 'vant';
 
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
 
+import { PullRefresh } from 'vant';
+import NPlayer from "@nplayer/vue";
+
+app.use(PullRefresh);
+
+
+app.use(VanImage);
 app.use(Skeleton);
 app.use(SkeletonTitle);
 app.use(SkeletonImage);
 app.use(SkeletonAvatar);
 app.use(SkeletonParagraph);
+
+app.use(Tab);
+app.use(Tabs);
+
+app.use(NavBar);
+
+app.use(NPlayer);
+
+app.use(NPlayer, { name: 'NPlayer' })
 
 app.use(router).use(createPinia()).use(Search).use(ElementPlus).use(TabbarItem).use(Tabbar).mount('#app')

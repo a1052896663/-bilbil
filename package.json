@@ -6,16 +6,20 @@
   "scripts": {
     "dev": "vite --port 3000",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start":"vite --host 0.0.0.0 --port 3000"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "@nplayer/danmaku": "^1.0.12",
+    "@nplayer/vue": "^1.0.12",
     "@types/ws": "^8.5.10",
     "animate.css": "^4.1.1",
     "axios": "^1.6.2",
     "element-plus": "^2.6.2",
     "element-ui": "^2.15.14",
     "lodash": "^4.17.21",
+    "nplayer": "^1.0.15",
     "pinia": "^2.1.7",
     "qs": "^6.11.2",
     "vant": "^4.8.7",

@@ -7,7 +7,7 @@ import route from "../src/router/router.js";
 onMounted(()=>{
   console.log("跳转home")
   try {
-    route.push('/home')
+    route.push('/view')
   }catch (e){
     console.error("error:",e)
   }

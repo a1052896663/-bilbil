@@ -1,0 +1,45 @@
+@media screen  and (min-device-width: 200px) and (max-device-width:500px) {
+    #view{
+
+        width: 99vw;
+        height: 99vh;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        background: #0264e7;
+    }
+
+    #view-head{
+        background: yellow;
+        flex: 0 0 11rem;
+
+    }
+    #view-user{
+        background: #6aee59;
+        flex: 0 0 11rem;
+        height: 500rem;
+    }
+    #view-comments{
+        background: #7a3a9a;
+        flex: 0 0 11rem;
+        height: 500rem;
+    }
+
+    #view-van-tabs-input2{
+        background: #7a3a9a;
+        display: block;
+        width: 23rem;
+        height: 7rem;
+        position: absolute;
+        top: 76rem;
+        left: 74rem;
+
+        z-index: 10;
+    }
+    #view-select{
+        display: flex;
+        background: yellow;
+        height: 23rem;
+        width: 100%;
+    }
+}
