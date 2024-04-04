@@ -14,15 +14,18 @@
         flex: 0 0 11rem;
 
     }
-    #view-user{
+    .view-select-user{
         background: #6aee59;
-        flex: 0 0 11rem;
-        height: 500rem;
+        flex: 0 0 100%;
+        /*height: 500rem;*/
+        height: 70rem;
     }
-    #view-comments{
-        background: #7a3a9a;
-        flex: 0 0 11rem;
-        height: 500rem;
+    .view-select-comments{
+        background: #dcecd9;
+        flex: 0 0 100%;
+        /*height: 500rem;*/
+        height: 70rem;
+        position: relative;
     }
 
     #view-van-tabs-input2{
@@ -38,8 +41,204 @@
     }
     #view-select{
         display: flex;
-        background: yellow;
-        height: 23rem;
+        background: white;
+        height: 11rem;
         width: 100%;
+        align-items: center;
+        box-shadow:  0px 9px 11px -5px rgba(35, 34, 27, 0.5);
+
+
+    }
+
+    .view-select-button{
+        flex: 0 0 15rem;
+        /*background: #0264e7;*/
+        margin-left: 7rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /*margin: 0 auto;*/
+    }
+
+    .view-select-button-font{
+        display: block;
+        margin: 0 auto;
+
+        font-family: HYKaiti;
+        font-size: 4rem;
+
+
+
+    }
+    .input-field {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .faoltInput{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9999;
+    }
+    #view-select-button-body{
+        flex: 0 0 51rem;
+        display: flex;
+    }
+
+    .view-select-button-input-body{
+        display: flex;
+        flex: 0 0 38rem;
+
+        flex-direction: row-reverse;
+        margin-left: 6rem;
+
+    }
+    .view-select-button-input{
+        background: rgba(0, 0, 0, 0.1);
+        flex: 0 0 38rem;
+
+        height: 7rem;
+        border-radius: 12rem;
+        display: flex;
+        flex-direction: row-reverse;
+        /*margin-left: 6rem;*/
+        /*margin-right: 13rem;*/
+        overflow: hidden;
+
+        transition: flex 0.5s ease; /* 使用过渡属性 */
+        border: 1px solid rgba(0, 0, 0, 0.2); /* 设置边框样式 */
+
+    }
+    .view-select-button-input-font-icon{
+        float: left;
+        position: absolute;
+        top: 26%;
+        left: 35%;
+    }
+    .view-select-button-input-dan{
+        padding-left: 3rem;
+        height: 100%;
+        flex: 0 0 10rem;
+        background: rgba(0, 0, 0, 0.1);
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        color: rgba(0, 0, 0, 0.2);
+
+    }
+    .view-select-button-input-body-msg{
+
+        text-indent: 1rem;
+
+        font-size: 3.5rem;
+        text-overflow: ellipsis; /* 显示省略号 */
+
+        color: rgba(0, 0, 0, 0.2);
+        display: -webkit-box;
+        line-height: 7rem;
+        -webkit-box-orient: vertical;
+        /*两行后省略*/
+        -webkit-line-clamp: 1;
+    }
+    .view-select-button-input-body-msgFont{
+        display: block;
+        margin-right: 2rem;
+    }
+    .expanded {
+        flex: 0 0 10rem;
+        /*margin-left: 27rem;*/
+        background: rgba(0, 0, 0, 0.1);
+        transition: flex 0.5s ease /* 使用过渡属性 */
+
+    }
+
+    #view-van-tabs{
+        margin-top: -9rem;
+    }
+    /*
+    van-tabs__nav--complete
+    */
+    .van-tabs__nav--complete[role="tablist"]{
+        display: none;
+    }
+    .clickable {
+        display: inline-block;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+
+    #underline {
+        position: absolute;
+        width: 15rem; /* 下划线的初始宽度 */
+        height: 2px; /* 下划线的高度 */
+        background-color: #0264e7; /* 下划线的颜色 */
+        transition: transform 0.5s ease; /* 使用过渡属性 */
+        margin-top: 8rem;
+
+
+    }
+
+
+    @keyframes flyInR {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(-100%);
+        }
+    }
+
+    .fly-inR {
+        animation: flyInR 0.3s forwards;
+    }
+    @keyframes flyInL {
+        from {
+            transform: translateX(-100%);
+        }
+        to {
+            transform: translateX(0);
+        }
+    }
+
+    .fly-inL {
+        animation: flyInL 0.3s forwards;
+    }
+
+
+
+    @keyframes flyInRR {
+        from {
+            transform: translateX(-100%);
+        }
+        to {
+            transform: translateX(0%);
+        }
+    }
+
+    .fly-inRR {
+        animation: flyInRR 0.3s forwards;
+    }
+    @keyframes flyInLL {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(-100%);
+        }
+    }
+
+    .fly-inLL {
+        animation: flyInLL 0.3s forwards;
+    }
+
+
+
+    #view-select-context{
+        display: flex;
+        background: yellow;
     }
 }

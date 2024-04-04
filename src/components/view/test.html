@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .animatedDiv {
+            width: 100px;
+            height: 100px;
+            background-color: #ccc;
+            transition: width 0.5s ease, height 0.5s ease; /* 使用过渡属性 */
+        }
+
+        .expanded {
+            width: 200px; /* 扩展后的宽度 */
+            height: 200px; /* 扩展后的高度 */
+        }
+
+        .clickable {
+            display: inline-block;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        #underline {
+            position: absolute;
+            width: 50px; /* 下划线的初始宽度 */
+            height: 2px; /* 下划线的高度 */
+            background-color: blue; /* 下划线的颜色 */
+            transition: transform 0.5s ease; /* 使用过渡属性 */
+        }
+
+    </style>
+</head>
+<body>
+<div id="animatedDiv" class="animatedDiv" onclick="toggleSize()">点击我</div>
+<div id="A" class="clickable">A</div>
+<div id="B" class="clickable">B</div>
+<div id="underline"></div>
+<script>
+    function toggleSize() {
+        var div = document.getElementById('animatedDiv');
+        div.classList.toggle('expanded'); // 切换CSS类以触发动画
+    }
+
+    var underline = document.getElementById('underline');
+
+    document.getElementById('A').addEventListener('click', function() {
+        underline.style.transform = 'translateX(0)'; // 移动到A下方
+    });
+
+    document.getElementById('B').addEventListener('click', function() {
+        var offset = document.getElementById('B').offsetLeft - document.getElementById('A').offsetLeft;
+        underline.style.transform = 'translateX(' + offset + 'px)'; // 移动到B下方
+    });
+</script>
+</body>
+</html>

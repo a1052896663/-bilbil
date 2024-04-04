@@ -25,6 +25,8 @@ import { Tab, Tabs } from 'vant';
 import { NavBar } from 'vant';
 import { Image as VanImage } from 'vant';
 
+import { Field, CellGroup } from 'vant';
+
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
@@ -49,6 +51,9 @@ app.use(Tabs);
 app.use(NavBar);
 
 app.use(NPlayer);
+
+app.use(Field);
+app.use(CellGroup);
 
 app.use(NPlayer, { name: 'NPlayer' })
 
