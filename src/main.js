@@ -26,7 +26,7 @@ import { NavBar } from 'vant';
 import { Image as VanImage } from 'vant';
 
 import { Field, CellGroup } from 'vant';
-
+import { RadioGroup, Radio } from 'vant';
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
@@ -34,9 +34,11 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 import { PullRefresh } from 'vant';
 import NPlayer from "@nplayer/vue";
-
+import { Icon } from 'vant';
 app.use(PullRefresh);
 
+
+app.use(Icon)
 
 app.use(VanImage);
 app.use(Skeleton);
@@ -45,12 +47,18 @@ app.use(SkeletonImage);
 app.use(SkeletonAvatar);
 app.use(SkeletonParagraph);
 
+app.use(Radio);
+app.use(RadioGroup);
+
 app.use(Tab);
 app.use(Tabs);
 
 app.use(NavBar);
 
 app.use(NPlayer);
+
+
+
 
 app.use(Field);
 app.use(CellGroup);

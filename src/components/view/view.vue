@@ -26,7 +26,7 @@ const danmaku= new Danmaku(danmakuOptions);
 
 // 播放数据
 let player={
-  src: 'http://127.0.0.1:9000/video/4/03348210-1188-4668-9750-f2c220fdc532.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=4MB8URZOWR6MCNSIDLFB%2F20240402%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240402T133508Z&X-Amz-Expires=604800&X-Amz-Security-Token=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiI0TUI4VVJaT1dSNk1DTlNJRExGQiIsImV4cCI6MTcxMjA3NzA0NCwicGFyZW50IjoiYWRtaW4ifQ.Lf9AD7-ptB5Gvw0Ff-6HuMrv2Msqe_bmPFgGI6WZ_RNouCGgm2xCYjkUZPiUmKx1W9GPNyAtiHqb5QJgVSxVjw&X-Amz-SignedHeaders=host&versionId=null&X-Amz-Signature=da4008a8ddc0c56dfbed4945caf34208ef94b8649732e7594897f416dbdbda82',
+  src: 'http://127.0.0.1:9000/video/4/03348210-1188-4668-9750-f2c220fdc532.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8KG65FE8KHOP3J3Q2KUF%2F20240405%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240405T105543Z&X-Amz-Expires=604800&X-Amz-Security-Token=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiI4S0c2NUZFOEtIT1AzSjNRMktVRiIsImV4cCI6MTcxMjM0NTYyMCwicGFyZW50IjoiYWRtaW4ifQ.4QkRLrU5n7WGr2hhsinHjqXeWCn3jxjSWbJ4m2JJLRMv-fVSIGpVgkdxMfMWOvHP8iFBi54gAY3UGfMitoJWLQ&X-Amz-SignedHeaders=host&versionId=null&X-Amz-Signature=3c34fa22614344e24bbbfcf5a1f9d7b3275ac51aa37e339abe1cee24ac2518f7',
 
   plugins: [
     danmaku
@@ -42,8 +42,20 @@ const setPlayer= (p) => {
      });
 
     player = p;
+
+
 }
 
+setInterval(()=>{
+  if(player&&('currentTime' in player)){
+    console.log("播放数据",player.currentTime)  // 当前的播放时间
+  }
+
+},1000)
+
+const getPlayer=(p)=>{
+  console.log("获取播放对象",p)
+}
 const options=ref(player)
 
 //  -----> 视频播放器相关
@@ -162,7 +174,59 @@ watch(active,(newValue,oldValue)=>{
 
 // --->  切换动画
 
+
+
+// ---> 弹幕弹出框所需要的输入框
+function onInputFocus() {
+
+  window.addEventListener('resize', updateKeyboardHeight);
+
+
+
+}
+function onInputBlur() {
+
+  //this.isKeyboardVisible = false;
+
+  window.removeEventListener('resize',updateKeyboardHeight);
+}
+function updateKeyboardHeight() {
+
+  const inputDm= document.getElementById('inputDm')
+
+  //this.gd=inputDm.getBoundingClientRect().top;
+
+  inputDm.style.position='absolute;'
+  inputDm.style.top= ''+inputDm.getBoundingClientRect().top+'px'
+  inputDm.style.bottom=''
+
+  const inputDmSelect= document.getElementById('inputDmSelect')
+  inputDmSelect.style.background='black'
+  inputDmSelect.style.position='absolute'
+
+  const topTemp=inputDm.getBoundingClientRect().top+inputDm.getBoundingClientRect().height
+  inputDmSelect.style.width='100%'
+  inputDmSelect.style.top=topTemp+'px'
+  inputDmSelect.style.height='999px'
+
+
+}
+
+// <--- 弹幕弹出框所需要的输入框
+
 // 切换选择页面
+
+
+
+// <--- 弹幕输入框
+const inputDmIcon1Color=ref('rgba(0, 0, 0, 0.2)')
+const inputDmIcon2Color=ref('rgba(0, 0, 0, 0.2)')
+
+const checkedFont=ref('2') // 选择字号
+const checkedLocation=ref('2') // 选择字体位置
+const checkedColor=ref('2') // 选择字体颜色
+// ---> 弹幕输入框
+
 </script>
 
 <template>
@@ -180,6 +244,7 @@ watch(active,(newValue,oldValue)=>{
         <NPlayer
             :options="options"
             :set="setPlayer"
+            :get="getPlayer"
         />
       </div>
 
@@ -194,14 +259,14 @@ watch(active,(newValue,oldValue)=>{
 
           <div class="view-select-button-input-body">
 
-            <div  class="view-select-button-input"  ref="viewSelectButtonInput" @click="OnvViewSelectButtonInputClick" :class="{ 'expanded': isExpanded }" >
+            <div  class="view-select-button-input"  ref="viewSelectButtonInput"  :class="{ 'expanded': isExpanded }" >
 <!--              变动框-->
 
-              <div class="view-select-button-input-dan">
+              <div class="view-select-button-input-dan"    @click="OnvViewSelectButtonInputClick">
 
                 <span class="view-select-button-input-font">弹</span>
-                <el-icon size="6rem" color="#0264e7" v-if="!isExpanded" class="view-select-button-input-font-icon"><Check /></el-icon>
-                <el-icon  size="6rem" color="rgba(0, 0, 0, 0.2)" v-if="isExpanded" class="view-select-button-input-font-icon"><Close /></el-icon>
+                <el-icon   size="6rem" color="#0264e7" v-if="!isExpanded" class="view-select-button-input-font-icon"><Check /></el-icon>
+                <el-icon   size="6rem" color="rgba(0, 0, 0, 0.2)" v-if="isExpanded" class="view-select-button-input-font-icon"><Close /></el-icon>
               </div>
               <div class="view-select-button-input-body-msg"><span class="view-select-button-input-body-msgFont">{{inputMsg}}</span></div>
 
@@ -238,16 +303,153 @@ watch(active,(newValue,oldValue)=>{
 
       </div>
 
-      <van-field
-          v-model="message"
-          rows="1"
-          ref="faoltInput"
-          autosize
-          label="留言"
-          type="textarea"
-          placeholder="请输入留言"
-          class="faoltInput"
-      />
+      
+      <div :style="{'font-size':'4rem' }">
+        <div  id="inputDm"  :style="{position: 'fixed', bottom: 0,width: '100%'}">
+          <van-icon :color="inputDmIcon1Color" size="7rem" class="inputDm-icon1" name="flag-o" />
+          <input type="text"  id="inputDm-input"   @focus="onInputFocus" @blur="onInputBlur" placeholder="点击输入框弹出键盘">
+          <van-icon :color="inputDmIcon2Color" size="7rem" class="inputDm-icon2" name="guide-o" />
+        </div>
+ 
+      
+        <div    class="keyboard-overlay" id="inputDmSelect">
+            <div class="inputDm-body" >
+              <div class="inputDm-body-font">弹幕字号</div>
+              <div>
+
+                <van-radio-group v-model="checkedFont"  direction="horizontal" checked-color="red">
+                  <van-radio name="1" :style="{'--van-radio-label-color':checkedFont=='1'?' #0264e7 ':' black '}">
+                    大字号
+                    <template #icon="props">
+                   </template>
+                  </van-radio>
+                  <van-radio name="2"  :style="{'--van-radio-label-color':checkedFont=='2'?' #0264e7 ':' black '}">
+                    中字号
+                    <template #icon="props">
+                     </template>
+                  </van-radio>
+                  <van-radio name="3"  :style="{'--van-radio-label-color':checkedFont=='3'?' #0264e7 ':' black '}">
+                    小字号
+                    <template #icon="props">
+                     </template>
+                  </van-radio>
+                </van-radio-group>
+              </div>
+
+            </div>
+
+          <div class="inputDm-body">
+            <div class="inputDm-body-font">弹幕位置</div>
+            <div>
+
+              <van-radio-group v-model="checkedLocation"  direction="horizontal" checked-color="red">
+                <van-radio name="1" :style="{'--van-radio-label-color':checkedLocation=='1'?' #0264e7 ':' black '}">
+                  大字号
+                  <template #icon="props">
+                  </template>
+                </van-radio>
+                <van-radio name="2"  :style="{'--van-radio-label-color':checkedLocation=='2'?' #0264e7 ':' black '}">
+                  中字号
+                  <template #icon="props">
+                  </template>
+                </van-radio>
+                <van-radio name="3"  :style="{'--van-radio-label-color':checkedLocation=='3'?' #0264e7 ':' black '}">
+                  小字号
+                  <template #icon="props">
+                  </template>
+                </van-radio>
+              </van-radio-group>
+            </div>
+          </div>
+
+
+            <div class="inputDm-body" id="inputDm-body-color-select">
+              <div class="inputDm-body-font"  id="inputDm-body-font-select">弹幕颜色</div>
+              <div>
+
+                <van-radio-group v-model="checkedColor"  direction="horizontal" checked-color="red">
+                  <van-radio name="1" >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='1'?' 2px solid #0264e7':' 0px solid #0264e7'}" ></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+                  <van-radio name="2" >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='2'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+                  <van-radio name="3"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='3'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+
+
+                  <van-radio name="4"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='4'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+                  <van-radio name="5"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='5'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+                  <van-radio name="6"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='6'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+                  <van-radio name="7" >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='7'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+                  <van-radio name="8"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='8'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+                  <van-radio name="9"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='9'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+                  <van-radio name="10"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='10'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+                  <van-radio name="11"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='11'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+                  <van-radio name="12"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='12'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                    <template #icon="props">
+                    </template>
+                  </van-radio>
+                </van-radio-group>
+              </div>
+            </div>
+
+
+            <div id="inputDm-bottom"></div>
+
+        </div>
+      </div>
+
+<!--      <van-field-->
+<!--          v-model="message"-->
+<!--          rows="1"-->
+<!--          ref="faoltInput"-->
+<!--          autosize-->
+<!--          label="留言"-->
+<!--          type="textarea"-->
+<!--          placeholder="请输入留言"-->
+<!--          class="faoltInput"-->
+<!--      />-->
 
 
 
@@ -278,6 +480,4 @@ watch(active,(newValue,oldValue)=>{
 @import "@/css/mobile/view.css";
 @import "@/css/pc/view.css";
 </style>
-
-
 

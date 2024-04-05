@@ -1,66 +1,80 @@
+
+
 <template>
-  <div id="app">
-    <!-- 实际输入框 -->
-    <input
-        type="text"
-        v-model="inputText"
-        @focus="onInputFocus"
-        ref="realInput"
-    >
-
-    <!-- 浮动输入框 -->
-    <input
-        v-show="showFloatingInput"
-        type="text"
-        id="floatingInput"
-        ref="sda"
-
-        v-model="inputText"
-
-    >
-
-    <!-- 点击按钮触发生成浮动输入框 -->
-    <button @click="createFloatingInput">点击生成浮动输入框</button>
+  <div class="container">
+    <div>{{sda}}高度： {{gd}}, bottom:{{ff}}</div>
+    <input type="text"  id="aa" :style="{position: 'fixed', bottom: 0,width: '100%'}"  @focus="onInputFocus" @blur="onInputBlur" placeholder="点击输入框弹出键盘">
+    <div    class="keyboard-overlay" id="ttt"></div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
-
 export default {
-  setup() {
-    const  realInput =ref(null)
-    const sda=ref(null)
-    const inputText = ref('');
-    const showFloatingInput = ref(false);
-
-
-
-    const onInputFocus = () => {
-      console.log("虚拟输入框获得焦点")
-      realInput.value.blur();
-      console.log("虚拟输入框取消焦点")
-      showFloatingInput.value=true
-      sda.value.focus();
-
+  data() {
+    return {
+      isKeyboardVisible: false,
+      keyboardHeight: 0,
+      sda:'',
+      gd:0,
+      tan:false,
+      ff:0
     };
+  },
+  methods: {
+    onInputFocus() {
+      this.isKeyboardVisible = true;
+      window.addEventListener('resize', this.updateKeyboardHeight);
+      // this.updateKeyboardHeight();
 
-    const onInputBlur = () => {
-      // 隐藏浮动输入框
-      hideFloatingInput();
-    };
+      this.tan=false
 
-    return {realInput, sda,inputText, showFloatingInput,   onInputFocus, onInputBlur };
-  }
-}
+      const keyboardHeight = window.innerHeight - document.activeElement.getBoundingClientRect().bottom;
+      // const aa= document.getElementById('aa')
+      //  console.log('dom',aa)
+      //  this.gd=aa.getBoundingClientRect().top;
+      //  console.log("高度：",aa.style.top)
+      //  aa.style.position='absolute;'
+      //  aa.style.top= ''+aa.getBoundingClientRect().top+'px'
+      //   aa.style.top='-'+keyboardHeight+'px'
+
+
+    },
+    onInputBlur() {
+      this.sda="键盘收起"
+      //this.isKeyboardVisible = false;
+      this.tan=true
+      window.removeEventListener('resize', this.updateKeyboardHeight);
+    },
+    updateKeyboardHeight() {
+      this.sda="弹出键盘"
+      const aa= document.getElementById('aa')
+      console.log('dom',aa)
+      this.gd=aa.getBoundingClientRect().top;
+      console.log("高度：",aa.style.top)
+      aa.style.position='absolute;'
+      aa.style.top= ''+aa.getBoundingClientRect().top+'px'
+      aa.style.bottom=''
+
+      const ttt= document.getElementById('ttt')
+      ttt.style.background='black'
+      ttt.style.position='absolute'
+
+      const topTemp=aa.getBoundingClientRect().top+aa.getBoundingClientRect().height
+      ttt.style.width='100%'
+      ttt.style.top=topTemp+'px'
+      ttt.style.height='999px'
+      //  this. ff= ttt.style.top
+      this. ff= ttt.style.height
+
+    },
+  },
+};
 </script>
 
 <style>
-#floatingInput {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 9999;
+.container {
+  position: relative;
 }
+
+
 </style>

@@ -1,4 +1,4 @@
-@media screen  and (min-device-width: 200px) and (max-device-width:500px) {
+@media screen  and (min-device-width: 200px) and (max-device-width:5000px) {
     #view{
 
         width: 99vw;
@@ -6,7 +6,7 @@
         display: flex;
         flex-direction: column;
         margin: 0 auto;
-        background: #0264e7;
+        /*background: #0264e7;*/
     }
 
     #view-head{
@@ -122,7 +122,7 @@
         padding-left: 3rem;
         height: 100%;
         flex: 0 0 10rem;
-        background: rgba(0, 0, 0, 0.1);
+        background: white;
         position: relative;
         display: flex;
         align-items: center;
@@ -241,4 +241,88 @@
         display: flex;
         background: yellow;
     }
+
+
+    #inputDm {
+        display: flex;
+        background: yellow;
+        height: 9rem;
+       align-items: center;
+
+
+        border-top: 1px solid rgba(0, 0, 0, 0.1); /* 绘制线条 */
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 绘制线条 */
+        top:544px
+    }
+
+    #inputDm-input{
+        /* 去除默认样式 */
+        border: none;
+        outline: none;
+        flex: 0 0 80rem;
+        height: 7rem;
+        margin: 0 auto;
+        text-indent: 6rem;
+        font-size: 3.8rem;
+        color: rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 4rem;
+    }
+
+    #inputDmSelect{
+        padding-top: 2rem;
+        width: 100%;
+        position: fixed;
+        /*background: #d3c20d;*/
+
+        height: 999px;
+        top: 579px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .inputDm-icon1{
+        margin-left: 1rem;
+    }
+    .inputDm-icon2{
+        margin-right: 2rem;
+
+    }
+
+/*    弹幕发送框相关 */
+    .inputDm-body{
+        flex: 0 0 8rem;
+        margin: 1rem 3rem;
+        /*background: #0264e7;*/
+        display: flex;
+        align-items: center;
+
+    }
+    .inputDm-body-font{
+        margin-right: 2rem;
+        /*background: #6aee59;*/
+    }
+    #inputDm-body-font-select{
+        width: 31rem;
+        white-space: nowrap;
+    }
+    #inputDm-bottom{
+        flex: 1 1 1rem;
+        background: white;
+    }
+
+    .inputDm-body-font-color{
+        width: 7rem;
+        height: 5rem;
+        background: black;
+        border-radius: 1.2rem;
+        margin-top: 3rem;
+
+        /*border: 1px solid #0264e7; */
+        border: 1px solid red;
+    }
+    #inputDm-body-color-select{
+        flex: 0 0 5rem;
+    }
+
 }
