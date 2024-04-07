@@ -340,6 +340,7 @@ const barrage=ref<BulletOption>({
   isMe:'true'
 });
 
+// 弹幕数据发送 TODO
 function OnClickSend(){
   barrage.value.color=checkedColor.value // 弹幕颜色
  // barrage.value.text=''  // 弹幕文字
