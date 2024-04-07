@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
 
-import {onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch, watchEffect} from "vue";
 import Danmaku from "@nplayer/danmaku";
 import route from "@/router/router";
 import ViewUser from "@/components/view/view-user.vue";
 import ViewComments from "@/components/view/view-comments.vue";
+import {BulletOption} from "@nplayer/danmaku/dist/src/ts/danmaku/bullet";
 
 
 //  <----- 视频播放器相关
@@ -117,7 +118,7 @@ const viewSelectButtonInput=ref(null)
 
 function OnvViewSelectButtonInputClick(){
   // div.classList.toggle('expanded'); // 切换CSS类以触发动画
-  console.log("动画")
+  console.log("点击输入弹幕")
   isExpanded.value = !isExpanded.value;
   inputMsg.value=''
   if(!isExpanded.value){
@@ -177,14 +178,19 @@ watch(active,(newValue,oldValue)=>{
 
 
 // ---> 弹幕弹出框所需要的输入框
-function onInputFocus() {
 
+const InputState=ref(false) // 当前弹幕输入框的状态，是否处于输入状态
+function onInputFocus() {
+  console.log("获得焦点")
+  inputDmInputState.value=false
+  InputState.value=true
   window.addEventListener('resize', updateKeyboardHeight);
 
 
 
 }
 function onInputBlur() {
+  InputState.value=false
 
   //this.isKeyboardVisible = false;
 
@@ -201,7 +207,7 @@ function updateKeyboardHeight() {
   inputDm.style.bottom=''
 
   const inputDmSelect= document.getElementById('inputDmSelect')
-  inputDmSelect.style.background='black'
+   inputDmSelect.style.background='#e9e9eb'
   inputDmSelect.style.position='absolute'
 
   const topTemp=inputDm.getBoundingClientRect().top+inputDm.getBoundingClientRect().height
@@ -225,12 +231,131 @@ const inputDmIcon2Color=ref('rgba(0, 0, 0, 0.2)')
 const checkedFont=ref('2') // 选择字号
 const checkedLocation=ref('2') // 选择字体位置
 const checkedColor=ref('2') // 选择字体颜色
+
+
+const  inputDmInput=ref(null) // 真实弹幕输入框
+
+// 点击输入弹幕
+function InputBarrage(e){
+
+  e.stopPropagation();
+  inputMsg.value='正在输入弹幕'
+  InputDomState.value=true  // 开启面板
+  try {
+    InputState.value=true
+    const ShowFocus=()=>{
+      setTimeout(()=>{
+        try {
+          inputDmInput.value.focus()
+        }catch(e) {
+          console.error("失败重试：",e)
+          ShowFocus()
+
+        }
+
+
+      },10)
+    }
+    ShowFocus()
+
+
+
+
+  //  inputDmInput.value.focus()
+  }catch (E){
+    console.error("点击弹幕输入虚拟框处：error:",E)
+  }
+}
 // ---> 弹幕输入框
+
+
+// 点击小红旗
+const inputDmInputState=ref(false)
+
+function  onClickComments(e){
+  e.stopPropagation();
+
+
+  console.log("当前是否亮：",inputDmInputState)
+  // inputDmInput.value.focus()
+  try {
+    if(inputDmInputState.value){
+      inputDmInputState.value=false
+      inputDmInput.value.focus()
+      console.log("亮")
+    }else {
+      inputDmInputState.value=true
+    }
+
+
+
+  }catch (e){
+    console.error("点击弹幕选项设置按钮--小红旗：",e)
+  }
+
+}
+// watch(inputDmInputState.value,(n)=>{
+//   if(n){
+//
+//   }
+// })
+
+// 点击 弹幕输入框
+function OnClickinputDmInput(e){
+  e.stopPropagation();
+}
+// 点击下面的弹幕控件
+function OnClickInputDmSelect(e){
+  e.stopPropagation();
+}
+
+// 点击页面的其他地方
+// 面板收起
+const  InputDomState=ref(false)  // 弹幕设置组件显示控件--1
+function AppOnClick(){
+  InputDomState.value=false // 关闭
+  inputMsg.value='点我输入弹幕'
+  console.log("页面有点击")
+}
+
+/**
+ 弹幕对象
+
+ interface BulletOption {
+  color?: string; // 弹幕颜色
+  text: string; // 弹幕文字
+  time: number; // 弹幕出现时间
+  type?: 'top' | 'bottom' | 'scroll'; // 弹幕类型，默认为滚动类型
+  isMe?: boolean; // 是否是当前用户发送的
+  force?: boolean; // 是否强制展示该弹幕（弹幕较多，并且是防碰撞模式时，可能会丢弃一部分弹幕）
+}
+ * @constructor
+ */
+
+const barrage=ref<BulletOption>({
+  color:'white',
+  text:'',
+  time:0,
+  type:'scroll',
+  isMe:'true'
+});
+
+function OnClickSend(){
+  barrage.value.color=checkedColor.value // 弹幕颜色
+ // barrage.value.text=''  // 弹幕文字
+  if(player&&('currentTime' in player)){
+    barrage.value.time=player.currentTime // 弹幕出现时间
+  }
+ // barrage.value.time=player.currentTime // 弹幕出现时间
+  barrage.value.type=checkedLocation.value  // 'top' | 'bottom' | 'scroll'; // 弹幕类型，默认为滚动类型
+  barrage.value.isMe=true  //  // 是否是当前用户发送的
+  console.log("发送消息:",barrage.value)
+}
 
 </script>
 
 <template>
-    <div id="view">
+    <div id="view"  @click="AppOnClick">
       <div id="view-head">
         <van-nav-bar
             title="标题"
@@ -240,6 +365,11 @@ const checkedColor=ref('2') // 选择字体颜色
         />
       </div>
 
+
+<!--
+      视频组件
+
+-->
       <div>
         <NPlayer
             :options="options"
@@ -249,26 +379,39 @@ const checkedColor=ref('2') // 选择字体颜色
       </div>
 
 
+<!--
+
+        Tab 页面切换按钮
+-->
       <div>
-        <div id="view-select" @click="Pl">
+        <div id="view-select">
           <div id="view-select-button-body">
             <div class="view-select-button" ref="A" @click="TabTo(0)" :style="{color:viewSelectColorA}" ><span class="view-select-button-font">简介</span></div>
             <div class="view-select-button" ref="B" @click="TabTo(1)" :style="{color:viewSelectColorB}"><span class="view-select-button-font" >评论</span></div>
             <div id="underline" :style="{ transform: underlineTransform }"></div>
           </div>
 
+<!--
+          弹幕输入虚拟框-- 上下顺序相反 左右
+-->
           <div class="view-select-button-input-body">
 
-            <div  class="view-select-button-input"  ref="viewSelectButtonInput"  :class="{ 'expanded': isExpanded }" >
-<!--              变动框-->
 
+            <div  class="view-select-button-input"  ref="viewSelectButtonInput"  :class="{ 'expanded': isExpanded }" >
+
+<!--
+    “弹” 字
+-->
               <div class="view-select-button-input-dan"    @click="OnvViewSelectButtonInputClick">
 
                 <span class="view-select-button-input-font">弹</span>
                 <el-icon   size="6rem" color="#0264e7" v-if="!isExpanded" class="view-select-button-input-font-icon"><Check /></el-icon>
                 <el-icon   size="6rem" color="rgba(0, 0, 0, 0.2)" v-if="isExpanded" class="view-select-button-input-font-icon"><Close /></el-icon>
               </div>
-              <div class="view-select-button-input-body-msg"><span class="view-select-button-input-body-msgFont">{{inputMsg}}</span></div>
+<!--
+        控件--请输入文字
+ -->
+              <div class="view-select-button-input-body-msg"  @click="InputBarrage"><span class="view-select-button-input-body-msgFont">{{inputMsg}}</span></div>
 
             </div>
 
@@ -276,22 +419,12 @@ const checkedColor=ref('2') // 选择字体颜色
           </div>
         </div>
 
-<!--        <van-tabs v-model:active="active" show-header="false" animated  id="view-van-tabs" title-active-color="#0264e7" ellipsis="false"  shrink="true">-->
 
-<!--          <van-tab v-for="(item,index) in tab" :title="item" :key="index">-->
-<!--            <div id="view-user"  v-if="active==0">-->
-<!--              {{item}}-->
+<!--
 
-<!--            </div>-->
-<!--            <div id="view-comments"  v-if="active==1" >-->
-<!--              {{item}}-->
-<!--              -->
-
-<!--            </div>-->
-
-<!--          </van-tab>-->
-
-<!--        </van-tabs>-->
+        用户简介页面
+        评论输入界面
+-->
         <div id="view-select-context">
           <div class="view-select-user" :class="flyA">
             <view-user></view-user>
@@ -303,16 +436,21 @@ const checkedColor=ref('2') // 选择字体颜色
 
       </div>
 
-      
-      <div :style="{'font-size':'4rem' }">
+<!--
+          弹幕输入框
+
+-->
+      <div :style="{'font-size':'4rem' }"  v-show="InputDomState" >
         <div  id="inputDm"  :style="{position: 'fixed', bottom: 0,width: '100%'}">
-          <van-icon :color="inputDmIcon1Color" size="7rem" class="inputDm-icon1" name="flag-o" />
-          <input type="text"  id="inputDm-input"   @focus="onInputFocus" @blur="onInputBlur" placeholder="点击输入框弹出键盘">
-          <van-icon :color="inputDmIcon2Color" size="7rem" class="inputDm-icon2" name="guide-o" />
+          <van-icon   @click="onClickComments"  :color="inputDmInputState?'#0264e7':'#e9e9eb'" size="7rem" class="inputDm-icon1" name="flag-o" />
+          <input type="text" ref="inputDmInput"  id="inputDm-input" v-model="barrage.text" @click="OnClickinputDmInput"    @focus="onInputFocus" @blur="onInputBlur" placeholder="点击输入框弹出键盘">
+          <van-icon :color="inputDmIcon2Color"  @click="OnClickSend"  size="7rem" class="inputDm-icon2" name="guide-o" />
         </div>
  
-      
-        <div    class="keyboard-overlay" id="inputDmSelect">
+<!--
+          弹幕字号选择
+-->
+        <div    class="keyboard-overlay" id="inputDmSelect" @click="OnClickInputDmSelect">
             <div class="inputDm-body" >
               <div class="inputDm-body-font">弹幕字号</div>
               <div>
@@ -338,23 +476,27 @@ const checkedColor=ref('2') // 选择字体颜色
 
             </div>
 
+<!--
+        弹幕位置选择
+        // 'top' | 'bottom' | 'scroll'; // 弹幕类型，默认为滚动类型
+-->
           <div class="inputDm-body">
             <div class="inputDm-body-font">弹幕位置</div>
             <div>
 
               <van-radio-group v-model="checkedLocation"  direction="horizontal" checked-color="red">
-                <van-radio name="1" :style="{'--van-radio-label-color':checkedLocation=='1'?' #0264e7 ':' black '}">
-                  大字号
+                <van-radio name="top" :style="{'--van-radio-label-color':checkedLocation=='top'?' #0264e7 ':' black '}">
+                  顶部
                   <template #icon="props">
                   </template>
                 </van-radio>
-                <van-radio name="2"  :style="{'--van-radio-label-color':checkedLocation=='2'?' #0264e7 ':' black '}">
-                  中字号
+                <van-radio name="scroll"  :style="{'--van-radio-label-color':checkedLocation=='scroll'?' #0264e7 ':' black '}">
+                  滚动
                   <template #icon="props">
                   </template>
                 </van-radio>
-                <van-radio name="3"  :style="{'--van-radio-label-color':checkedLocation=='3'?' #0264e7 ':' black '}">
-                  小字号
+                <van-radio name="bottom"  :style="{'--van-radio-label-color':checkedLocation=='bottom'?' #0264e7 ':' black '}">
+                  底部
                   <template #icon="props">
                   </template>
                 </van-radio>
@@ -363,70 +505,74 @@ const checkedColor=ref('2') // 选择字体颜色
           </div>
 
 
+<!--
+          弹幕颜色选择
+-->
+
             <div class="inputDm-body" id="inputDm-body-color-select">
               <div class="inputDm-body-font"  id="inputDm-body-font-select">弹幕颜色</div>
               <div>
 
                 <van-radio-group v-model="checkedColor"  direction="horizontal" checked-color="red">
-                  <van-radio name="1" >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='1'?' 2px solid #0264e7':' 0px solid #0264e7'}" ></div>
+                  <van-radio name="#337ecc" >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#337ecc'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#337ecc'}" ></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
-                  <van-radio name="2" >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='2'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                  <van-radio name="#79bbff" >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#79bbff'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#79bbff'}"></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
-                  <van-radio name="3"  >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='3'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                  <van-radio name="#529b2e"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#529b2e'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#529b2e'}"></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
 
 
-                  <van-radio name="4"  >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='4'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                  <van-radio name="#95d475"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#95d475'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#95d475'}"></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
-                  <van-radio name="5"  >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='5'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                  <van-radio name="#b88230"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#b88230'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#b88230'}"></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
-                  <van-radio name="6"  >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='6'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                  <van-radio name="#eebe77"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#eebe77'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#eebe77'}"></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
-                  <van-radio name="7" >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='7'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                  <van-radio name="#c45656" >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#c45656'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#c45656'}"></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
-                  <van-radio name="8"  >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='8'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                  <van-radio name="#f89898"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#f89898'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#f89898'}"></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
-                  <van-radio name="9"  >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='9'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                  <van-radio name="#73767a"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#73767a'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#73767a'}"></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
-                  <van-radio name="10"  >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='10'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                  <van-radio name="#b1b3b8"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#b1b3b8'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#b1b3b8'}"></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
-                  <van-radio name="11"  >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='11'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                  <van-radio name="#000000"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#000000'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#000000'}"></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
-                  <van-radio name="12"  >
-                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='12'?' 2px solid #0264e7':' 0px solid #0264e7'}"></div>
+                  <van-radio name="#FFFFFF"  >
+                    <div class="inputDm-body-font-color" :style="{'border': checkedColor=='#FFFFFF'?' 2px solid #0264e7':' 0px solid #0264e7',background:'#FFFFFF'}"></div>
                     <template #icon="props">
                     </template>
                   </van-radio>
@@ -434,7 +580,9 @@ const checkedColor=ref('2') // 选择字体颜色
               </div>
             </div>
 
-
+<!--
+        占位置控件
+-->
             <div id="inputDm-bottom"></div>
 
         </div>
