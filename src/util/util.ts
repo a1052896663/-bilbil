@@ -22,3 +22,6 @@ export function isOfType<T>(  // 判断是什么类型
     }
     return formattedTime;
   }
+  export  function hasKey(obj:any,key:string){
+      return obj&&(key in obj)
+  }

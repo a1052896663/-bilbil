@@ -1,12 +1,18 @@
 @media screen  and (min-device-width: 200px) and (max-device-width:5000px) {
+
+
     #view{
 
-        width: 99vw;
-        height: 99vh;
+        /*width: 99vw;*/
+        /*height: 99vh;*/
         display: flex;
         flex-direction: column;
         margin: 0 auto;
-        /*background: #0264e7;*/
+
+        /*overflow: hidden;*/
+        overflow-y: auto; /* 确保垂直滚动条 */
+        background: #0264e7;
+
     }
 
     #view-head{
@@ -18,7 +24,8 @@
         background: #6aee59;
         flex: 0 0 100%;
         /*height: 500rem;*/
-        height: 70rem;
+
+
     }
     .view-select-comments{
         background: #dcecd9;
@@ -239,7 +246,15 @@
 
     #view-select-context{
         display: flex;
+        /*height: auto;*/
+        flex: 1 1 5rem;
         background: yellow;
+        /*overflow-y: auto;*/
+       /*height: 100%;*/
+
+        height:auto!important;
+        height:200px;
+        min-height:200px;
     }
 
 
@@ -322,9 +337,21 @@
         /*border: 1px solid #0264e7; */
         border: 1px solid red;
     }
+
     #inputDm-body-color-select{
         flex: 0 0 5rem;
 
     }
 
+
+    #nnnn{
+        width: 100%;
+        height: 12rem;
+        background: blue;
+    }
+
+    #view-select-user-search{
+        flex: 1 1 1rem;
+        overflow-y: auto;
+    }
 }

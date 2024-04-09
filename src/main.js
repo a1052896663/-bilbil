@@ -1,8 +1,9 @@
 import './assets/main.css'
-
+//import './store/RouterStore.js'
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import router from "./router/router.js"
-import { createPinia } from 'pinia'
+
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
@@ -25,9 +26,19 @@ import { Tab, Tabs } from 'vant';
 import { NavBar } from 'vant';
 import { Image as VanImage } from 'vant';
 
+import { Button } from 'vant';
+
 import { Field, CellGroup } from 'vant';
 import { RadioGroup, Radio } from 'vant';
+import { Toast } from 'vant';
+
+import { Collapse, CollapseItem } from 'vant';
+
 const app = createApp(App)
+
+//const pian=
+app.use(createPinia())
+
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
@@ -35,10 +46,21 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 import { PullRefresh } from 'vant';
 import NPlayer from "@nplayer/vue";
 import { Icon } from 'vant';
+import { Divider } from 'vant';
+import { Tag } from 'vant';
+import { ShareSheet } from 'vant';
+
+app.use(ShareSheet);
+
 app.use(PullRefresh);
 
+app.use(Tag);
 
 app.use(Icon)
+
+app.use(Divider);
+
+app.use(Button)
 
 app.use(VanImage);
 app.use(Skeleton);
@@ -47,8 +69,13 @@ app.use(SkeletonImage);
 app.use(SkeletonAvatar);
 app.use(SkeletonParagraph);
 
+app.use(Toast);
+
 app.use(Radio);
 app.use(RadioGroup);
+
+app.use(Collapse);
+app.use(CollapseItem);
 
 app.use(Tab);
 app.use(Tabs);
@@ -65,4 +92,7 @@ app.use(CellGroup);
 
 app.use(NPlayer, { name: 'NPlayer' })
 
-app.use(router).use(createPinia()).use(Search).use(ElementPlus).use(TabbarItem).use(Tabbar).mount('#app')
+
+//console.log("pian--:",pian)
+
+app.use(router).use(Search).use(ElementPlus).use(TabbarItem).use(Tabbar).mount('#app')

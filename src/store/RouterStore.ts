@@ -26,13 +26,17 @@ export  function  setValue(key,value){
 }
 
 
-const RouterStore=defineStore('router',{
+
+export const RouterStore=defineStore('router',{
 
     // 类似于组件的 data,存储全局状态的
     // 必须是箭头函数
     state: ()=>{
         return {
-            map: new Map()
+            map: new Map(),
+            shareShow:false  // 分享组件的显示
+
+
         }
     },
     // 类似computed 计算属性，有缓存功能
@@ -43,3 +47,5 @@ const RouterStore=defineStore('router',{
     actions:{  }
 })
 
+
+export const {shareShow} = RouterStore()  // 只是抛出 shareShow

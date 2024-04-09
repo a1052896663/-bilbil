@@ -3,6 +3,7 @@ import {createRouter,createWebHashHistory} from "vue-router";
 import home from "../components/home/home.vue";
 import   login from "../components/login/login.vue";
 import view from "@/components/view/view.vue";
+import search from "@/components/home/search/search-view.vue"
 
 const routes=[
     {
@@ -16,6 +17,10 @@ const routes=[
     {
         path: '/view',
         component: view,
+    },
+    {
+        path: '/search',
+        component: search
     }
 ]
 
