@@ -518,6 +518,12 @@ const msg=ref(true)
 
 
 
+
+// 推荐
+const imageSrc=ref('src/public/interlude_Miku_in_Museland_3.png')
+const searchSize=ref(8)
+
+
 </script>
 
 <template>
@@ -555,7 +561,7 @@ const msg=ref(true)
 
         Tab 页面切换按钮
 -->
-      <div>
+      <div id="view-select-1">
         <div id="view-select">
           <div id="view-select-button-body">
             <div class="view-select-button" ref="A" @click="TabTo(0)" :style="{color:viewSelectColorA}" ><span class="view-select-button-font">简介</span></div>
@@ -601,9 +607,6 @@ const msg=ref(true)
           <div class="view-select-user" :class="flyA">
             <view-user  v-model:msg="msg"></view-user>
             <search-view :searchSize="8" id="view-select-user-search"></search-view>
-
-
-<!--            <div style="height:1px; margin-top:-1px;clear: both;overflow:hidden;"></div>-->
 
           </div>
 <!--          <div class="view-select-comments"  :class="flyB" >-->
