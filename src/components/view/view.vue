@@ -14,6 +14,7 @@ import { showToast } from 'vant';
 import {shareShow} from '../../store/DataStore'
 import {Search} from "@element-plus/icons-vue";
 import SearchView from "@/components/home/search/search-view.vue";
+import CommentSection from "@/components/comment/comment-section.vue";
 
 //import {hasKey} from "../../util/util";
 
@@ -75,12 +76,12 @@ const setPlayer= (p) => {
 
 }
 
-setInterval(()=>{
-  if(player&&('currentTime' in player)){
-    console.log("播放数据",player.currentTime)  // 当前的播放时间
-  }
-
-},1000)
+// setInterval(()=>{
+//   if(player&&('currentTime' in player)){
+//     console.log("播放数据",player.currentTime)  // 当前的播放时间
+//   }
+//
+// },1000)
 
 const getPlayer=(p)=>{
   console.log("获取播放对象",p)
@@ -90,7 +91,7 @@ const options=ref(player)
 //  -----> 视频播放器相关
 
 //  <----- tab页面相关
-const active=ref(0)
+const active=ref(1)
 const tab=ref(['简介','评论'])
 
 const viewTabA=ref(true)  // 标签页面参数
@@ -489,9 +490,9 @@ function sendDanmakuItem() {
 // 分享弹出框
 const showShare=ref(false)
 
-setInterval(()=>{
-  console.log("分享状态：",showShare.value)
-},1000)
+// setInterval(()=>{
+//   console.log("分享状态：",showShare.value)
+// },1000)
 
 
 // 分享按钮     <---
@@ -524,6 +525,8 @@ const imageSrc=ref('src/public/interlude_Miku_in_Museland_3.png')
 const searchSize=ref(8)
 
 
+// 弹出层
+const popupShow=ref(false)
 </script>
 
 <template>
@@ -563,11 +566,13 @@ const searchSize=ref(8)
 -->
       <div id="view-select-1">
         <div id="view-select">
+
           <div id="view-select-button-body">
             <div class="view-select-button" ref="A" @click="TabTo(0)" :style="{color:viewSelectColorA}" ><span class="view-select-button-font">简介</span></div>
             <div class="view-select-button" ref="B" @click="TabTo(1)" :style="{color:viewSelectColorB}"><span class="view-select-button-font" >评论</span></div>
             <div id="underline" :style="{ transform: underlineTransform }"></div>
           </div>
+
 
 <!--
           弹幕输入虚拟框-- 上下顺序相反 左右
@@ -604,14 +609,14 @@ const searchSize=ref(8)
         评论输入界面
 -->
         <div id="view-select-context">
-          <div class="view-select-user" :class="flyA">
+          <div class="view-select-user" :class="flyA" v-if="false">
             <view-user  v-model:msg="msg"></view-user>
             <search-view :searchSize="8" id="view-select-user-search"></search-view>
 
           </div>
-<!--          <div class="view-select-comments"  :class="flyB" >-->
-
-<!--          </div>-->
+          <div class="view-select-comments"  :class="flyB" >
+            <comment-section></comment-section>
+          </div>
         </div>
 
       </div>

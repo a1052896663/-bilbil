@@ -5,6 +5,7 @@ import   login from "../components/login/login.vue";
 import view from "@/components/view/view.vue";
 import search from "@/components/home/search/search-view.vue"
 
+import ommentSection from "@/components/comment/comment-section.vue"
 const routes=[
     {
         path:'/home',
@@ -21,6 +22,10 @@ const routes=[
     {
         path: '/search',
         component: search
+    },
+    {
+        path: '/ommentSection',
+        component: ommentSection
     }
 ]
 

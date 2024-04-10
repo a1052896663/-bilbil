@@ -1,58 +1,174 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--    <style>-->
+<!--        .animatedDiv {-->
+<!--            width: 100px;-->
+<!--            height: 100px;-->
+<!--            background-color: #ccc;-->
+<!--            transition: width 0.5s ease, height 0.5s ease; /* 使用过渡属性 */-->
+<!--        }-->
+
+<!--        .expanded {-->
+<!--            width: 200px; /* 扩展后的宽度 */-->
+<!--            height: 200px; /* 扩展后的高度 */-->
+<!--        }-->
+
+<!--        .clickable {-->
+<!--            display: inline-block;-->
+<!--            margin-right: 20px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        #underline {-->
+<!--            position: absolute;-->
+<!--            width: 50px; /* 下划线的初始宽度 */-->
+<!--            height: 2px; /* 下划线的高度 */-->
+<!--            background-color: blue; /* 下划线的颜色 */-->
+<!--            transition: transform 0.5s ease; /* 使用过渡属性 */-->
+<!--        }-->
+
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div id="animatedDiv" class="animatedDiv" onclick="toggleSize()">点击我</div>-->
+<!--<div id="A" class="clickable">A</div>-->
+<!--<div id="B" class="clickable">B</div>-->
+<!--<div id="underline"></div>-->
+<!--<script>-->
+<!--    function toggleSize() {-->
+<!--        var div = document.getElementById('animatedDiv');-->
+<!--        div.classList.toggle('expanded'); // 切换CSS类以触发动画-->
+<!--    }-->
+
+<!--    var underline = document.getElementById('underline');-->
+
+<!--    document.getElementById('A').addEventListener('click', function() {-->
+<!--        underline.style.transform = 'translateX(0)'; // 移动到A下方-->
+<!--    });-->
+
+<!--    document.getElementById('B').addEventListener('click', function() {-->
+<!--        var offset = document.getElementById('B').offsetLeft - document.getElementById('A').offsetLeft;-->
+<!--        underline.style.transform = 'translateX(' + offset + 'px)'; // 移动到B下方-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Header Example</title>
     <style>
-        .animatedDiv {
-            width: 100px;
-            height: 100px;
-            background-color: #ccc;
-            transition: width 0.5s ease, height 0.5s ease; /* 使用过渡属性 */
+        /* 设置第一个 div 固定在页面顶部 */
+        .sticky-div {
+
+            position: sticky;
+            top: 0;
+            background-color: #ffffff; /* 可以根据需要设置背景色 */
+            padding: 10px;
+            z-index: 1000; /* 如果需要将其置于其他元素之上，可以设置一个 z-index */
         }
 
-        .expanded {
-            width: 200px; /* 扩展后的宽度 */
-            height: 200px; /* 扩展后的高度 */
+        /* 其他样式 */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+
         }
 
-        .clickable {
-            display: inline-block;
-            margin-right: 20px;
-            cursor: pointer;
+        .content {
+            height: 2000px; /* 用于产生滚动条，模拟页面滚动 */
         }
-
-        #underline {
-            position: absolute;
-            width: 50px; /* 下划线的初始宽度 */
-            height: 2px; /* 下划线的高度 */
-            background-color: blue; /* 下划线的颜色 */
-            transition: transform 0.5s ease; /* 使用过渡属性 */
-        }
-
     </style>
 </head>
 <body>
-<div id="animatedDiv" class="animatedDiv" onclick="toggleSize()">点击我</div>
-<div id="A" class="clickable">A</div>
-<div id="B" class="clickable">B</div>
-<div id="underline"></div>
-<script>
-    function toggleSize() {
-        var div = document.getElementById('animatedDiv');
-        div.classList.toggle('expanded'); // 切换CSS类以触发动画
-    }
 
-    var underline = document.getElementById('underline');
 
-    document.getElementById('A').addEventListener('click', function() {
-        underline.style.transform = 'translateX(0)'; // 移动到A下方
-    });
 
-    document.getElementById('B').addEventListener('click', function() {
-        var offset = document.getElementById('B').offsetLeft - document.getElementById('A').offsetLeft;
-        underline.style.transform = 'translateX(' + offset + 'px)'; // 移动到B下方
-    });
-</script>
+<div class="content">
+    <h1>这是页面的主要内容</h1>
+    <div class="sticky-div">
+        这是第一个 div，当页面滚动时将固定在顶部。
+    </div>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat, tortor nec maximus ultricies, libero mauris vehicula lectus, quis gravida justo mi vitae leo. Duis maximus, odio ac fermentum interdum, tortor ipsum malesuada metus, ac congue metus metus eget ipsum. Suspendisse potenti. Phasellus tincidunt, quam quis luctus auctor, risus turpis interdum velit, non tincidunt libero ligula at lacus.</p>
+    <!-- 更多内容... -->
+</div>
+
 </body>
 </html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Sticky Header Example</title>-->
+<!--    <style>-->
+<!--        /* 设置第一个 div 可滚动 */-->
+<!--        .scrollable-div {-->
+<!--            height: 300px; /* 限定高度，使其具有滚动条 */-->
+<!--            overflow-y: auto; /* 添加垂直滚动条 */-->
+<!--            background-color: #f0f0f0; /* 可以根据需要设置背景色 */-->
+<!--            padding: 10px;-->
+<!--        }-->
+
+<!--        /* 设置固定在页面顶部的 div */-->
+<!--        .sticky-div {-->
+<!--            position: fixed;-->
+<!--            top: 0;-->
+<!--            background-color: #ffffff; /* 可以根据需要设置背景色 */-->
+<!--            padding: 10px;-->
+<!--            z-index: 1000; /* 如果需要将其置于其他元素之上，可以设置一个 z-index */-->
+<!--            display: none; /* 初始状态隐藏 */-->
+<!--        }-->
+
+<!--        /* 其他样式 */-->
+<!--        body {-->
+<!--            margin: 0;-->
+<!--            font-family: Arial, sans-serif;-->
+<!--        }-->
+
+<!--        .content {-->
+<!--            height: 2000px; /* 用于产生滚动条，模拟页面滚动 */-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div class="scrollable-div">-->
+<!--    &lt;!&ndash; 这里放置可滚动的内容 &ndash;&gt;-->
+<!--    <div class="content">-->
+<!--        <h1>这是页面的主要内容</h1>-->
+<!--        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat, tortor nec maximus ultricies, libero mauris vehicula lectus, quis gravida justo mi vitae leo. Duis maximus, odio ac fermentum interdum, tortor ipsum malesuada metus, ac congue metus metus eget ipsum. Suspendisse potenti. Phasellus tincidunt, quam quis luctus auctor, risus turpis interdum velit, non tincidunt libero ligula at lacus.</p>-->
+<!--        &lt;!&ndash; 更多内容... &ndash;&gt;-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div class="sticky-div" id="sticky-div">-->
+<!--    这是第一个 div，当页面滚动到一定位置时将固定在顶部。-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    window.addEventListener('scroll', function() {-->
+<!--        var scrollPosition = window.scrollY;-->
+<!--        var headerPosition = document.querySelector('.scrollable-div').getBoundingClientRect().top;-->
+<!--        var stickyDiv = document.getElementById('sticky-div');-->
+
+<!--        // 当滚动位置大于等于第一个 div 到顶部的位置时，显示固定的 div-->
+<!--        if (scrollPosition >= headerPosition) {-->
+<!--            stickyDiv.style.display = 'block';-->
+<!--        } else {-->
+<!--            stickyDiv.style.display = 'none';-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+

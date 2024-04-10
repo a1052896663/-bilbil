@@ -28,7 +28,7 @@
 
     }
     .view-select-comments{
-        background: #dcecd9;
+        /*background: #dcecd9;*/
         flex: 0 0 100%;
         /*height: 500rem;*/
         height: 70rem;
@@ -52,7 +52,13 @@
         height: 11rem;
         width: 100%;
         align-items: center;
-        box-shadow:  0px 9px 11px -5px rgba(35, 34, 27, 0.5);
+        /*box-shadow:  0px 9px 11px -5px rgba(35, 34, 27, 0.5);*/
+
+        position: sticky;
+        top: 0;
+        /*background-color: #ffffff; !* 可以根据需要设置背景色 *!*/
+        /*padding: 10px;*/
+        z-index: 1000; /* 如果需要将其置于其他元素之上，可以设置一个 z-index */
 
 
     }
@@ -94,6 +100,9 @@
         flex: 0 0 51rem;
         display: flex;
         position: relative;
+
+
+
     }
 
     .view-select-button-input-body{

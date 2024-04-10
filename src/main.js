@@ -32,6 +32,7 @@ import { Field, CellGroup } from 'vant';
 import { RadioGroup, Radio } from 'vant';
 import { Toast } from 'vant';
 
+
 import { Collapse, CollapseItem } from 'vant';
 
 const app = createApp(App)
@@ -49,10 +50,18 @@ import { Icon } from 'vant';
 import { Divider } from 'vant';
 import { Tag } from 'vant';
 import { ShareSheet } from 'vant';
-
+import { NoticeBar } from 'vant';
+import { Popup } from 'vant';
+import { TextEllipsis } from 'vant';
 app.use(ShareSheet);
 
+app.use(NoticeBar);
+
 app.use(PullRefresh);
+
+app.use(Popup);
+
+app.use(TextEllipsis);
 
 app.use(Tag);
 

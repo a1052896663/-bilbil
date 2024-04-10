@@ -10,9 +10,7 @@
   VIDEO_SOCKET=""
 }
 
-export type ViewType={
-
-}
+//   <----  响应体相关
 
 export interface User{
   id?:number
@@ -80,7 +78,7 @@ export interface  VideoMessage{  // VIDEO_SOCKET   rep ANd req
 }
 
 
-export interface Comments{ // 评论
+export interface Comments{ // 评论 ---
   id?:number
   videoId?:number
   toUserId?:number
@@ -101,9 +99,11 @@ export interface CommentsData{ // 评论信息
 export interface Play{
   video:Video // 视频信息
   like:boolean // 点赞信息
-  collection:boolean // 点赞状态
+  collection:boolean // 收藏状态
   comments:CommentsData[] // 评论内容
 }
+
+
 
 export interface Resonse<T>{   // Http的响应体
   token?:string
@@ -111,4 +111,21 @@ export interface Resonse<T>{   // Http的响应体
   body?:T
 }
 
+// ---->  响应体相关
 
+ // <----  视图展示相关
+
+export interface ViewComment{  // 视图需要的信息--评论
+  id:number, // 评论id
+  parentId?:number,  // 父类id--依附于
+  videoId:number,// 视频id
+  userName:string,  // 用户名字
+  userImageSrc:string, // 用户图片地址
+  likeSize:number,// 点赞数目
+  time:number,   // 时间搓
+  content:string,  // 评论内容
+  deleteShow:boolean, // 是否可以删除
+  child?:ViewComment[]  // 回复
+
+}
+ // ---->  视图展示相关
