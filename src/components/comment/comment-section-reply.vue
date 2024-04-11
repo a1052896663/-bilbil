@@ -4,17 +4,75 @@
  *
  * 评论的评论
  */
-import {commentSectionReplyShow} from '../../store/DataStore'
-import {commentRoute} from '../../store/DataStore'
+import {commentRoute, commentSectionReplyShow} from '../../store/DataStore'
 import CommentSectionCard from "@/components/comment/comment-section-card.vue";
+import {ref} from "vue";
+import {COMMENTS_TYPE, ViewComment} from "../../util/type";
 
 commentRoute.value={
   deleteShow: true,
   likeSize: 0,
   videoId: 0,
 
-  child: [], content: '消息传递测试', id: 0, parentId: 0, time: Date.now(), userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg", userName: "足下可识武安君否"
+  child: [], content: '消息传递测试', id: 0, parentId: 0, time: Date.now(), userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg", userName: "足下可识武安君否",
+  type:COMMENTS_TYPE.VIDEO
+}
 
+const childA=ref<ViewComment>({
+  content: "我支持你",
+  deleteShow: true,
+  id: 2,
+  likeSize: 20,
+  parentId: 0,
+  time: Date.now(),
+  userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
+  userName: "小王",
+  videoId: 0,
+  type:COMMENTS_TYPE.VIDEO_REPLY
+})
+
+const childB=ref<ViewComment>({
+  content: "我不不支持他",
+  deleteShow: true,
+  id: 3,
+  likeSize: 211,
+  parentId: 0,
+  time: Date.now(),
+  userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
+  userName: "小红",
+  videoId: 0,
+  type:COMMENTS_TYPE.VIDEO_REPLY
+
+})
+const childC=ref<ViewComment>({
+  content: "同。",
+  deleteShow: true,
+  toComment:childA.value,
+  id: 4,
+  likeSize: 30,
+  parentId: 0,
+  time: Date.now(),
+  userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
+  userName: "小里",
+  videoId: 0,
+  type:COMMENTS_TYPE.VIDEO_REFUTATION
+
+})
+
+
+commentRoute.value.child.push(childA.value)
+commentRoute.value.child.push(childB.value)
+commentRoute.value.child.push(childC.value)
+
+// 点击按时间或是按风景
+const fontColor=ref<"#b1b3b8"|"#1989fa">("#b1b3b8")
+const OnTime=ref(false)
+function OnClickHortOrTime(){ // 换颜色
+  OnTime.value=!OnTime.value
+  fontColor.value="#1989fa"
+  setTimeout(()=>{
+    fontColor.value="#b1b3b8"
+  },200)
 }
 
 </script>
@@ -31,10 +89,13 @@ commentRoute.value={
       >
         <div id="comment-section-popup-content">
           <div id="comment-section-popup-content-user">
-          <comment-section-card  :childShow="false"  :testData="false"></comment-section-card>
+          <comment-section-card  :itemData="childC" :childShow="false"  :testData="false"></comment-section-card>
           </div>
           <div id="comment-section-popup-content-main">
 <!--             评论头-->
+            <div class="comment-section-popup-content-main-size">相关回复共{{commentRoute.child.length}}</div>
+            <div class="comment-section-popup-content-main-m"></div>
+            <div class="comment-section-popup-content-main-font" @click="OnClickHortOrTime" :style="{color:fontColor}" ><van-icon :color="fontColor" name="list-switch" /> {{OnTime?'按时间':'按热度'}}</div>
           </div>
           <div id="comment-section-popup-content-child">
 

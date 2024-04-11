@@ -85,6 +85,7 @@ export interface Comments{ // 评论 ---
   userId?:number
   commentsType?:string
   content?:string
+  toCommentId?:number  // 新加回怼的评论id
   parentId?:number
   likeNum?:number
   date?:number
@@ -118,6 +119,7 @@ export interface Resonse<T>{   // Http的响应体
 export interface ViewComment{  // 视图需要的信息--评论
   id:number, // 评论id
   parentId?:number,  // 父类id--依附于
+  toComment?:ViewComment  // 新加回怼的评论id  //COMMENTS_TYPE.VIDEO_REFUTATION 时候才会有值
   videoId:number,// 视频id
   userName:string,  // 用户名字
   userImageSrc:string, // 用户图片地址
@@ -125,7 +127,17 @@ export interface ViewComment{  // 视图需要的信息--评论
   time:number,   // 时间搓
   content:string,  // 评论内容
   deleteShow:boolean, // 是否可以删除
-  child?:ViewComment[]  // 回复
+  child?:ViewComment[]  // 回复,
+  type:COMMENTS_TYPE
 
+}
+
+export enum COMMENTS_TYPE{
+  VIDEO="VIDEO",// 对视频的评论
+ VIDEO_REPLY="VIDEO_REPLY", //视频中的回复的回复
+ VIDEO_REFUTATION="VIDEO_REFUTATION", //视频中的回复的回怼
+ DELETE="DELETE",// 删除
+ DYNAMIC="DYNAMIC", // 动态中的回复
+ DYNAMIC_REPLY="DYNAMIC_REPLY", // 动态中的回复的回复
 }
  // ---->  视图展示相关

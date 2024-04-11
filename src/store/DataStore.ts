@@ -8,7 +8,7 @@ import {ViewComment} from "../util/type";
 const DataStore={
     shareShow:ref(false) , // 分享面板是否展示
     commentSectionReplyShow:ref(false)  ,// 评论详情控件
-    commentRoute:ref<ViewComment>(), // 需要展示的评论
+    commentRoute:ref<ViewComment>(), // 需要展示的评论-- 暂时舍弃
 
 
 }

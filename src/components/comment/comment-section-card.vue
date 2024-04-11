@@ -2,9 +2,8 @@
 
 import {commentSectionReplyShow} from "../../store/DataStore";
 import {ref} from "vue";
-import {ViewComment} from "../../util/type";
+import {COMMENTS_TYPE, ViewComment} from "../../util/type";
 import {formatDateTime} from "@/util/util";
-import {commentRoute} from '../../store/DataStore'
 //import {ref} from "vue/dist/vue";
 
 
@@ -16,10 +15,19 @@ const cardData= defineProps({
   testData:{
     type:Boolean,
     default:true
+  },
+  itemData:{
+    type:ref<ViewComment>,
+    default:undefined
+
   }
+
+
 })
 
 
+console.log("收到的数据A：",cardData.itemData)
+console.log("收到的数据B：",cardData.childShow)
 
 //const popupShow=ref(false)
 
@@ -29,44 +37,46 @@ const noticeText=ref("那一天我二十一岁，在我一生的黄金时代。�
 const child=ref<ViewComment[]>([])
 
 // 测式数据   <----
-const comment=ref<ViewComment>({
-  deleteShow: true,
-  likeSize: 0,
-  videoId: 0,
+// const comment=ref<ViewComment>({
+//   deleteShow: true,
+//   likeSize: 0,
+//   videoId: 0,
+//
+//   child: [], content: noticeText.value, id: 0, parentId: 0, time: Date.now(), userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg", userName: "足下可识武安君否"
+//
+// })
 
-  child: [], content: noticeText.value, id: 0, parentId: 0, time: Date.now(), userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg", userName: "足下可识武安君否"
+const comment=ref<ViewComment>(cardData.itemData)
+child.value=comment.value.child
+// if(!cardData.testData){
+//   // 不是测试数据
+//   comment.value=  commentRoute.value
+// }
+//
+// function test(){
+//   for(let i=0;i<getIndex();i++){
+//     const comment2=ref<ViewComment>({
+//       deleteShow: true,
+//       likeSize: 0,
+//       videoId: 0,
+//       child: [], content: `${i}`+ noticeText.value, id: 0, parentId: 0, time: Date.now(), userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg", userName: "足下可识武安君否"+i
+//
+//     })
+//     comment.value.child.push(comment2.value)
+//
+//   }
+//   if( comment.value.child.length>=3){
+//     for (let i=0;i< 3;i++){
+//       child.value.push( comment.value.child[i])
+//     }
+//   }else {
+//     child.value=comment.value.child
+//   }
+//   console.log("得到的数据：",comment.value)
+// }
 
-})
 
-
-if(!cardData.testData){
-  // 不是测试数据
-  comment.value=  commentRoute.value
-}
-
-function test(){
-  for(let i=0;i<getIndex();i++){
-    const comment2=ref<ViewComment>({
-      deleteShow: true,
-      likeSize: 0,
-      videoId: 0,
-      child: [], content: `${i}`+ noticeText.value, id: 0, parentId: 0, time: Date.now(), userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg", userName: "足下可识武安君否"+i
-
-    })
-    comment.value.child.push(comment2.value)
-
-  }
-  if( comment.value.child.length>=3){
-    for (let i=0;i< 3;i++){
-      child.value.push( comment.value.child[i])
-    }
-  }else {
-    child.value=comment.value.child
-  }
-  console.log("得到的数据：",comment.value)
-}
-
-test()
+//test()
 
 // 测式数据   ---->
 
@@ -80,7 +90,7 @@ const i=ref(getIndex())
 </script>
 
 <template>
-  <div class="comment-section-content-item" >
+  <div class="comment-section-content-item" v-if="itemData">
     <van-divider />
     <div class="comment-section-content-item-image">
       <van-image
@@ -117,12 +127,19 @@ const i=ref(getIndex())
         </div>
 
       </div>
-      <div class="comment-section-content-item-card-reply"   v-if="childShow&&comment.child.length>0">
+      <div class="comment-section-content-item-card-reply"   v-if="comment&&comment.type==COMMENTS_TYPE.VIDEO&&childShow&&comment.child.length>0">
         <div class="comment-section-content-item-card-reply-item" >
           <div class="comment-section-content-item-card-reply-name" v-for="(item,index) in child" :key="index">
-            <span>{{item.userName}}：</span>
-            <span class="comment-section-content-item-card-reply-name-pl">{{item.content}}</span>
+            <template v-if="item.type==COMMENTS_TYPE.VIDEO_REPLY">
+              <span>{{item.userName}}：</span>
+              <span class="comment-section-content-item-card-reply-name-pl">{{item.content}}</span>
 
+            </template>
+            <template v-else>
+              <span>{{item.userName}}<span style="color: black"> 回复 </span> @{{item.toComment.userName}}：</span>
+              <span class="comment-section-content-item-card-reply-name-pl">{{item.content}}</span>
+
+            </template>
           </div>
 
 
