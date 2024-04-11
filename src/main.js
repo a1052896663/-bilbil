@@ -9,7 +9,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'vant/lib/index.css';
 import { Tabbar, TabbarItem ,Search } from 'vant';
-import 'animate.css/animate.min.css'
+
 
 import App from './App.vue'
 
@@ -53,6 +53,10 @@ import { ShareSheet } from 'vant';
 import { NoticeBar } from 'vant';
 import { Popup } from 'vant';
 import { TextEllipsis } from 'vant';
+import V3Emoji from 'vue3-emoji'
+
+
+app.use(V3Emoji)
 app.use(ShareSheet);
 
 app.use(NoticeBar);

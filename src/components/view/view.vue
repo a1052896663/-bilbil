@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="../../css/mobile/view.css">
 <script setup lang="ts">
 
-
+import V3Emoji from 'vue3-emoji'
 import {computed, onMounted, ref, toRefs, watch, watchEffect} from "vue";
 import Danmaku from "@nplayer/danmaku";
 import route from "@/router/router";
@@ -11,17 +11,21 @@ import {BulletOption} from "@nplayer/danmaku/dist/src/ts/danmaku/bullet";
 import { showToast } from 'vant';
 
 //import '../../store/RouterStore'
-import {shareShow} from '../../store/DataStore'
+import {commentRoute, emojiShow, inputCommentTopShow, replyObject, shareShow, typeShow} from '../../store/DataStore'
 import {Search} from "@element-plus/icons-vue";
 import SearchView from "@/components/home/search/search-view.vue";
 import CommentSection from "@/components/comment/comment-section.vue";
+import CommentSectionReply from "@/components/comment/comment-section-reply.vue";
+import InputComment from "@/components/comment/input-comment.vue";
 
+//import {emoji} from '../../store/DataStore'
 //import {hasKey} from "../../util/util";
 
 onMounted(()=>{
   console.log("获得状态值--：",shareShow)
 })
 
+//const emojiRef= ref<string[]>(emoji)
 //  <----- 视频播放器相关
 
 // 弹幕元素
@@ -91,7 +95,7 @@ const options=ref(player)
 //  -----> 视频播放器相关
 
 //  <----- tab页面相关
-const active=ref(1)
+const active=ref<0|1>(0)
 const tab=ref(['简介','评论'])
 
 const viewTabA=ref(true)  // 标签页面参数
@@ -343,9 +347,13 @@ function OnClickInputDmSelect(e){
 // 面板收起
 const  InputDomState=ref(false)  // 弹幕设置组件显示控件--1
 function AppOnClick(){
+  emojiShow.value=false // 关闭表情框--控件2
+  inputCommentTopShow.value=false // 输入框是否需要悬浮在背景框
   InputDomState.value=false // 关闭
+  replyObject.value=null
+  console.log("清空：",replyObject)
   inputMsg.value='点我输入弹幕'
-  console.log("页面有点击")
+  console.log("页面有点击",inputCommentTopShow.value)
 }
 
 /**
@@ -517,6 +525,26 @@ const msg=ref(true)
 
 //const shareShow =RouterStore().shareShow
 
+const userShow =ref(true)
+const commentsShow =ref(false)
+//
+watch(active,(newValue,oldValue)=>{
+  commentsShow.value=true
+  userShow.value=true
+  typeShow.value=newValue
+  if(newValue==0){
+
+
+    setTimeout(()=>{
+      commentsShow.value=false
+    },200)
+  }else if (newValue==1){
+    setTimeout(()=>{
+      userShow.value=false
+    },200)
+
+  }
+})
 
 
 
@@ -527,6 +555,23 @@ const searchSize=ref(8)
 
 // 弹出层
 const popupShow=ref(false)
+
+
+// setInterval(()=>{
+//   console.log("当前tab的值：",active.value)
+// },1000)
+//
+
+// 点击按时间或是按风景
+const fontColor=ref<"#b1b3b8"|"#1989fa">("#b1b3b8")
+const OnTime=ref(false)
+function OnClickHortOrTime(){ // 换颜色
+  OnTime.value=!OnTime.value
+  fontColor.value="#1989fa"
+  setTimeout(()=>{
+    fontColor.value="#b1b3b8"
+  },200)
+}
 </script>
 
 <template>
@@ -609,16 +654,21 @@ const popupShow=ref(false)
         评论输入界面
 -->
         <div id="view-select-context">
-          <div class="view-select-user" :class="flyA" v-if="false">
+
+          <div class="view-select-user" :class="flyA"  v-show="userShow">
             <view-user  v-model:msg="msg"></view-user>
             <search-view :searchSize="8" id="view-select-user-search"></search-view>
 
-          </div>
-          <div class="view-select-comments"  :class="flyB" >
-            <comment-section></comment-section>
-          </div>
-        </div>
+          </div >
+          <div class="view-select-comments"  :class="flyB"  v-show="commentsShow">
 
+            <comment-section ></comment-section  >
+
+          </div>
+          <comment-section-reply></comment-section-reply>
+
+        </div>
+        <input-comment v-show="commentsShow&&active==1"></input-comment>
       </div>
 
 <!--

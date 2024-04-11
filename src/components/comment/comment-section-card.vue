@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {commentSectionReplyShow} from "../../store/DataStore";
+import {commentRoute, commentSectionReplyShow,replyObject} from "../../store/DataStore";
 import {ref} from "vue";
 import {COMMENTS_TYPE, ViewComment} from "../../util/type";
 import {formatDateTime} from "@/util/util";
@@ -34,7 +34,7 @@ console.log("收到的数据B：",cardData.childShow)
 const noticeText=ref("那一天我二十一岁，在我一生的黄金时代。我有好多奢望。我想爱，想吃，还想在一瞬间变成天上半明半暗的云。后来我才知道，生活就是个缓慢受锤的过程，人一天天老下去，奢望也一天天消失，最后变得像挨了锤的牛一样。可是我过二十一岁生日时没有预见到这一点。我觉得自己")  // 最后一定要是\n
 
 // 三个评论区
-const child=ref<ViewComment[]>([])
+//const child=ref<ViewComment[]>([])
 
 // 测式数据   <----
 // const comment=ref<ViewComment>({
@@ -47,7 +47,7 @@ const child=ref<ViewComment[]>([])
 // })
 
 const comment=ref<ViewComment>(cardData.itemData)
-child.value=comment.value.child
+ //child.value=comment.value.child
 // if(!cardData.testData){
 //   // 不是测试数据
 //   comment.value=  commentRoute.value
@@ -87,6 +87,54 @@ function getIndex():number{
 
 const i=ref(getIndex())
 
+const h=ref(' <span>回复</span>')
+
+
+
+// 跳转评论区的评论区
+function OnClickToReply(item:ViewComment){
+  commentRoute.value=item
+  console.log("发送的值：",commentRoute.value)
+  commentSectionReplyShow.value=true
+
+
+
+}
+
+// 输入回复
+const  inputCommentInputDmInput=ref(null) // 真实弹幕输入框
+
+function inputComment(item:ViewComment){
+
+  replyObject.value=item
+  console.log("回复对象：",replyObject.value)
+  try {
+    const inputCommentInputDmInput=document.getElementById('input-comment-inputDm-input')  // 输入框
+    inputCommentInputDmInput.focus()  // 唤醒输入框
+  }catch (e){
+    console.error("唤醒输入框失败：",e)
+  }
+
+}
+function OnClickTextEllipsis(e){
+  e.stopPropagation();
+}
+
+
+// 点击按时间或是按风景
+const fontColor=ref<"#2c3e50"|"#1989fa">("#2c3e50")
+const OnTime=ref(false)
+function OnClickHortOrTime(e){ // 换颜色
+  e.stopPropagation();
+  inputComment(comment.value)
+  OnTime.value=!OnTime.value
+  fontColor.value="#1989fa"
+  setTimeout(()=>{
+    fontColor.value="#2c3e50"
+  },200)
+}
+
+
 </script>
 
 <template>
@@ -108,28 +156,35 @@ const i=ref(getIndex())
         <div  class="comment-section-content-item-card-user-time">{{formatDateTime(comment.time)}}</div>
       </div>
       <div class="comment-section-content-item-card-comment">
-        <div class="comment-section-content-item-card-comment-title">
+<!--        <div   @click ="inputComment(comment)" class="comment-section-content-item-card-comment-title">-->
+        <div    class="comment-section-content-item-card-comment-title">
 
+        <span v-if="comment&&comment.type==COMMENTS_TYPE.VIDEO_REFUTATION&&comment.toComment">回复：<span style="color: #1989fa">@{{comment.toComment.userName}}:</span></span>
 
-          <van-text-ellipsis
-              rows="6"
+           <van-text-ellipsis
+            @click-action="OnClickTextEllipsis"
+              rows="2"
               :content="comment.content+'\n'"
               :expand-text="'\n'+'展开'"
               collapse-text="收起"
               dots=""
+              id="mmmm"
+
           />
+
+
         </div>
         <div class="comment-section-content-item-card-comment-fonts">
           <div class="comment-section-content-item-card-comment-font"><van-icon size="5rem" name="good-job-o" /> <span style="text-indent: 1rem;">{{comment.likeSize}}</span></div>
-          <div class="comment-section-content-item-card-comment-font"><van-icon size="5rem" name="chat-o" /></div>
+          <div class="comment-section-content-item-card-comment-font" @click ="OnClickHortOrTime"><van-icon size="5rem" :color="fontColor" name="chat-o" /></div>
           <div class="comment-section-content-item-card-comment-font-m"> </div>
           <div class="comment-section-content-item-card-comment-font-last" v-if="comment.deleteShow"><van-icon size="5rem" name="delete-o" /></div>
         </div>
 
       </div>
-      <div class="comment-section-content-item-card-reply"   v-if="comment&&comment.type==COMMENTS_TYPE.VIDEO&&childShow&&comment.child.length>0">
+      <div class="comment-section-content-item-card-reply"  @click="OnClickToReply(comment)"  v-if="comment&&comment.type==COMMENTS_TYPE.VIDEO&&childShow&&comment.child.length>0">
         <div class="comment-section-content-item-card-reply-item" >
-          <div class="comment-section-content-item-card-reply-name" v-for="(item,index) in child" :key="index">
+          <div class="comment-section-content-item-card-reply-name" v-for="(item,index) in comment.child" :key="index">
             <template v-if="item.type==COMMENTS_TYPE.VIDEO_REPLY">
               <span>{{item.userName}}：</span>
               <span class="comment-section-content-item-card-reply-name-pl">{{item.content}}</span>

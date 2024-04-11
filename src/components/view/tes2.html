@@ -1,0 +1,109 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--    <style>-->
+<!--        #A{-->
+<!--            background: #0bc15f;-->
+<!--            width: 600px;-->
+<!--            height: 600px;-->
+<!--            display: flex;-->
+
+<!--        }-->
+<!--        #B{-->
+<!--            width: 300px;-->
+<!--            height: 600px;-->
+<!--            background: blue;-->
+<!--        }-->
+
+<!--        #C{-->
+<!--            width: 300px;-->
+<!--            height: 700px;-->
+<!--            background: #2c3e50;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div id="A">-->
+<!--        <div id="B"></div>-->
+<!--        <div id="C"></div>-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #A {
+            background: #0bc15f;
+            width: 600px;
+            height: 600px;
+            display: flex;
+            overflow: hidden; /* 隐藏溢出内容 */
+            position: relative; /* 相对定位 */
+        }
+
+        #B {
+            width: 300px;
+            height: 600px;
+            background: blue;
+            position: absolute; /* 绝对定位 */
+            left: 0; /* 初始位置在左边 */
+            animation: slideInOut 0.5s ease forwards; /* 初始动画 */
+        }
+
+        #C {
+            width: 300px;
+            height: 600px;
+            background: #2c3e50;
+            position: absolute; /* 绝对定位 */
+            left: 100%; /* 初始位置在右边 */
+        }
+
+        @keyframes slideInOut {
+            0% {
+                transform: translateX(-100%); /* 初始位置在左边 */
+            }
+            100% {
+                transform: translateX(0%); /* 移动到中间 */
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="A">
+    <div id="B">
+        <!-- B标签页面的内容 -->
+        Content of B
+    </div>
+    <div id="C">
+        <!-- C标签页面的内容 -->
+        Content of C
+    </div>
+</div>
+<!-- 按钮用于切换标签页 -->
+<button onclick="showPage('B')">Show B</button>
+<button onclick="showPage('C')">Show C</button>
+
+<script>
+    function showPage(pageId) {
+        var pages = document.querySelectorAll('#A > div'); // 获取A下面的所有子div
+        for (var i = 0; i < pages.length; i++) {
+            pages[i].style.animation = ''; // 清除动画
+        }
+        document.getElementById(pageId).style.animation = 'slideInOut 0.5s ease forwards'; // 应用动画
+        for (var i = 0; i < pages.length; i++) {
+            pages[i].style.display = 'none'; // 隐藏所有子div
+        }
+        document.getElementById(pageId).style.display = 'block'; // 显示指定id的页面
+    }
+</script>
+</body>
+</html>
+
+

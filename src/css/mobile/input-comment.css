@@ -264,7 +264,7 @@
         flex: 1 1 5rem;
         /*background: yellow;*/
         /*overflow-y: auto;*/
-       /*height: 100%;*/
+        /*height: 100%;*/
 
         height:auto!important;
         height:200px;
@@ -278,7 +278,7 @@
         display: flex;
         background: white;
         height: 9rem;
-       align-items: center;
+        align-items: center;
 
 
         border-top: 1px solid #e9e9eb; /* 绘制线条 */
@@ -320,7 +320,7 @@
 
     }
 
-/*    弹幕发送框相关 */
+    /*    弹幕发送框相关 */
     .inputDm-body{
         flex: 0 0 8rem;
         margin: 1rem 3rem;
@@ -332,6 +332,12 @@
     }
     .inputDm-body-font{
         margin-right: 2rem;
+        flex: 0 0 20%;
+        font-size: 6rem;
+        text-align: center;
+        margin: 0 auto;
+        width: 8rem;
+        /*height: 8rem;*/
         /*background: #6aee59;*/
     }
     #inputDm-body-font-select{
@@ -355,7 +361,12 @@
     }
 
     #inputDm-body-color-select{
-        flex: 0 0 5rem;
+        flex: 0 0 80rem;
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+        /*height: 88px;*/
+        overflow-y: auto;
 
     }
 

@@ -1,3 +1,6 @@
+import {replyObject} from "../store/DataStore";
+import {COMMENTS_TYPE} from "./type";
+
 export function isOfType<T>(  // 判断是什么类型
     target: unknown,
     prop: keyof T
@@ -36,4 +39,29 @@ export function isOfType<T>(  // 判断是什么类型
     // const seconds = String(date.getSeconds()).padStart(2, '0');
 
     return `${year}-${month}-${day}`;
+  }
+
+
+/**
+ *
+ *   VIDEO="VIDEO",// 对视频的评论
+ *  VIDEO_REPLY="VIDEO_REPLY", //视频中的回复的回复
+ *  VIDEO_REFUTATION="VIDEO_REFUTATION", //视频中的回复的回怼
+ *  DELETE="DELETE",// 删除
+ *  DYNAMIC="DYNAMIC", // 动态中的回复
+ *  DYNAMIC_REPLY="DYNAMIC_REPLY", // 动态中的回复的回复
+ */
+//replyObject.value.type==COMMENTS_TYPE.VIDEO_REPLY
+  export function getCOMMENTS_TYPE(type:COMMENTS_TYPE){
+    switch (type)    {
+      case COMMENTS_TYPE.VIDEO:
+        return COMMENTS_TYPE.VIDEO_REPLY;
+      case COMMENTS_TYPE.VIDEO_REPLY:
+        return COMMENTS_TYPE.VIDEO_REFUTATION;
+      default:
+        return COMMENTS_TYPE.VIDEO
+
+
+    }
+
   }

@@ -3,7 +3,7 @@
 
     #comment-section-reply-popup{
         height: 50%;
-        background:  #c8c9cc;
+        background:  #e9e9eb;
     }
 
     #comment-section-popup-content{
@@ -27,12 +27,17 @@
         /*border-top: 4rem solid #c8c9cc;*/
         /*border: 1px solid black;*/
     }
-    .comment-section-popup-content-main-size,.comment-section-popup-content-main-font{
+    .comment-section-popup-content-main-font{
         flex: 0 0 25rem;
         /*background: #0264e7;*/
         text-align: center;
 
 
+    }
+    .comment-section-popup-content-main-size{
+        flex: 0 0 35rem;
+        /*background: #0264e7;*/
+        text-align: center;
     }
     .comment-section-popup-content-main-m{
         flex: 1 1 20rem;
