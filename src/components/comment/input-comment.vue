@@ -266,7 +266,7 @@ function onInputFocus() {
   console.log("获得焦点")
   empInputDmInputState.value=false
   InputState.value=true
-  window.addEventListener('resize', updateKeyboardHeight);
+  //window.addEventListener('resize', updateKeyboardHeight);
 
 
 
@@ -279,7 +279,7 @@ function onInputBlur() {
 
   //this.isKeyboardVisible = false;
 
-  window.removeEventListener('resize',updateKeyboardHeight);
+ // window.removeEventListener('resize',updateKeyboardHeight);
 }
 
 // 停止悬浮输入框
@@ -359,22 +359,23 @@ function OnClickInputDmSelect(e){
       <input type="text" ref="inputCommentInputDmInput" :placeholder="InputPlaceholder" @keyup.enter="OnClickSend" id="input-comment-inputDm-input" v-model="barrage" @click="OnClickinputDmInput"    @focus="onInputFocus" @blur="onInputBlur" >
 
 
-      <van-icon   @click="onClickComments"  :color="emojiShow&&empInputDmInputState?'#0264e7':'#c8c9cc'" size="7rem" class="input-comment-inputDm-icon1" name="smile-o" />
+<!--    移除表情功能  -->
+      <van-icon  v-if="false"  @click="onClickComments"  :color="emojiShow&&empInputDmInputState?'#0264e7':'#c8c9cc'" size="7rem" class="input-comment-inputDm-icon1" name="smile-o" />
 
       <van-icon :color="inputDmIcon2Color"  @click="OnClickSend"  size="7rem" class="input-comment-inputDm-icon2" name="guide-o" />
     </div>
 
     <!--
-              弹幕字号选择--舍弃
+              表情框 v-show="empInputDmInputState&&emojiShow"-- 禁用
     -->
-    <div  v-show="empInputDmInputState&&emojiShow"   class="keyboard-overlay" id="input-comment-inputDmSelect" @click="OnClickInputDmSelect" >
+    <div  v-if="false"   class="keyboard-overlay" id="input-comment-inputDmSelect" @click="OnClickInputDmSelect" >
 
 
 
 
 
       <!--
-                弹幕颜色选择
+                表情
       -->
 
       <div  class="input-comment-inputDm-body" id="input-comment-input-comment-inputDm-body-color-select">

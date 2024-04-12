@@ -115,13 +115,18 @@ function OnClickfonStop(){
   inputCommentTopShow.value=false // 输入框是否需要悬浮在背景框
 
 }
+
+function OnClickPopup(){
+  commentSectionReplyShow.value=!commentSectionReplyShow.value
+  OnClickfonStop()
+}
 </script>
 
 <template>
     <div id="comment-section-reply"  @click.stop="OnClickfonStop">
       <van-popup
-          @click-close-icon="commentSectionReplyShow=!commentSectionReplyShow"
-          @click-overlay="commentSectionReplyShow=!commentSectionReplyShow"
+          @click-close-icon="OnClickPopup"
+          @click-overlay="OnClickPopup"
           v-model:show="commentSectionReplyShow"
           duration="0.3"
           position="bottom"
