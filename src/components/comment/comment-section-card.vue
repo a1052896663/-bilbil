@@ -138,7 +138,7 @@ function OnClickHortOrTime(e){ // 换颜色
 </script>
 
 <template>
-  <div class="comment-section-content-item" v-if="itemData">
+  <div class="comment-section-content-item" v-if="itemData&&comment">
     <van-divider />
     <div class="comment-section-content-item-image">
       <van-image

@@ -3,7 +3,14 @@
 
 // 点击小红旗
 import {ref, watch} from "vue";
-import {emoji, emojiShow, inputCommentTopShow, replyObject} from '../../store/DataStore'
+import {
+  addOrDeleteNumber,
+  addOrDeleteObject,
+  emoji,
+  emojiShow,
+  inputCommentTopShow,
+  replyObject
+} from '../../store/DataStore'
 import {COMMENTS_TYPE, ViewComment} from "../../util/type";
 import {getCOMMENTS_TYPE} from "../../util/util";
 
@@ -121,8 +128,13 @@ function OnClickSend(e){
       videoId:  0,
 
     }
+
+
+
   }
 
+  addOrDeleteObject.value=sendObj;
+  addOrDeleteNumber.value++;
   barrage.value=""
   console.log("添加评论：",sendObj)
 

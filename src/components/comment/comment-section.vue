@@ -3,11 +3,12 @@
 //import {commentSectionReplyShow} from '../../store/DataStore'
 
 
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import CommentSectionCard from "@/components/comment/comment-section-card.vue";
 import CommentSectionReply from "@/components/comment/comment-section-reply.vue";
 import {COMMENTS_TYPE, ViewComment} from "../../util/type";
-import {commentRoute, typeShow} from "@/store/DataStore";
+import {addOrDeleteObject,addOrDeleteNumber, commentRoute, typeShow} from "../../store/DataStore";
+
 // import CommentSectionReply from "@/components/comment/comment-section-reply.vue";
 // import CommentSectionCard from "@/components/comment/comment-section-card.vue";
 
@@ -24,6 +25,9 @@ function getIndex():number{
 
 const i=ref(2)
 
+
+
+
 const testViewComment= ref<ViewComment>({
       deleteShow: true,
       likeSize: 0,
@@ -34,6 +38,47 @@ const testViewComment= ref<ViewComment>({
       type:COMMENTS_TYPE.VIDEO
     }
 )
+
+const ViewCommentArray= ref<ViewComment[]>([testViewComment.value])
+
+watch(addOrDeleteNumber,(newValue,oldValue)=>{
+  const AddOrDelete=addOrDeleteObject.value
+  if(newValue>oldValue){
+    // 添加数据--复杂
+
+
+
+    //ViewCommentArray.value.push(AddOrDelete)
+    CommentService(AddOrDelete)
+  }else if(newValue<oldValue){
+    // 删除数据
+  }
+})
+
+
+function CommentService(item: ViewComment){
+
+  if(!item){
+    return ;
+  }
+
+  const type=item.type
+  switch (type){
+    case COMMENTS_TYPE.VIDEO:
+      // 添加评论
+      ViewCommentArray.value.push(item)
+      break;
+    case COMMENTS_TYPE.DYNAMIC_REPLY:
+      // 对回复添加回复
+
+      const findResult= ViewCommentArray.value.find(temp=>temp.id==item.parentId)
+      findResult.child.push(item)
+      break;
+  }
+
+}
+
+
 
 const childA=ref<ViewComment>({
   content: "我支持你",
@@ -135,7 +180,7 @@ function OnClickHortOrTime(){ // 换颜色
           <div class="comment-section-popup-content-main-m"></div>
           <div class="comment-section-popup-content-main-font" @click="OnClickHortOrTime" :style="{color:fontColor}" ><van-icon :color="fontColor" name="list-switch" /> {{OnTime?'按时间':'按热度'}}</div>
         </div>
-        <comment-section-card :itemData="testViewComment" v-for="index in 10"></comment-section-card>
+        <comment-section-card :itemData="item"  v-for="(item,index) in ViewCommentArray" :key="index" ></comment-section-card>
 
       </div>
 
