@@ -32,7 +32,7 @@
     }
     .comment-section-content-item{
         display: flex;
-        width: 100%;
+        width: 100vw;
         /*height: 70rem;*/
         min-height: 27rem;
         /*background: #0264e7;*/
@@ -51,7 +51,8 @@
     .comment-section-content-item-card{
         flex: 1 1 20rem;
         /*background: #e37d0b;*/
-        padding-right: 2rem;
+        padding-right: 3rem;
+        overflow: hidden;
 
     }
 

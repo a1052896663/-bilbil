@@ -51,9 +51,13 @@
 
     }
     .comment-section-content-item-card{
+        /*flex: 1 1 20rem;*/
+        /*!*background: #e37d0b;*!*/
+        /*padding-right: 2rem;*/
         flex: 1 1 20rem;
         /*background: #e37d0b;*/
-        padding-right: 2rem;
+        padding-right: 3rem;
+        overflow: hidden;
 
     }
 

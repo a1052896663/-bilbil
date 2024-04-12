@@ -184,12 +184,12 @@ function OnClickHortOrTime(e){ // 换颜色
 
            <van-text-ellipsis
             @click-action="OnClickTextEllipsis"
-              rows="2"
+              rows="6"
               :content="comment.content+'\n'"
               :expand-text="'\n'+'展开'"
               collapse-text="收起"
               dots=""
-              id="mmmm"
+
 
           />
 
