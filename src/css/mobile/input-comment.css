@@ -9,6 +9,7 @@
         height: 9rem;
         align-items: center;
 
+        position: fixed;
 
         border-top: 1px solid #e9e9eb; /* 绘制线条 */
         border-bottom: 1px solid #e9e9eb; /* 绘制线条 */

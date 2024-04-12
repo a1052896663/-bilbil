@@ -4,7 +4,14 @@
  *
  * 评论的评论
  */
-import {commentRoute, commentSectionReplyShow, headObject, replyObject} from '../../store/DataStore'
+import {
+  commentRoute,
+  commentSectionReplyShow,
+  emojiShow,
+  headObject,
+  inputCommentTopShow,
+  replyObject
+} from '../../store/DataStore'
 import CommentSectionCard from "@/components/comment/comment-section-card.vue";
 import {ref, watch} from "vue";
 import {COMMENTS_TYPE, ViewComment} from "../../util/type";
@@ -101,10 +108,17 @@ function OnClickHortOrTime(){ // 换颜色
   },200)
 }
 
+
+function OnClickfonStop(){
+  // 清除浮动
+  emojiShow.value=false // 关闭表情框--控件2
+  inputCommentTopShow.value=false // 输入框是否需要悬浮在背景框
+
+}
 </script>
 
 <template>
-    <div id="comment-section-reply"  >
+    <div id="comment-section-reply"  @click.stop="OnClickfonStop">
       <van-popup
           @click-close-icon="commentSectionReplyShow=!commentSectionReplyShow"
           @click-overlay="commentSectionReplyShow=!commentSectionReplyShow"

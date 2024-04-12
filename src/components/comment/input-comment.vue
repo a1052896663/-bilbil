@@ -325,6 +325,7 @@ function updateKeyboardHeight() {
   inputCommentInputDmSelect.style.top=topTemp+'px'
 
   inputCommentInputDmSelect.style.height='999px'
+  inputCommentInputDmSelect.style.zIndex='9999'
 
   //barrage.value= inputCommentInputDmSelect.style.top
   //const inputCommentInputComment-inputDm-body-color-select =document.getElementById('input-comment-input-comment-inputDm-body-color-select')
