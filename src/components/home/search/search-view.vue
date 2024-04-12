@@ -15,6 +15,7 @@ const imageSrc=ref('src/public/interlude_Miku_in_Museland_3.png')
 </script>
 
 <template>
+
   <div id="view-search">
     <div class="view-search-item" v-for="item in searchSize">
       <div class="view-search-item-image">
