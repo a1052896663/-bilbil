@@ -10,5 +10,7 @@
 </template>
 
 <style scoped>
-
+*{
+  margin-bottom: 9rem
+}
 </style>

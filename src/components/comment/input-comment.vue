@@ -80,6 +80,9 @@ function InsertEmote(emo){
 // 弹幕数据发送 TODO
 const show = ref(false); // 消息控件
 function OnClickSend(e){
+  emojiShow.value=false // 关闭表情框--控件2
+  inputCommentTopShow.value=false // 输入框是否需要悬浮在背景框
+ // InputDomState.value=false // 关闭
   e.preventDefault()
   e.stopPropagation();
    let sendObj:ViewComment
@@ -88,18 +91,37 @@ function OnClickSend(e){
 
 
     const typeTemp=getCOMMENTS_TYPE(replyObject.value.type)
-
-    let parentIdTemp=replyObject.value.parentId;
+    let parentIdTemp=-1;
     console.log("父评论类型：",replyObject.value.type)
-    if(typeTemp==COMMENTS_TYPE.VIDEO){
-      parentIdTemp=-1
+
+    //if()
+    if(replyObject.value.id==40){
+      // 自己对自己的评论处理 TODO
+      UserMyCommentService()
+      return;
     }
+
+    switch (typeTemp)    {
+      case COMMENTS_TYPE.VIDEO:
+        parentIdTemp=-1
+        break;
+      case COMMENTS_TYPE.VIDEO_REPLY:
+        parentIdTemp=replyObject.value.id
+         break;
+      case COMMENTS_TYPE.VIDEO_REFUTATION:
+        parentIdTemp=replyObject.value.parentId
+        break;
+
+
+    }
+
+
 
      sendObj={
       child: [],
-      content: "我新加了一条评论",
+      content: barrage.value,
       deleteShow: true,
-      id: 0,
+      id: Date.now(),
       likeSize: 0,
       parentId: parentIdTemp,
       time: Date.now(),
@@ -110,14 +132,15 @@ function OnClickSend(e){
       videoId:  replyObject.value.videoId
 
     }
+    addOrDeleteNumber.value++;
 
   }else {
     // 普通回复
      sendObj={
       child: [],
-      content: "我新加了一条评论",
+      content: barrage.value,
       deleteShow: true,
-      id: 0,
+      id: Date.now(),
       likeSize: 0,
       parentId: -1,
       time: Date.now(),
@@ -129,12 +152,12 @@ function OnClickSend(e){
 
     }
 
-
+    addOrDeleteNumber.value++;
 
   }
 
   addOrDeleteObject.value=sendObj;
-  addOrDeleteNumber.value++;
+
   barrage.value=""
   console.log("添加评论：",sendObj)
 
@@ -142,14 +165,87 @@ function OnClickSend(e){
 
 }
 
-const deleteInputSize=ref(0)
+// 对自己 回复自己的情况
+function UserMyCommentService(){
+  //const typeTemp=getCOMMENTS_TYPE(replyObject.value.type)
+  let sendObj:ViewComment
+  let parentIdTemp=-1;
+  switch (replyObject.value.type)    {
+    case COMMENTS_TYPE.VIDEO:
+
+      sendObj={
+        child: [],
+        content: barrage.value,
+        deleteShow: true,
+        id: 4,
+        likeSize: 0,
+        parentId: replyObject.value.id,
+        time: Date.now(),
+        toComment: null,
+        type:COMMENTS_TYPE.VIDEO_REPLY,
+        userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
+        userName: "初音味道",
+        videoId:  0,
+
+      }
+      break;
+    case COMMENTS_TYPE.VIDEO_REPLY:
+      sendObj={
+        child: [],
+        content: barrage.value,
+        deleteShow: true,
+        id: Date.now(),
+        likeSize: 0,
+        parentId: replyObject.value.parentId,
+        time: Date.now(),
+        toComment: replyObject.value.toComment,
+        type:COMMENTS_TYPE.VIDEO_REPLY,
+        userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
+        userName: "初音味道",
+        videoId:  0,
+
+      }
+      break;
+    case COMMENTS_TYPE.VIDEO_REFUTATION:
+      sendObj={
+        child: [],
+        content: barrage.value,
+        deleteShow: true,
+        id: Date.now(),
+        likeSize: 0,
+        parentId: replyObject.value.parentId,
+        time: Date.now(),
+        toComment: replyObject.value.toComment,
+        type:COMMENTS_TYPE.VIDEO_REFUTATION,
+        userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
+        userName: "初音味道",
+        videoId:  0,
+
+      }
+      break;
+
+
+  }
+  addOrDeleteNumber.value++;
+  addOrDeleteObject.value=sendObj;
+
+  barrage.value=""
+  console.log("添加评论：",sendObj)
+}
+
+
+
+//const deleteInputSize=ref(0)
 watch(replyObject,(newValue)=>{
+  console.log("replyObject 最新的值",newValue)
   if(newValue){
     //"回复：@".slice("回复：".length)
-     deleteInputSize.value=("回复：@"+newValue.userName).length
+    // deleteInputSize.value=("回复：@"+newValue.userName).length
     InputPlaceholder.value="回复：@"+newValue.userName
-    console.log("改变：",InputPlaceholder.value)
+   // console.log("改变：",InputPlaceholder.value)
     //barrage.value="回复：@"+newValue.userName
+  }else {
+    InputPlaceholder.value="小心翼翼的留下足迹....."
   }
 })
 
@@ -178,7 +274,7 @@ function onInputFocus() {
 
 function onInputBlur() {
   console.log("失去焦点")
-  InputPlaceholder.value="小心翼翼的留下足迹....."
+  //InputPlaceholder.value="小心翼翼的留下足迹....."
   InputState.value=false
 
   //this.isKeyboardVisible = false;
@@ -194,8 +290,10 @@ watch(inputCommentTopShow,(newValue)=>{
       console.log("放置回最下方")
       const inputCommentInputDm= document.getElementById('input-comment-inputDm')
        inputCommentInputDm.style.position="fixed"
-     inputCommentInputDm.style.top=""
+       inputCommentInputDm.style.top=""
       inputCommentInputDm.style.bottom='0px'
+      inputCommentInputDm.style.zIndex='9999'
+
 
     }
   }catch (e){
@@ -299,110 +397,7 @@ function OnClickInputDmSelect(e){
 <style scoped>
 
 
-/*
-//@import "@/css/mobile/input-comment.css";
- */
-@media screen  and (min-device-width: 200px) and (max-device-width:5000px) {
 
+@import "@/css/mobile/input-comment.css";
 
-  #input-comment-inputDm {
-    display: flex;
-    background: white;
-    height: 9rem;
-    align-items: center;
-
-
-    border-top: 1px solid #e9e9eb; /* 绘制线条 */
-    border-bottom: 1px solid #e9e9eb; /* 绘制线条 */
-    /*top:544px*/
-  }
-
-  #input-comment-inputDm-input{
-    /* 去除默认样式 */
-    border: none;
-    outline: none;
-    flex: 0 0 80rem;
-    height: 7rem;
-    margin: 0 auto;
-    text-indent: 6rem;
-    font-size: 3.8rem;
-    color: #c8c9cc;
-    background: #e9e9eb;
-    border-radius: 4rem;
-  }
-
-  #input-comment-inputDmSelect{
-    /*padding-top: 2rem;*/
-    /*width: 100%;*/
-    position: fixed;
-    background: #e9e9eb;
-
-    /*height: 999px;*/
-    /*top: 579px;*/
-    display: flex;
-    flex-direction: column;
-  }
-
-  .input-comment-inputDm-icon1{
-    margin-left: 1rem;
-  }
-  .input-comment-inputDm-icon2{
-    margin-right: 2rem;
-
-  }
-
-  /*    弹幕发送框相关 */
-  .input-comment-inputDm-body{
-    flex: 0 0 8rem;
-    margin: 1rem 3rem;
-    /*background: #0264e7;*/
-    display: flex;
-    align-items: center;
-    /*background: #e9e9eb;*/
-
-  }
-  .input-comment-inputDm-body-font{
-    margin-right: 2rem;
-    flex: 0 0 20%;
-    font-size: 6rem;
-    text-align: center;
-    margin: 0 auto;
-    width: 8rem;
-    /*height: 8rem;*/
-    /*background: #6aee59;*/
-  }
-
-  #input-comment-input-comment-inputDm-bottom{
-    flex: 1 1 1rem;
-
-  }
-
-
-
-  #input-comment-input-comment-inputDm-body-color-select{
-    flex: 0 0 80rem;
-    display: flex;
-    flex-wrap: wrap;
-    overflow: hidden;
-    /*height: 88px;*/
-    overflow-y: auto;
-
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
 </style>

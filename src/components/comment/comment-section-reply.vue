@@ -4,7 +4,7 @@
  *
  * 评论的评论
  */
-import {commentRoute, commentSectionReplyShow} from '../../store/DataStore'
+import {commentRoute, commentSectionReplyShow, headObject, replyObject} from '../../store/DataStore'
 import CommentSectionCard from "@/components/comment/comment-section-card.vue";
 import {ref, watch} from "vue";
 import {COMMENTS_TYPE, ViewComment} from "../../util/type";
@@ -26,7 +26,14 @@ watch(commentSectionReplyShow,(newValue)=>{
   //console.log("commentSectionReplyShow的值有改变",commentSectionReplyShow.value)
   if( newValue){
      testDate.value=commentRoute.value
-    console.log("评论区区回复收到的值：",commentRoute.value)
+     replyObject.value=testDate.value // 添加回复对象
+    console.log("回复区展开",replyObject.value)
+    //console.log("评论区区回复收到的值：",commentRoute.value)
+  }else {
+    commentSectionReplyShow.value
+    replyObject.value=null
+    headObject.value=null
+    console.log("回复区关闭--清除headObject和headObject")
   }
 })
 

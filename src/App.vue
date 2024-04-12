@@ -91,7 +91,7 @@ html{
   font-size: 1vw;
   overflow: hidden;
   position: fixed;
+  font-family: HYKaiti;
 }
 
 </style>
-@/api/Http

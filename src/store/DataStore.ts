@@ -30,6 +30,7 @@ const DataStore={
     typeShow:ref(0), // 当前显示的页面
     replyObject:ref<ViewComment>() ,//  评论回复对象
     addOrDeleteObject:ref<ViewComment>(), // 新加的对象或者是需要删除的对象
+    headObject:ref<ViewComment>(), // 新加的对象或者是需要删除的对象
     addOrDeleteNumber:ref(0)
 
 
@@ -46,3 +47,4 @@ export const {typeShow}=DataStore
 export const {replyObject}=DataStore
 export const {addOrDeleteObject}=DataStore
 export const {addOrDeleteNumber}=DataStore
+export const {headObject}=DataStore

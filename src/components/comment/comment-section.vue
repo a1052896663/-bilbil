@@ -5,9 +5,8 @@
 
 import {ref, watch} from "vue";
 import CommentSectionCard from "@/components/comment/comment-section-card.vue";
-import CommentSectionReply from "@/components/comment/comment-section-reply.vue";
 import {COMMENTS_TYPE, ViewComment} from "../../util/type";
-import {addOrDeleteObject,addOrDeleteNumber, commentRoute, typeShow} from "../../store/DataStore";
+import {addOrDeleteNumber, addOrDeleteObject, headObject, replyObject, typeShow} from "../../store/DataStore";
 
 // import CommentSectionReply from "@/components/comment/comment-section-reply.vue";
 // import CommentSectionCard from "@/components/comment/comment-section-card.vue";
@@ -50,29 +49,112 @@ watch(addOrDeleteNumber,(newValue,oldValue)=>{
 
     //ViewCommentArray.value.push(AddOrDelete)
     CommentService(AddOrDelete)
+    if( ! (headObject&& headObject.value)){  // 评论状态的话
+      replyObject.value=headObject.value
+    }
+  //  replyObject.value=null
   }else if(newValue<oldValue){
     // 删除数据
   }
 })
 
+//
+// // 自己评论自己--不在这-在构建输入时候
+// function UserMyCommentService(item: ViewComment){
+//   const type=item.type
+//   switch (type){
+//     case COMMENTS_TYPE.VIDEO:
+//       // 添加评论
+//       ViewCommentArray.value.push(item)
+//       break;
+//     case COMMENTS_TYPE.VIDEO_REPLY:
+//       // 对回复添加回复
+//       // console.log("收到评论 或者是")
+//       const findResult= ViewCommentArray.value.find(temp=>temp.id==item.parentId);
+//       if(!findResult){
+//         return;
+//       }
+//       if(("child" in findResult.child)&&!findResult.child){
+//         findResult.child=[]
+//       }
+//
+//       findResult.child.push(item);
+//       console.log("添加评论的评论后：",ViewCommentArray.value)
+//       replyObject.value=null
+//       break;
+//     case COMMENTS_TYPE.VIDEO_REFUTATION:
+//
+//       if(!(item&&item.toComment)){
+//         return;
+//       }
+//       console.log("回队评论",item)
+//       const findResult2= ViewCommentArray.value.find(temp=>temp.id==item.toComment.parentId);
+//       if(!findResult2){
+//         return;
+//       }
+//       if(("child" in findResult2.child)&&!findResult2.child){
+//         findResult2.child=[]
+//       }
+//
+//       findResult2.child.push(item);
+//       console.log("添加评论的评论后：",ViewCommentArray.value)
+//       replyObject.value=null  //发送成功--对象重置
+//       // ViewCommentArray
+//       break;
+//   }
+// }
 
+
+// 添加评论
 function CommentService(item: ViewComment){
+
+  console.log("需要处理的评论：",item)
 
   if(!item){
     return ;
   }
-
+  console.log("需要处理的评论：",item)
   const type=item.type
+
+
   switch (type){
     case COMMENTS_TYPE.VIDEO:
       // 添加评论
       ViewCommentArray.value.push(item)
       break;
-    case COMMENTS_TYPE.DYNAMIC_REPLY:
+    case COMMENTS_TYPE.VIDEO_REPLY:
       // 对回复添加回复
+     // console.log("收到评论 或者是")
+      const findResult= ViewCommentArray.value.find(temp=>temp.id==item.parentId);
+      if(!findResult){
+        return;
+      }
+      if(("child" in findResult.child)&&!findResult.child){
+        findResult.child=[]
+      }
 
-      const findResult= ViewCommentArray.value.find(temp=>temp.id==item.parentId)
-      findResult.child.push(item)
+      findResult.child.push(item);
+      console.log("添加评论的评论后：",ViewCommentArray.value)
+     //replyObject.value=null
+      break;
+    case COMMENTS_TYPE.VIDEO_REFUTATION:
+
+      if(!(item&&item.toComment)){
+        return;
+      }
+      console.log("回队评论",item)
+      const findResult2= ViewCommentArray.value.find(temp=>temp.id==item.toComment.parentId);
+      if(!findResult2){
+        return;
+      }
+      if(("child" in findResult2.child)&&!findResult2.child){
+        findResult2.child=[]
+      }
+
+      findResult2.child.push(item);
+      console.log("添加评论的评论后：",ViewCommentArray.value)
+   //   replyObject.value=null  //发送成功--对象重置
+     // ViewCommentArray
       break;
   }
 
@@ -181,7 +263,7 @@ function OnClickHortOrTime(){ // 换颜色
           <div class="comment-section-popup-content-main-font" @click="OnClickHortOrTime" :style="{color:fontColor}" ><van-icon :color="fontColor" name="list-switch" /> {{OnTime?'按时间':'按热度'}}</div>
         </div>
         <comment-section-card :itemData="item"  v-for="(item,index) in ViewCommentArray" :key="index" ></comment-section-card>
-
+        <div class="comment-section-popup-content-main-zw"></div>
       </div>
 
     </div>

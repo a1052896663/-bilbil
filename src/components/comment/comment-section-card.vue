@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import {commentRoute, commentSectionReplyShow,replyObject} from "../../store/DataStore";
-import {ref} from "vue";
+import {commentRoute, headObject,commentSectionReplyShow,replyObject} from "../../store/DataStore";
+import {computed, ref} from "vue";
 import {COMMENTS_TYPE, ViewComment} from "../../util/type";
 import {formatDateTime} from "@/util/util";
 //import {ref} from "vue/dist/vue";
@@ -46,7 +46,11 @@ const noticeText=ref("那一天我二十一岁，在我一生的黄金时代。�
 //
 // })
 
-const comment=ref<ViewComment>(cardData.itemData)
+const comment=computed(()=>{
+  return cardData.itemData
+})
+
+    //ref<ViewComment>(cardData.itemData)
  //child.value=comment.value.child
 // if(!cardData.testData){
 //   // 不是测试数据
@@ -78,6 +82,19 @@ const comment=ref<ViewComment>(cardData.itemData)
 
 //test()
 
+const childTemp=computed(()=>{
+  if(!(comment&&comment.value.child)){
+    return []
+  }
+  if(comment.value.child.length<=3){
+        return comment.value.child
+  }
+  if (comment.value.child.length>3){
+    return [comment.value.child[0],comment.value.child[1],comment.value.child[2]]
+  }
+
+})
+
 // 测式数据   ---->
 
 function getIndex():number{
@@ -93,7 +110,9 @@ const h=ref(' <span>回复</span>')
 
 // 跳转评论区的评论区
 function OnClickToReply(item:ViewComment){
+  //e.stopPropagation();
   commentRoute.value=item
+  headObject.value=item
   console.log("发送的值：",commentRoute.value)
   commentSectionReplyShow.value=true
 
@@ -119,6 +138,8 @@ function inputComment(item:ViewComment){
 function OnClickTextEllipsis(e){
   e.stopPropagation();
 }
+
+
 
 
 // 点击按时间或是按风景
@@ -182,9 +203,9 @@ function OnClickHortOrTime(e){ // 换颜色
         </div>
 
       </div>
-      <div class="comment-section-content-item-card-reply"  @click="OnClickToReply(comment)"  v-if="comment&&comment.type==COMMENTS_TYPE.VIDEO&&childShow&&comment.child.length>0">
+      <div class="comment-section-content-item-card-reply"  @click.stop="OnClickToReply(comment)"  v-if="comment&&comment.type==COMMENTS_TYPE.VIDEO&&childShow&&comment.child.length>0">
         <div class="comment-section-content-item-card-reply-item" >
-          <div class="comment-section-content-item-card-reply-name" v-for="(item,index) in comment.child" :key="index">
+          <div class="comment-section-content-item-card-reply-name" v-for="(item,index) in childTemp" :key="index">
             <template v-if="item.type==COMMENTS_TYPE.VIDEO_REPLY">
               <span>{{item.userName}}：</span>
               <span class="comment-section-content-item-card-reply-name-pl">{{item.content}}</span>

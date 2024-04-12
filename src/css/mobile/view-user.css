@@ -20,7 +20,7 @@
         flex: 0 0 15rem;
         display: flex;
         align-items: center;
-        padding-left: 2rem;
+        padding-left: 3rem;
     }
     #view-user-unfold{
         /*background: yellow;*/
@@ -74,11 +74,11 @@
 
     }
     .view-user-unfold-title{
-        font-size: 4rem;
+        font-size: 4.7rem;
     }
     .view-user-unfold-attribute-item{
         margin: 1rem 1rem;
-        font-size: 3rem;
+        font-size: 3.3rem;
         /*color: #e9e9eb;*/
         color: #c8c9cc;
 

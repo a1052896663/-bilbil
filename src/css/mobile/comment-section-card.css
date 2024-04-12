@@ -111,7 +111,7 @@
         border-radius: 0.8rem;
         padding-left: 1rem;
         padding-top: 1rem;
-        font-size: 3rem;
+        font-size: 3.7rem;
         margin-right: 2rem;
 
     }
@@ -128,8 +128,9 @@
 
     }
     .comment-section-content-item-card-reply-more{
-        font-size: 2.5rem;
+        font-size: 3.3rem;
         color: #1989fa;
+        margin-right: 0.5rem;
         margin-bottom: 1rem;
     }
     .comment-section-content-item-card-reply-name-pl{

@@ -57,6 +57,7 @@ export function isOfType<T>(  // 判断是什么类型
       case COMMENTS_TYPE.VIDEO:
         return COMMENTS_TYPE.VIDEO_REPLY;
       case COMMENTS_TYPE.VIDEO_REPLY:
+      case COMMENTS_TYPE.VIDEO_REFUTATION:
         return COMMENTS_TYPE.VIDEO_REFUTATION;
       default:
         return COMMENTS_TYPE.VIDEO

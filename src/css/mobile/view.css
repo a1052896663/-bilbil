@@ -118,7 +118,7 @@
 
     }
     .view-select-button-input{
-        background: #e9e9eb;
+        background: #f4f4f5;
         flex: 0 0 38rem;
 
         height: 7rem;
@@ -130,7 +130,7 @@
         overflow: hidden;
 
         transition: flex 0.5s ease; /* 使用过渡属性 */
-        border: 1px solid #c8c9cc; /* 设置边框样式 */
+        border: 1px solid #e9e9eb; /* 设置边框样式 */
 
     }
     .view-select-button-input-font-icon{
@@ -279,11 +279,13 @@
         background: white;
         height: 9rem;
        align-items: center;
+        z-index: 10000;
 
 
         border-top: 1px solid #e9e9eb; /* 绘制线条 */
         border-bottom: 1px solid #e9e9eb; /* 绘制线条 */
         /*top:544px*/
+
     }
 
     #inputDm-input{
