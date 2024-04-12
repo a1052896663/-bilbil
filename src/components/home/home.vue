@@ -8,6 +8,8 @@ import route from "@/router/router";
 import {TabsPaneContext} from "element-plus";
 import * as http from "http";
 import HomeMainHome from "@/components/home/main/home-main-home.vue";
+import HomeUser from "@/components/home/user/home-main-manager-user.vue";
+import {active} from '../../store/DataStore'
 const player = ref(null)
 let url=ref('')
 const streamUrl = ref('')
@@ -83,7 +85,7 @@ onMounted( async ()=>{
 
     setTimeout(()=>{
       loading.value=!loading.value
-    },5000)
+    },100)
 
     if(play.value.status==404){
       console.error("home页面错误：404")
@@ -116,7 +118,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 
 const textActive=ref(false)
 
-const active = ref(0);
+//const active = ref(3);
 //  动画控件
 const fly=ref("")
 
@@ -171,7 +173,7 @@ const count=ref(0)
 <!--  </div>-->
 
   <div id="home">
-    <div id="home-head">
+    <div id="home-head" v-if="active!=3">
 
         <div id="home-user">
             <img
@@ -237,7 +239,7 @@ const count=ref(0)
 
 
       <div id="home-main-manager" :class="fly"  v-if="active==3">
-        <div>home4</div>
+        <home-user></home-user>
       </div>
 
 
@@ -259,9 +261,11 @@ const count=ref(0)
   </div>
 </template>
 
-<style  scoped>
-@import "@/css/mobile/home.css";
+<style  scoped >
+
+
 @import "@/css/pc/home.css";
+@import "@/css/mobile/home.css";
 
 </style>
 

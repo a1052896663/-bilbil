@@ -55,6 +55,11 @@ import { Popup } from 'vant';
 import { TextEllipsis } from 'vant';
 import V3Emoji from 'vue3-emoji'
 
+import { List } from 'vant';
+
+
+
+app.use(List);
 
 app.use(V3Emoji)
 app.use(ShareSheet);

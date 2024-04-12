@@ -20,6 +20,7 @@ const emojiTemp:string[]=[
     '🐠','🐙','🐚','🐌','🐛','🐜','🐝','🐞','🦋','😈','👿','👺','💀','☠','👻','👽','👾','💣'
 
 ]
+
 const DataStore={
     shareShow:ref(false) , // 分享面板是否展示
     commentSectionReplyShow:ref(false) ,// 评论详情控件
@@ -31,7 +32,8 @@ const DataStore={
     replyObject:ref<ViewComment>() ,//  评论回复对象
     addOrDeleteObject:ref<ViewComment>(), // 新加的对象或者是需要删除的对象
     headObject:ref<ViewComment>(), // 新加的对象或者是需要删除的对象
-    addOrDeleteNumber:ref(0)
+    addOrDeleteNumber:ref(0), // 添加或删除评论的信号量
+    active:ref<number>(0),// 主页tab页面
 
 
 
@@ -48,3 +50,4 @@ export const {replyObject}=DataStore
 export const {addOrDeleteObject}=DataStore
 export const {addOrDeleteNumber}=DataStore
 export const {headObject}=DataStore
+export const {active}=DataStore
