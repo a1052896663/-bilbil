@@ -21,7 +21,7 @@ defineProps({
 <!--    </div>-->
 
   <div id="time-view">
-    <div class="time-view-item" v-for="item in searchSize">
+    <div class="time-view-item" >
       <div class="time-view-item-image">
         <van-image
 

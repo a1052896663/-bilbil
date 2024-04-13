@@ -676,10 +676,10 @@ function OnClickHortOrTime(){ // 换颜色
 
 -->
       <div :style="{'font-size':'4rem', 'z-index': '9999'}"  v-show="InputDomState" >
-        <div  id="inputDm"  :style="{position: 'fixed', bottom: 0,width: '100%'}">
-          <van-icon   @click="onClickComments"  :color="inputDmInputState?'#0264e7':'#e9e9eb'" size="7rem" class="inputDm-icon1" name="flag-o" />
+        <div  id="inputDm"  :style="{position: 'fixed', bottom: 0,width: '100%',height:'10rem'}">
+          <van-icon   @click="onClickComments"  :color="inputDmInputState?'#0264e7':'#e9e9eb'" size="9rem" class="inputDm-icon1" name="flag-o" />
           <input type="text" ref="inputDmInput"  @keyup.enter="OnClickSend" id="inputDm-input" v-model="barrage.text" @click="OnClickinputDmInput"    @focus="onInputFocus" @blur="onInputBlur" placeholder="点击输入框弹出键盘">
-          <van-icon :color="inputDmIcon2Color"  @click="OnClickSend"  size="7rem" class="inputDm-icon2" name="guide-o" />
+          <van-icon :color="inputDmIcon2Color"  @click="OnClickSend"  size="9rem" class="inputDm-icon2" name="guide-o" />
         </div>
  
 <!--

@@ -26,9 +26,10 @@ function OnClickBar(){
           left-text="返回"
           left-arrow
           @click-left="OnClickBar"
+
       />
     </div>
-    <time-card></time-card>
+    <time-card v-for="i in 10"></time-card>
   </div>
   </transition>
 

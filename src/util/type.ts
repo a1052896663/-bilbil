@@ -132,6 +132,18 @@ export interface ViewComment{  // 视图需要的信息--评论
 
 }
 
+// 视频卡片
+export interface VideoCard{
+  id:number, // 视频id,
+  userId:number,// 用户id,
+  videoId:number,// 视频，
+  videoImage:number, // 视频图片
+  videoSrc:string, // 视频播放地址
+  videoTime:number, // 视频时长
+  time:number,// 历史观看时间,
+  title:string, // 标题
+}
+
 export enum COMMENTS_TYPE{
   VIDEO="VIDEO",// 对视频的评论
  VIDEO_REPLY="VIDEO_REPLY", //视频中的回复的回复

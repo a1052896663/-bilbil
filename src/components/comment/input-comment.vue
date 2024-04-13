@@ -80,12 +80,18 @@ function InsertEmote(emo){
 // 弹幕数据发送 TODO
 const show = ref(false); // 消息控件
 function OnClickSend(e){
+
   emojiShow.value=false // 关闭表情框--控件2
   inputCommentTopShow.value=false // 输入框是否需要悬浮在背景框
  // InputDomState.value=false // 关闭
   e.preventDefault()
   e.stopPropagation();
+  if(barrage.value.trim().length<=0){
+    console.log("输入内容为空")
+    return;
+  }
    let sendObj:ViewComment
+
   console.log("需要回复的评论",replyObject," value:",replyObject.value)
   if(replyObject&&replyObject.value){
 
@@ -354,15 +360,43 @@ function OnClickInputDmSelect(e){
 
   -->
   <div :style="{'font-size':'4rem' }"  v-show="true" >
-    <div  id="input-comment-inputDm"  :style="{position: 'fixed', bottom: 0,width: '100%'}">
+    <div  id="input-comment-inputDm"  :style="{position: 'fixed', bottom: 0,width: '100%','min-height':'10rem'}">
 
-      <input type="text" ref="inputCommentInputDmInput" :placeholder="InputPlaceholder" @keyup.enter="OnClickSend" id="input-comment-inputDm-input" v-model="barrage" @click="OnClickinputDmInput"    @focus="onInputFocus" @blur="onInputBlur" >
+<!--      <input type="text" ref="inputCommentInputDmInput" :placeholder="InputPlaceholder" @keyup.enter="OnClickSend" id="input-comment-inputDm-input" v-model="barrage" @click="OnClickinputDmInput"    @focus="onInputFocus" @blur="onInputBlur" >-->
+
+        <el-input
+            v-model="barrage"
+            style="width: 240px"
+            :autosize="{ minRows: 1, maxRows: 2 }"
+            type="textarea"
+            :placeholder="InputPlaceholder"
+            @click="OnClickinputDmInput"
+            @focus="onInputFocus"
+            @blur="onInputBlur"
+
+            size="large"
+            :input-style="{
+
+                      'border': 'none',
+        'outline': 'none',
+        'flex': '0 0 86rem',
+        'height': '7rem',
+        'margin': '0 auto',
+
+        'font-size': '3.8rem',
+        'color': '#c8c9cc',
+        'background': '#e9e9eb',
+        'border-radius': '4rem',
+        'padding-left': '6rem'
+            }"
+
+        />
 
 
 <!--    移除表情功能  -->
       <van-icon  v-if="false"  @click="onClickComments"  :color="emojiShow&&empInputDmInputState?'#0264e7':'#c8c9cc'" size="7rem" class="input-comment-inputDm-icon1" name="smile-o" />
 
-      <van-icon :color="inputDmIcon2Color"  @click="OnClickSend"  size="7rem" class="input-comment-inputDm-icon2" name="guide-o" />
+      <van-icon  id="input-comment-inputDm-icon"  @click="OnClickSend"  size="9rem" class="input-comment-inputDm-icon2" name="guide-o" />
     </div>
 
     <!--
