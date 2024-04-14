@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {Resonse, SERVICE_ROUT, Video} from "../../../util/type";
+import {Resonse, SERVICE_ROUT, Video, HomeViewCard} from "../../../util/type";
 import {HttpGet} from "@/api/http";
+import {viewVideoId} from '../../../store/DataStore'
+import {formatTime} from '../../../util/util'
+import route from "../../../router/router.js";
 
-const play=ref<Resonse<Video[]>>()
+const play=ref<Resonse<HomeViewCard[]>>()
+console.log("进入home-main")
 //初始化
 function InitPlay():void{
   play.value={body: [], status: 0}
   for(let i=0;i<11;i++){
-    let video:Video={}
+    let video:HomeViewCard={}
 
     play.value.body.push(video)
   }
 
 }
+InitPlay()
 //  骨架
 const loading=ref(true)
 
@@ -22,24 +27,36 @@ onMounted( async ()=>{
   console.log("组件home激活");
   try {
 
-    play.value=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data
 
-    setTimeout(()=>{
-      loading.value=!loading.value
-    },5000)
+      play.value=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data
 
+
+    console.log("获得数据：HomeViewCard：",play.value)
+
+    if(play.value.status==200){
+      loading.value=false
+    }
     if(play.value.status==404){
       console.error("home页面错误：404")
     }
 
-    console.log("得到的数据：play.value:",play.value)
-    console.log("得到的数据：play.value.body",play.value.body)
-    console.log("得到的数据：play.value.status",play.value.status)
+
+
   }catch (e){
+    if(e.code === 'ECONNABORTED'){
+      console.error("请求超时")
+    }
     console.error("home页面错误：",e)
   }
 
 })
+
+
+function toViewVideo(id:number) {
+  viewVideoId.value=id
+  route.push('/view')
+
+}
 </script>
 
 <template>
@@ -48,7 +65,7 @@ onMounted( async ()=>{
 
 
 
-    <div  v-if=" play&& play.body"  v-for="(item,index) in play.body" :key="index" class="home-main-home-item">
+    <div  v-show="play&& play.body" @click="toViewVideo(item.videoId)"  v-for="(item,index) in play.body" :key="index" class="home-main-home-item">
       <van-skeleton   :row="3" :loading="loading" class="home-main-home-loading" title-width="90%">
         <template #template>
 
@@ -66,16 +83,16 @@ onMounted( async ()=>{
           <van-image
               width="100%"
               height="100%"
-              :src="item.coverImageUrl"
+              :src="item.imageSrc"
           />
 <!--          <img class="home-main-home-image-url" :src="item.coverImageUrl">-->
           <div class="home-main-home-image-url-m"> </div>
           <div class="home-main-home-item-font">
             <el-icon :size="index==0?'7rem':'5rem'" style="margin-right: 1rem" color="white"><VideoPlay/></el-icon>
-            <span class="home-main-home-item-viwe"> 20</span>
+            <span class="home-main-home-item-viwe"> {{item.playback}}</span>
             <div class="home-main-home-item-font-time">
               <!--                时间-->
-              <span>06:30</span>
+              <span>{{formatTime(item.time)}}</span>
             </div>
           </div>
 
@@ -86,14 +103,14 @@ onMounted( async ()=>{
           <!--            标题-->
           <div class="home-main-home-item-title-conter" >
 
-            【IGN】9.0分，《黑啊之魂》评测：一部不可多得的魂类游戏巨作
+            {{item.title}}
           </div>
           <!--            作者-->
           <div class="home-main-home-item-title-user">
 
             <el-icon :size="index==0?'5rem':'4rem'"  ><User /></el-icon>
             <div class="home-main-home-item-title-user-name">
-              ING中国
+              {{item.userName}}
             </div>
 
           </div>

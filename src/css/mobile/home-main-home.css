@@ -137,7 +137,9 @@
         margin-left: 2.5rem;
     }
 
-
+    .home-main-home-item-title-user-name{
+        font-size: 3rem;
+    }
 
     .home-main-home-item-font{
         display: flex;

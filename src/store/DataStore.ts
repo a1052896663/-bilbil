@@ -34,6 +34,7 @@ const DataStore={
     headObject:ref<ViewComment>(), // 新加的对象或者是需要删除的对象
     addOrDeleteNumber:ref(0), // 添加或删除评论的信号量
     active:ref<number>(0),// 主页tab页面
+    viewVideoId:ref<number>(0), //  播放页面需要播放的视频
 
 
 
@@ -51,3 +52,4 @@ export const {addOrDeleteObject}=DataStore
 export const {addOrDeleteNumber}=DataStore
 export const {headObject}=DataStore
 export const {active}=DataStore
+export const {viewVideoId}=DataStore

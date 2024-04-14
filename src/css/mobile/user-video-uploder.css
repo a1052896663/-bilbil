@@ -1,0 +1,8 @@
+@media screen  and (min-device-width: 200px) and (max-device-width:500px) {
+
+    #user-video-uploder{
+        width: 100%;
+        background: #0bc15f;
+    }
+
+}

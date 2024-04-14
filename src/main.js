@@ -57,8 +57,10 @@ import V3Emoji from 'vue3-emoji'
 
 import { List } from 'vant';
 
+import { Uploader } from 'vant';
 
 
+app.use(Uploader)
 app.use(List);
 
 app.use(V3Emoji)

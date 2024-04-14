@@ -10,7 +10,7 @@ const ServerPath:string=SERVICE_ROUT.ServerPath
 // 创建对象
 const http=axios.create({
     baseURL:ServerPath,
-    timeout: 5000 // 设置请求超时时间
+    timeout: 10000 // 设置请求超时时间
 
 })
 
@@ -23,7 +23,8 @@ http.interceptors.request.use(config=>{
 
 export function  getToken(){
    // return getUserToken();
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiMTIzNDU2Iiwic3ViIjoiYWRtaW4tdGVzdCIsImV4cCI6MTcwODU0NjcyMywianRpIjoiMGUyMzAxZTEtOWM0My00YmZiLTk4NzQtMDIxMzkxNzQ5ZDEyIn0.RtBKY3HYtz3K4TFeUImHS9-oHG-gjp79ZEmq-PL4E_E";
+    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiMTExMTExIiwic3ViIjoiYWRtaW4tdGVzdCIsImV4cCI6MTcxMzMxNTcxMiwianRpIjoiOWI2M2U5MWMtM2QzZi00ZGQyLWEzZGMtOTE5ZjE1ZGUzMjA1In0.JXaNy73ucP1TqLU733jyEehJWQTlocCFpC4o9wmX-Vc"
+  //  return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiMTIzNDU2Iiwic3ViIjoiYWRtaW4tdGVzdCIsImV4cCI6MTcwODU0NjcyMywianRpIjoiMGUyMzAxZTEtOWM0My00YmZiLTk4NzQtMDIxMzkxNzQ5ZDEyIn0.RtBKY3HYtz3K4TFeUImHS9-oHG-gjp79ZEmq-PL4E_E";
 }
 export  function  setToken(token){
     setUserToken(token)

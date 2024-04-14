@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import {ref, toRefs} from "vue";
 import {shareShow} from '../../store/DataStore'
+import {formatDateTime3} from  '../../util/util'
 import Search from "@/components/home/search/search-view.vue";
  //import {shareShow} from '../../store/RouterStore'
 const userButton=ref(false)
@@ -43,12 +44,21 @@ const buttonShare=ref(false)  // 转发
 //   console.log("值数据：",props.showShare)
 // })
 
-defineProps({
+const ProP=  defineProps({
   msg: {
     type: Boolean,	// 类型
     required: true,	// 是否必传
+  },
+  viewCardBody:{
+    type:Object,
+    default:null,
   }
 });
+
+const labe=ref([])
+
+const labs= ProP.viewCardBody.label.split(';')
+labe.value=labs
 </script>
 
 <template>
@@ -93,29 +103,29 @@ defineProps({
           <van-collapse-item name="1" >
             <template #title >
               <div style="white-space:pre" class="view-user-unfold-title">
-                标题1(标题)
+              <span style=" white-space: normal;">{{viewCardBody.title}}</span>
                 <div id="view-user-unfold-attribute">
-                  <div class="view-user-unfold-attribute-item"><van-icon name="play-circle-o" /> 27.9万</div>
-                  <div class="view-user-unfold-attribute-item"><van-icon name="other-pay" /> 299</div>
-                  <div class="view-user-unfold-attribute-item"><van-icon name="clock-o" /> 2024-4-3 10:01</div>
-                  <div class="view-user-unfold-attribute-item"><van-icon name="friends-o" /> 525人正在看</div>
+                  <div class="view-user-unfold-attribute-item"><van-icon name="play-circle-o" /> {{viewCardBody.viewSize}}</div>
+                  <div class="view-user-unfold-attribute-item"><van-icon name="other-pay" /> {{viewCardBody.barrage.length}}</div>
+                  <div class="view-user-unfold-attribute-item"><van-icon name="clock-o" />  {{formatDateTime3(viewCardBody.date)}}</div>
+                  <div class="view-user-unfold-attribute-item"><van-icon name="friends-o" /> {{viewCardBody.viewSize}}</div>
                 </div>
 
               </div>
             </template>
             <span>
-                        代码是写出来给人看的，附带能在机器上运行。(简介)代码是写出来给人看的，附带能在机器上运行。(简介)代码是写出来给人看的，附带能在机器上运行。(简介)代码是写出来给人看的，附带能在机器上运行。(简介)
+                       {{viewCardBody.brief}}
 
             </span>
 
-            <div id="view-user-unfold-tag">
-              <van-tag round color="rgb(228 230 236)" text-color="#606266" :style="{'font-size':'3.4rem'}"  size="large" type="success" class="view-user-unfold-tag-item">标签A标签A</van-tag>
-              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}" size="large" type="primary" class="view-user-unfold-tag-item"> 标签B</van-tag>
-              <van-tag round color="rgb(228 230 236)" text-color="#606266"   :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item"> 标签C标</van-tag>
-              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item">标签D标签A标签A</van-tag>
-              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item">标签D标签A</van-tag>
-              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item">标签D</van-tag>
-              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"   size="large" type="primary" class="view-user-unfold-tag-item">标签D标签A </van-tag>
+            <div id="view-user-unfold-tag" v-if="labe">
+              <van-tag round color="rgb(228 230 236)"  v-for="item in labe" text-color="#606266" :style="{'font-size':'3.4rem'}"  size="large" type="success" class="view-user-unfold-tag-item">{{item}}</van-tag>
+<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}" size="large" type="primary" class="view-user-unfold-tag-item"> 标签B</van-tag>-->
+<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"   :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item"> 标签C标</van-tag>-->
+<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item">标签D标签A标签A</van-tag>-->
+<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item">标签D标签A</van-tag>-->
+<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item">标签D</van-tag>-->
+<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"   size="large" type="primary" class="view-user-unfold-tag-item">标签D标签A </van-tag>-->
             </div>
 
           </van-collapse-item>
@@ -126,7 +136,7 @@ defineProps({
 
         <div  class="view-user-like-item">
           <van-icon :color="buttonLike?'#0264e7':''" @click="buttonLike=!buttonLike" size="7rem" name="good-job" />
-          <div class="view-user-like-item-font">1234</div>
+          <div class="view-user-like-item-font">{{viewCardBody.likeSize}}</div>
         </div>
 
         <div class="view-user-like-item">
@@ -136,13 +146,13 @@ defineProps({
 
         <div class="view-user-like-item">
           <van-icon :color="buttonFire?'#0264e7':''" @click="buttonFire=!buttonFire" size="7rem"  name="fire" />
-          <div class="view-user-like-item-font">20</div>
+          <div class="view-user-like-item-font">{{viewCardBody.heatSize}}</div>
         </div>
 
         <div class="view-user-like-item">
 
           <van-icon :color="buttonCollection?'#0264e7':''" @click="buttonCollection=!buttonCollection" size="7rem"  name="star" />
-          <div class="view-user-like-item-font">49</div>
+          <div class="view-user-like-item-font">{{viewCardBody.collectionSize}}</div>
         </div>
 
         <div class="view-user-like-item">

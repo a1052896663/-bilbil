@@ -2,7 +2,7 @@
 import animate from "animate.css";
 import {HttpGet} from "@/api/http";
 import {onMounted, ref, onActivated, onUnmounted, watch, reactive} from "vue";
-import {SERVICE_ROUT, Resonse, Play, Video} from '../../util/type'
+import {SERVICE_ROUT, Resonse, Play, Video, HomeViewCard} from '../../util/type'
 import {formatTime} from "../../util/util"
 import route from "@/router/router";
 import {TabsPaneContext} from "element-plus";
@@ -10,95 +10,36 @@ import * as http from "http";
 import HomeMainHome from "@/components/home/main/home-main-home.vue";
 import HomeUser from "@/components/home/user/home-main-manager-user.vue";
 import {active} from '../../store/DataStore'
+import HomeMsg from "@/components/home/msg/home-msg.vue";
 const player = ref(null)
 let url=ref('')
 const streamUrl = ref('')
 const progressBar = ref(null)
 
-// onMounted(() => {
-//   const player = document.getElementById('player')
-
-//   // 在组件挂载后，可以对播放器进行操作
-//   //player.addEventListener('timeupdate', updateProgress)
-// })
-
-// const updateProgress = () => {
-//   const player = document.getElementById('player') as any
-
-//   if (progressBar.value && player.duration) {
-//     const progress = (player.currentTime / player.duration) * 100
-//     progressBar.value.value = progress
+const play=ref<Resonse<HomeViewCard[]>>(null)
+//
+// onMounted( async ()=>{
+//   console.log("组件home激活");
+//   try {
+//
+//     play.value=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data
+//
+//     setTimeout(()=>{
+//       loading.value=!loading.value
+//     },100)
+//
+//     if(play.value.status==404){
+//       console.error("home页面错误：404")
+//     }
+//
+//     console.log("得到的数据：play.value:",play.value)
+//     console.log("得到的数据：play.value.body",play.value.body)
+//     console.log("得到的数据：play.value.status",play.value.status)
+//   }catch (e){
+//     console.error("home页面错误：",e)
 //   }
-// }
-
-// onMounted( () => {
-//   const at=async ()=>{
-//    let  req=await  HttpGet("/url")
-//     streamUrl.value=req.data
-//     console.log("播放地址：",streamUrl.value)
-//   }
-//   at();
-
+//
 // })
-
-// beforeRouteEnter((to, from, next)=> {
-//     	// 在组件生命周期beforeCreate阶段触发，未创建实例vc
-// 	    console.log('组件内路由前置守卫 beforeRouteEnter', this) // this指向vc
-// 	  //   next((vm) => {
-// 	  //   	console.log('组件内路由前置守卫 vm', vm) // vm 是this的原型
-// 	  //   })
-//   	// })
-//   	// beforeRouteUpdate((to, from, next) => {
-// 	  //   // 可以访问组件实例 
-// 	  //   // 重新获取用户信息
-// 		// getUserInfo(to.params.id).then(() => next()).catch((err) => next(err))
-// 	})
-// beforeRouteLeave((to, from, next) {
-// 	    // 导航离开该组件的对应路由时调用
-// 	    // 可以访问组件实例
-// 	    // 1.1 提示用户是否保存数据 
-// 	    if (this.dialogVisibility === true) {
-// 		    this.dialogVisibility = false //关闭弹出框
-// 		    next(false) //回到当前页面, 阻止页面跳转
-// 		}else if(this.saveMessage === false) {
-// 		    alert('请保存信息后退出!') //弹出警告
-// 		    next(false) //回到当前页面, 阻止页面跳转
-// 		}else {
-// 		    next() //否则允许跳转
-// 		}
-// 		// 1.2 清除当前组件中的定时器
-// 		window.clearInterval(timer) //清楚定时器
-//   		next()
-// 		// 1.3 保存相关内容到Vuex中或Session中
-// 		localStorage.setItem(name, content); //保存到localStorage中
-//     	next()
-// 	})
-
-//const play=reactive<Resonse<Play[]>>(null);
-const play=ref<Resonse<Video[]>>(null)
-
-onMounted( async ()=>{
-  console.log("组件home激活");
-  try {
-
-    play.value=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data
-
-    setTimeout(()=>{
-      loading.value=!loading.value
-    },100)
-
-    if(play.value.status==404){
-      console.error("home页面错误：404")
-    }
-
-    console.log("得到的数据：play.value:",play.value)
-    console.log("得到的数据：play.value.body",play.value.body)
-    console.log("得到的数据：play.value.status",play.value.status)
-  }catch (e){
-    console.error("home页面错误：",e)
-  }
-
-})
 
 onUnmounted(async ()=>{
   console.log("组件home销毁")
@@ -173,7 +114,7 @@ const count=ref(0)
 <!--  </div>-->
 
   <div id="home">
-    <div id="home-head" v-if="active!=3">
+    <div id="home-head" v-if="active!=3&&active!=2">
 
         <div id="home-user">
             <img
@@ -232,7 +173,7 @@ const count=ref(0)
 
 
       <div id="home-main-chat"  :class="fly"  v-if="active==2">
-        <div>home3</div>
+        <home-msg></home-msg>
 
       </div>
 

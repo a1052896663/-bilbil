@@ -17,12 +17,44 @@ import SearchView from "@/components/home/search/search-view.vue";
 import CommentSection from "@/components/comment/comment-section.vue";
 import CommentSectionReply from "@/components/comment/comment-section-reply.vue";
 import InputComment from "@/components/comment/input-comment.vue";
-
+import {Resonse, SERVICE_ROUT, ViewVideoCard} from '../../util/type'
+import {HttpGet} from "../../api/http";
+import {viewVideoId } from  '../../store/DataStore'
 //import {emoji} from '../../store/DataStore'
 //import {hasKey} from "../../util/util";
 
-onMounted(()=>{
-  console.log("获得状态值--：",shareShow)
+const viewCard=ref<Resonse<ViewVideoCard>>()
+// const playSrc=computed(()=>{
+//   if(viewCard&&viewCard.value&&viewCard.value.body&&viewCard.value.body.videoSrc){
+//     console.log("播放链接：", viewCard.value.body.videoSrc)
+//     return viewCard.value.body.videoSrc
+//   }
+//   return ""
+//
+// })
+
+onMounted( async ()=>{
+  try {
+    console.log("请求的视频id:",viewVideoId.value)
+
+    viewCard.value= ( await HttpGet(SERVICE_ROUT.VIDEO_GET+"/"+viewVideoId.value)).data
+    console.log("需要播放的数据：",viewCard.value)
+   const videoDome= document.getElementsByClassName("nplayer_video")[0]
+    videoDome.src=viewCard.value.body.videoSrc  // 改变播放列表
+
+    options.value.src=viewCard.value.body.videoSrc
+
+
+    if(viewCard.value.status==404){
+      console.error("home页面错误：404")
+    }
+  }catch (e){
+    if(e.code === 'ECONNABORTED'){
+      console.error("请求超时")
+    }
+    console.log("error:播放页面错误view:",e)
+  }
+
 })
 
 //const emojiRef= ref<string[]>(emoji)
@@ -60,7 +92,7 @@ const danmaku= new Danmaku(danmakuOptions);
 
 // 播放数据
 let player={
-  src: 'http://127.0.0.1:9000/video/4/0caa89df-ac03-4727-8cc1-9ef8dec96ff4.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=7K7Z2B85RX6Y1IOV0M9D%2F20240408%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240408T012745Z&X-Amz-Expires=604800&X-Amz-Security-Token=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiI3SzdaMkI4NVJYNlkxSU9WME05RCIsImV4cCI6MTcxMjU4Mjg0MCwicGFyZW50IjoiYWRtaW4ifQ.DmDDblOKAiPG_bkeYGiafvYy9kSAfu-KqGNx7ejPY4piURRINr33LSqLa1vJ2ew6sLb1gR2pT1zNO3jOFwdWxQ&X-Amz-SignedHeaders=host&versionId=null&X-Amz-Signature=d5a675f72f9ef88ef549b336f8487e9e9ed3af970c2ab5faea1890ba498fa19f',
+  src: "playSrc",
 
   plugins: [
     danmaku
@@ -74,8 +106,11 @@ const setPlayer= (p) => {
     p.on('DanmakuSend', (opts) => {
      console.log("接收的弹幕：",opts)
      });
+  console.log("播放器属性：",p)
+    //p.src=VideoSrc.value
 
     player = p;
+
 
 
 }
@@ -587,7 +622,7 @@ function OnClickHortOrTime(){ // 换颜色
             title="标题"
             left-text="返回"
             left-arrow
-            @click-left="route.back();"
+            @click-left="route.push('/home');"
         />
       </div>
 
@@ -598,7 +633,7 @@ function OnClickHortOrTime(){ // 换颜色
 -->
       <div>
         <NPlayer
-            :options="options"
+            v-model:options="options"
             :set="setPlayer"
             :get="getPlayer"
         />
@@ -656,7 +691,7 @@ function OnClickHortOrTime(){ // 换颜色
         <div id="view-select-context">
 
           <div class="view-select-user" :class="flyA"  v-show="userShow">
-            <view-user  v-model:msg="msg"></view-user>
+            <view-user v-if="viewCard&&viewCard.body" :viewCardBody="viewCard.body"  v-model:msg="msg"></view-user>
             <search-view :searchSize="8" id="view-select-user-search"></search-view>
 
           </div >

@@ -2,12 +2,14 @@
 
 import {onMounted, ref} from "vue";
 import route from "../src/router/router.js";
+
 //import axios from "axios";
 //import {HttpFile} from "@/api/http";
 onMounted(()=>{
   console.log("跳转home")
   try {
-    route.push('/view')
+   // route.push('/userVideoUploder')
+    route.push('/home')
   }catch (e){
     console.error("error:",e)
   }

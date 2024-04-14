@@ -7,10 +7,13 @@ import search from "@/components/home/search/search-view.vue"
 
 import ommentSection from "@/components/comment/comment-section.vue"
 import timeView from "@/components/time/time-view.vue";
+import homeMsgHead from "@/components/home/msg/home-msg-head.vue";
+import userVideoUploder from "@/components/home/user/user-video-uploder.vue";
 const routes=[
     {
         path:'/home',
-        component:home
+        component:home,
+        meta: { keepAlive: true }
     },
     {
         path:'/login',
@@ -31,6 +34,14 @@ const routes=[
     {
         path: '/timeView',
         component: timeView
+    },
+    {
+        path: '/homeMsgHead',
+        component: homeMsgHead
+    },
+    {
+        path: '/userVideoUploder',
+        component: userVideoUploder
     }
 ]
 
