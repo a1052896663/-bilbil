@@ -4,11 +4,13 @@
 import V3Emoji from 'vue3-emoji'
 import {computed, onMounted, ref, toRefs, watch, watchEffect} from "vue";
 import Danmaku from "@nplayer/danmaku";
-import route from "@/router/router";
+import {routerTo} from '../../util/util'
 import ViewUser from "@/components/view/view-user.vue";
 import ViewComments from "@/components/view/view-comments.vue";
 import {BulletOption} from "@nplayer/danmaku/dist/src/ts/danmaku/bullet";
 import { showToast } from 'vant';
+import {ViewCommentArray} from '../../store/DataStore'
+import {Assignment} from '../../util/util'
 
 //import '../../store/RouterStore'
 import {commentRoute, emojiShow, inputCommentTopShow, replyObject, shareShow, typeShow} from '../../store/DataStore'
@@ -42,8 +44,10 @@ onMounted( async ()=>{
    const videoDome= document.getElementsByClassName("nplayer_video")[0]
     videoDome.src=viewCard.value.body.videoSrc  // 改变播放列表
 
-    options.value.src=viewCard.value.body.videoSrc
-
+   // options.value.src=viewCard.value.body.videoSrc
+    console.log("后端传世的评论数据：",viewCard.value.body)
+    ViewCommentArray.value=  Assignment(viewCard.value.body.comment)
+    console.log("评论数据：",ViewCommentArray.value)
 
     if(viewCard.value.status==404){
       console.error("home页面错误：404")
@@ -619,10 +623,10 @@ function OnClickHortOrTime(){ // 换颜色
 
       <div id="view-head">
         <van-nav-bar
-            title="标题"
+            title=""
             left-text="返回"
             left-arrow
-            @click-left="route.push('/home');"
+            @click-left="routerTo('BACK')"
         />
       </div>
 
@@ -692,7 +696,7 @@ function OnClickHortOrTime(){ // 换颜色
 
           <div class="view-select-user" :class="flyA"  v-show="userShow">
             <view-user v-if="viewCard&&viewCard.body" :viewCardBody="viewCard.body"  v-model:msg="msg"></view-user>
-            <search-view :searchSize="8" id="view-select-user-search"></search-view>
+            <search-view v-if="viewCard&&viewCard.body"  :recommend="viewCard.body.recommend"  id="view-select-user-search"></search-view>
 
           </div >
           <div class="view-select-comments"  :class="flyB"  v-show="commentsShow">

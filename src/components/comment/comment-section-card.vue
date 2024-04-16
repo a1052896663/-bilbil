@@ -168,7 +168,7 @@ function OnClickHortOrTime(e){ // 换颜色
           height="9rem"
           fit="cover"
 
-          src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+          :src="comment.userImageSrc"
       />
     </div>
     <div class="comment-section-content-item-card">

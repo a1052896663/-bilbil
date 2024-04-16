@@ -1,15 +1,19 @@
 <script setup lang="ts">
 
 import {onMounted, ref} from "vue";
-import route from "../src/router/router.js";
+import {InitData} from './store/UserSrore'
+import {routerTo} from './util/util'
 
 //import axios from "axios";
 //import {HttpFile} from "@/api/http";
 onMounted(()=>{
+  //TokenLogin()
+  InitData()
   console.log("跳转home")
   try {
    // route.push('/userVideoUploder')
-    route.push('/home')
+    routerTo('/home')
+   // route.push('/home')
   }catch (e){
     console.error("error:",e)
   }

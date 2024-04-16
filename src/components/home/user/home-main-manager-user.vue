@@ -1,7 +1,9 @@
 <script setup lang="ts">
 
 import {ref} from "vue";
-import {active} from '../../../store/DataStore'
+import {active, typeShow} from '../../../store/DataStore'
+
+import {userName,userImage,userConcern,userSomeone,userSparkle,userCommunity} from "../../../store/UserSrore";
 
 const visible=ref(true)
 
@@ -12,6 +14,12 @@ function OnClickUserOut(){
   },200)
 
 }
+function OnClickBar(){
+  visible.value=false
+  setTimeout(()=>{
+    active.value=0
+  },200)
+}
 </script>
 
 <template>
@@ -19,6 +27,14 @@ function OnClickUserOut(){
   <transition name="van-slide-right">
 
     <div id="home-main-manager-user" v-show="visible">
+      <van-nav-bar
+          title="个人中心"
+          left-text="返回"
+          left-arrow
+          @click-left="OnClickBar"
+
+      />
+
       <div id="view-user-brief">
         <div id="view-user-brief-image">
           <van-image
@@ -27,18 +43,18 @@ function OnClickUserOut(){
               height="20rem"
               fit="cover"
 
-              src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+              :src="userImage"
           />
         </div>
 
 
         <div id="view-user-body-user">
-          <div class="user-name">ING中国
+          <div class="user-name">{{userName}}
 
             <el-icon :color="'#c8c9cc'" size="4.3rem"><EditPen /></el-icon>
           </div>
           <div class="user-massage">
-            <div class="user-fan user-massage-item">火花：4</div>
+            <div class="user-fan user-massage-item">火花：{{userSparkle}}</div>
 
             <div class="user-placeholding"></div>
           </div>
@@ -51,7 +67,7 @@ function OnClickUserOut(){
         <div class="home-main-manager-user-car-item">
 
           <div class="home-main-manager-user-car-item-size">
-            30
+            {{userCommunity}}
           </div>
           <div class="home-main-manager-user-car-item-font">
             社区
@@ -60,7 +76,7 @@ function OnClickUserOut(){
 
         <div class="home-main-manager-user-car-item home-main-manager-user-car-item2">
           <div class="home-main-manager-user-car-item-size">
-            20
+            {{userConcern}}
           </div>
           <div class="home-main-manager-user-car-item-font">
             关注
@@ -69,7 +85,7 @@ function OnClickUserOut(){
 
         <div class="home-main-manager-user-car-item">
           <div class="home-main-manager-user-car-item-size">
-            3
+            {{userSomeone}}
           </div>
           <div class="home-main-manager-user-car-item-font">
             粉丝

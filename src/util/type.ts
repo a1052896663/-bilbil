@@ -1,13 +1,16 @@
 import {BulletOption} from "@nplayer/danmaku/dist/src/ts/danmaku/bullet";
 
 export enum SERVICE_ROUT{ // 后端路由
-  ServerPath="http://192.168.129.121:8080",
+  ServerPath="http://localhost:8080",
+  //ServerPath="http://127.0.0.1:8080",
   HELLO_GET="/hello",
+  TOKEN_LOGIN="user/token/login", // 使用token自动登录
   LOGIN_OST="/user/login", 
   OUT_DELETE="/user/out", // 退出登录
   ENROLL_PUT="/user/enroll" ,//注册
   AVATAR_POST="/user/avatar", // 设置用户头像
   VIDEO_INIT_GET="/video/init",
+  VIDEO_COMMENTS_PUT="/video/comments",
   VIDEO_GET="/video/video",
   VIDEO_UPLOAD_POST='/video/upload',
   USER_SOCKET="",
@@ -17,13 +20,20 @@ export enum SERVICE_ROUT{ // 后端路由
 //   <----  响应体相关
 
 export interface User{
-  id?:number
-  name?:string
+  id?:number,
+  sparkle:number, // 火花数量
+  name?:string,
+  community:number,// 社区数量
+  concern:number , // 关注数量
+  someone: number, // 粉丝数量
+  videoSize: number, // 视频数量
+
   role?:string
   account?:string
   password?:string
   avatar?:string
   time?:number
+  imageSrc:string
   version?:number
 }
 
@@ -83,18 +93,20 @@ export interface  VideoMessage{  // VIDEO_SOCKET   rep ANd req
 
 
 export interface Comments{ // 评论 ---
-  id?:number
-  videoId?:number
+  userImageSrc: string;
+  userName: string;
+  id:number
+  videoId:number
 
-  userId?:number
-  commentsType?:string
-  content?:string
-  toCommentId?:number  // 新加回怼的评论id
-  parentId?:number
-  likeNum?:number
-  date?:number
-  review?:boolean  // 审核状态
-  deleted?:number
+  userId:number
+  commentsType:COMMENTS_TYPE
+  content:string
+  toCommentId:number  // 新加回怼的评论id
+  parentId:number
+  likeNum:number
+  date:number
+  review:boolean  // 审核状态
+  deleted:number
 }
 export interface CommentsData{ // 评论信息
   comments:Comments
@@ -122,6 +134,7 @@ export interface Resonse<T>{   // Http的响应体
 
 export interface ViewComment{  // 视图需要的信息--评论
   id:number, // 评论id
+  userId:number, // 评论的id
   parentId?:number,  // 父类id--依附于
   toComment?:ViewComment  // 新加回怼的评论id  //COMMENTS_TYPE.VIDEO_REFUTATION 时候才会有值
   videoId:number,// 视频id
@@ -132,7 +145,8 @@ export interface ViewComment{  // 视图需要的信息--评论
   content:string,  // 评论内容
   deleteShow:boolean, // 是否可以删除
   child?:ViewComment[]  // 回复,
-  type:COMMENTS_TYPE
+  type:COMMENTS_TYPE,
+  likeState:boolean
 
 }
 
@@ -190,7 +204,7 @@ export interface HomeViewCard{
   imageSrc:string, // 图片地址
   time:number,// 视频时长
   playback :number ,// 播放量
-  data:number,// 日期
+  date:number,// 日期
 }
 
 export interface ViewVideoCard{
@@ -198,6 +212,9 @@ export interface ViewVideoCard{
   userSomeone:number, // 粉丝数量 TODO
   userVideoSize:number,// 视频数量 TODO
   concern:boolean, // 关注状态
+
+  userId:number, // user的id
+
   userImage:string, // 用户的头像
   videoSrc:string,
   brief:string, // 简介
@@ -216,7 +233,7 @@ export interface ViewVideoCard{
   heatSize: number, // 热度数
   forwardSize:number,//  转发数量 TODO
   recommend: HomeViewCard[] // 推荐
-  Comment:CommentsData[]
+  comment:CommentsData[]
   date:number
 
 }

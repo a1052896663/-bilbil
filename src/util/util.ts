@@ -1,6 +1,6 @@
-import {replyObject} from "../store/DataStore";
-import {COMMENTS_TYPE} from "./type";
-
+import {replyObject, routePath} from "../store/DataStore";
+import {Comments, COMMENTS_TYPE, CommentsData, ViewComment} from "./type";
+import route from "@/router/router";
 export function isOfType<T>(  // 判断是什么类型
     target: unknown,
     prop: keyof T
@@ -89,3 +89,244 @@ export function formatDateTime2(time:number) {   // 时间格式化--时间搓
     }
 
   }
+
+  export function routerTo(to:string){
+    routePath.value=to
+    route.push('/route')
+  }
+
+
+
+
+
+
+
+
+
+const TestData:CommentsData[]=[]
+
+const data1: Comments={
+  id: 0,
+  videoId: 1,
+  userId: 2,
+  commentsType: COMMENTS_TYPE.VIDEO,
+  content: "你好1",
+  toCommentId: -1,
+  parentId: -1,
+  likeNum: 0,
+  date: 0,
+  review: false,
+  deleted: 0,
+  userName:"小王",
+  userImageSrc:""
+}
+
+const data2: Comments={
+  id: 2,
+  videoId: 1,
+  userId: 2,
+  commentsType: COMMENTS_TYPE.VIDEO,
+  content: "你好2",
+  toCommentId: -1,
+  parentId: -1,
+  likeNum: 0,
+  date: 0,
+  review: false,
+  deleted: 0,
+  userName:"小红",
+  userImageSrc:""
+}
+
+const data3: Comments={
+  id: 3,
+  videoId: 1,
+  userId: 2,
+  commentsType: COMMENTS_TYPE.VIDEO_REPLY,
+  content: "你好呀小王",
+  toCommentId: 0,
+  parentId: 0,
+  likeNum: 0,
+  date: 0,
+  review: false,
+  deleted: 0,
+  userName:"小白",
+  userImageSrc:""
+}
+
+const data4: Comments={
+  id: 4,
+  videoId: 1,
+  userId: 3,
+  commentsType: COMMENTS_TYPE.VIDEO_REFUTATION,
+  content: "你好呀小白",
+  toCommentId: 3,
+  parentId: 0,
+  likeNum: 0,
+  date: 0,
+  review: false,
+  deleted: 0,
+  userName:"小李",
+  userImageSrc:""
+}
+const a1:CommentsData={
+  comments:data1,
+  likeState:false
+}
+const a2:CommentsData={
+  comments:data2,
+  likeState:false
+}
+const a3:CommentsData={
+  comments:data3,
+  likeState:false
+}
+const a4:CommentsData={
+  comments:data4,
+  likeState:false
+}
+TestData.push(a1)
+TestData.push(a2)
+TestData.push(a3)
+TestData.push(a4)
+const VIDEO_DATA:CommentsData[]=[]
+const VIDEO_REPLY_DATA:CommentsData[]=[]
+const VIDEO_REFUTATION_DATA:CommentsData[]=[]
+
+const ViewCommentVideoData:ViewComment[]=[]
+const ViewCommentVideoReplyData:ViewComment[]=[]
+const ViewCommentVideoRefutationData:ViewComment[]=[]
+
+// 分配-- 评论
+export function Assignment(List:CommentsData[]){ // 评论数据\
+    // 数组清空
+  VIDEO_DATA.splice(0, VIDEO_DATA.length);
+  VIDEO_REPLY_DATA.splice(0, VIDEO_REPLY_DATA.length);
+  VIDEO_REFUTATION_DATA.splice(0, VIDEO_REFUTATION_DATA.length);
+
+  ViewCommentVideoData.splice(0, ViewCommentVideoData.length);
+  ViewCommentVideoReplyData.splice(0, ViewCommentVideoReplyData.length);
+  ViewCommentVideoRefutationData.splice(0, ViewCommentVideoRefutationData.length);
+
+
+  List.forEach((item)=>{
+    switch (item.comments.commentsType) {
+      case COMMENTS_TYPE.VIDEO:
+        VIDEO_DATA.push(item)
+        break;
+
+      case COMMENTS_TYPE.VIDEO_REPLY:
+        VIDEO_REPLY_DATA.push(item)
+        break;
+      case COMMENTS_TYPE.VIDEO_REFUTATION:
+        VIDEO_REFUTATION_DATA.push(item)
+        break;
+    }
+  })
+  // VIDEO_DATA_INIT()
+  ViewCommentVideoDataInit()
+  return ViewCommentVideoData
+}
+
+function findByCommentId(list:ViewComment[],id:number){
+
+
+  return list.find(item=>item.id==id)
+}
+
+// TODO 设置头像
+
+
+// 初始化第一层
+function ViewCommentVideoDataInit(){
+  VIDEO_DATA.forEach(item=>{
+
+    const ViewCommentTemp:ViewComment={
+      id:         item.comments.id, // 评论id
+      userId:item.comments.userId,
+      parentId:   -1,  // 父类id--依附于
+      toComment:  undefined,  // 新加回怼的评论id  //COMMENTS_TYPE.VIDEO_REFUTATION 时候才会有值
+      videoId:    item.comments.videoId,// 视频id
+      userName:       item.comments.userName,  // 用户名字[
+      userImageSrc:   item.comments.userImageSrc, // 用户图片地址
+      likeSize:   item.comments.likeNum,// 点赞数目
+      time:   item.comments.date,   // 时间搓
+      content:    item.comments.content,  // 评论内容
+      deleteShow: true, // 是否可以删除 TODO 根据用户判断
+      child:  [] , // 回复,
+      type:   item.comments.commentsType,
+      likeState:item.likeState
+    }
+    ViewCommentVideoData.push(ViewCommentTemp)
+  })
+
+  ViewCommentVideoReplyDataInit()
+}
+
+// 初始化第二层次
+function ViewCommentVideoReplyDataInit(){
+
+  VIDEO_REPLY_DATA.forEach(item=>{
+
+    const ViewCommentTemp:ViewComment={
+      id:         item.comments.id, // 评论id
+      parentId:   item.comments.parentId,  // 父类id--依附于
+      toComment:  undefined,  // 新加回怼的评论id  //COMMENTS_TYPE.VIDEO_REFUTATION 时候才会有值
+      videoId:    item.comments.videoId,// 视频id
+      userName:       item.comments.userName,  // 用户名字[
+      userImageSrc:   item.comments.userImageSrc, // 用户图片地址
+      likeSize:   item.comments.likeNum,// 点赞数目
+      time:   item.comments.date,   // 时间搓
+      userId:item.comments.userId,
+      content:    item.comments.content,  // 评论内容
+      deleteShow: true, // 是否可以删除 TODO 根据用户判断 直接的视频直接的评论
+      child:  [] , // 回复,
+      type:   item.comments.commentsType,
+      likeState:item.likeState
+    }
+    ViewCommentVideoReplyData.push(ViewCommentTemp)
+
+    const parentItem= findByCommentId(ViewCommentVideoData, item.comments.parentId)
+    if(parentItem){
+      parentItem.child.push(ViewCommentTemp)
+    }
+  })
+
+
+  ViewCommentVideoRefutationDataInit()
+}
+
+
+function ViewCommentVideoRefutationDataInit(){
+
+  VIDEO_REFUTATION_DATA.forEach(item=>{
+
+
+    const ViewCommentTemp:ViewComment={
+      id:         item.comments.id, // 评论id
+      userId:item.comments.userId,
+      parentId:   item.comments.parentId,  // 父类id--依附于
+      toComment:  findByCommentId(ViewCommentVideoReplyData,item.comments.toCommentId),  // 新加回怼的评论id  //COMMENTS_TYPE.VIDEO_REFUTATION 时候才会有值
+      videoId:    item.comments.videoId,// 视频id
+      userName:       item.comments.userName,  // 用户名字[
+      userImageSrc:   item.comments.userImageSrc, // 用户图片地址
+      likeSize:   item.comments.likeNum,// 点赞数目
+      time:   item.comments.date,   // 时间搓
+      content:    item.comments.content,  // 评论内容
+      deleteShow: true, // 是否可以删除 TODO 根据用户判断 直接的视频直接的评论
+      child:  [] , // 回复,
+      type:   item.comments.commentsType,
+      likeState:item.likeState
+    }
+
+    ViewCommentVideoRefutationData.push(ViewCommentTemp)
+    const parentItem= findByCommentId(ViewCommentVideoData, item.comments.parentId)
+    if(parentItem){
+      parentItem.child.push(ViewCommentTemp)
+    }
+
+  })
+}
+
+//Assignment()
+
+// console.log("最终需要的数据",JSON.stringify(ViewCommentVideoData));

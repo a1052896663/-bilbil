@@ -5,9 +5,18 @@
 
 import {ref, watch} from "vue";
 import CommentSectionCard from "@/components/comment/comment-section-card.vue";
-import {COMMENTS_TYPE, ViewComment} from "../../util/type";
-import {addOrDeleteNumber, addOrDeleteObject, headObject, replyObject, typeShow} from "../../store/DataStore";
+import {Comments, COMMENTS_TYPE, SERVICE_ROUT, ViewComment} from "../../util/type";
+import {
+  addOrDeleteNumber,
+  addOrDeleteObject,
+  headObject,
+  replyObject,
+  typeShow,
+  ViewCommentArray, viewVideoId
+} from "../../store/DataStore";
 
+import {id, userImage, userName} from '../../store/UserSrore'
+import {HttpPut} from "@/api/http";
 // import CommentSectionReply from "@/components/comment/comment-section-reply.vue";
 // import CommentSectionCard from "@/components/comment/comment-section-card.vue";
 
@@ -38,7 +47,7 @@ const testViewComment= ref<ViewComment>({
     }
 )
 
-const ViewCommentArray= ref<ViewComment[]>([testViewComment.value])
+//const ViewCommentArray= ref<ViewComment[]>([testViewComment.value])
 
 watch(addOrDeleteNumber,(newValue,oldValue)=>{
   const AddOrDelete=addOrDeleteObject.value
@@ -120,7 +129,45 @@ function CommentService(item: ViewComment){
   switch (type){
     case COMMENTS_TYPE.VIDEO:
       // 添加评论
+        // {comments={commentsType=VIDEO, content=asd , date=1713197678917, likeNum=0, parentId=-1, review=false, toCommentId=-1, userId=null, userImageSrc=undefined, userName={__v_isShallow=false, __v_isRef=true, _rawValue=undefined, _value=undefined}, videoId=0}}
+        const comments:Comments={
+
+          videoId:viewVideoId.value,
+          toCommentId: -1,
+          userId:id.value,
+
+          userName:userName.value,
+          userImageSrc:userImage.value,
+          commentsType:COMMENTS_TYPE.VIDEO,
+          content:"测试数据",
+          parentId:-1,
+          likeNum:0,
+          date:Date.now(),
+
+
+
+
+          // commentsType: COMMENTS_TYPE.VIDEO,
+          // content: item.content,
+          // date: Date.now(),
+          // likeNum: 0,
+          // parentId: -1, deleted: 0, id: 0,
+          // review: false,
+          // toCommentId: -1,
+          // userId: id.value,
+          // userImageSrc: userImage.value,
+          // userName: userName.value,
+          // videoId: item.videoId
+
+        }
+
       ViewCommentArray.value.push(item)
+
+        HttpPut(SERVICE_ROUT.VIDEO_COMMENTS_PUT,comments).then((d)=>{
+          console.log("响应体:",d.data)
+        }).catch(e=>{
+          console.error("error:",e)
+        })
       break;
     case COMMENTS_TYPE.VIDEO_REPLY:
       // 对回复添加回复
@@ -222,6 +269,22 @@ testViewComment.value.child.push(childB.value)
 testViewComment.value.child.push(childF.value)
 testViewComment.value.child.push(childC.value)
 
+
+
+
+const ProP=  defineProps({
+  recommend:{
+    type:Object,
+    default:null,
+  }
+});
+
+
+
+
+console.log("评论数据：",ProP.recommend)
+//ViewCommentArray.value= Assignment(ProP.viewCardBody.Comment)
+//console.log("评论数据：",ViewCommentArray.value)
 
 // 点击按时间或是按风景
 const fontColor=ref<"#b1b3b8"|"#1989fa">("#b1b3b8")

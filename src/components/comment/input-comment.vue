@@ -9,10 +9,12 @@ import {
   emoji,
   emojiShow,
   inputCommentTopShow,
-  replyObject
+  replyObject,
+  viewVideoId
 } from '../../store/DataStore'
 import {COMMENTS_TYPE, ViewComment} from "../../util/type";
 import {getCOMMENTS_TYPE} from "../../util/util";
+import {userImage, userName} from "../../store/UserSrore";
 
 
 // 表情元素
@@ -134,7 +136,7 @@ function OnClickSend(e){
       toComment:  replyObject.value,
       type:typeTemp,
       userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
-      userName: "初音味道",
+      userName: userName.value,
       videoId:  replyObject.value.videoId
 
     }
@@ -152,9 +154,9 @@ function OnClickSend(e){
       time: Date.now(),
       toComment: null,
       type:COMMENTS_TYPE.VIDEO,
-      userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
-      userName: "初音味道",
-      videoId:  0,
+      userImageSrc: userImage.value,
+      userName: userName.value,
+      videoId: viewVideoId.value ,
 
     }
 
@@ -189,9 +191,9 @@ function UserMyCommentService(){
         time: Date.now(),
         toComment: null,
         type:COMMENTS_TYPE.VIDEO_REPLY,
-        userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
-        userName: "初音味道",
-        videoId:  0,
+        userImageSrc: userImage.value,
+        userName: userName.value,
+        videoId:  viewVideoId.value,
 
       }
       break;
@@ -206,9 +208,9 @@ function UserMyCommentService(){
         time: Date.now(),
         toComment: replyObject.value.toComment,
         type:COMMENTS_TYPE.VIDEO_REPLY,
-        userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
-        userName: "初音味道",
-        videoId:  0,
+        userImageSrc: userImage.value,
+        userName: userName.value,
+        videoId:  viewVideoId.value,
 
       }
       break;
@@ -223,9 +225,9 @@ function UserMyCommentService(){
         time: Date.now(),
         toComment: replyObject.value.toComment,
         type:COMMENTS_TYPE.VIDEO_REFUTATION,
-        userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
-        userName: "初音味道",
-        videoId:  0,
+        userImageSrc: userImage.value,
+        userName: userName.value,
+        videoId:  viewVideoId.value,
 
       }
       break;

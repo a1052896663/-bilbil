@@ -72,16 +72,16 @@ labe.value=labs
               height="10rem"
               fit="cover"
 
-              src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+              :src="viewCardBody.userImage"
           />
         </div>
 
 
         <div id="view-user-body-user">
-          <div class="user-name">ING中国</div>
+          <div class="user-name">{{viewCardBody.userName}}</div>
           <div class="user-massage">
-            <div class="user-fan user-massage-item">12粉丝</div>
-            <div class="user-video user-massage-item2">13视频</div>
+            <div class="user-fan user-massage-item">{{viewCardBody.userSomeone?viewCardBody.userSomeone:0}}粉丝</div>
+            <div class="user-video user-massage-item2">{{viewCardBody.userVideoSize?viewCardBody.userVideoSize:0}}视频</div>
             <div class="user-placeholding"></div>
           </div>
 
@@ -105,7 +105,7 @@ labe.value=labs
               <div style="white-space:pre" class="view-user-unfold-title">
               <span style=" white-space: normal;">{{viewCardBody.title}}</span>
                 <div id="view-user-unfold-attribute">
-                  <div class="view-user-unfold-attribute-item"><van-icon name="play-circle-o" /> {{viewCardBody.viewSize}}</div>
+                  <div class="view-user-unfold-attribute-item"><van-icon name="play-circle-o" /> {{viewCardBody.playback}}</div>
                   <div class="view-user-unfold-attribute-item"><van-icon name="other-pay" /> {{viewCardBody.barrage.length}}</div>
                   <div class="view-user-unfold-attribute-item"><van-icon name="clock-o" />  {{formatDateTime3(viewCardBody.date)}}</div>
                   <div class="view-user-unfold-attribute-item"><van-icon name="friends-o" /> {{viewCardBody.viewSize}}</div>

@@ -9,12 +9,14 @@ import ommentSection from "@/components/comment/comment-section.vue"
 import timeView from "@/components/time/time-view.vue";
 import homeMsgHead from "@/components/home/msg/home-msg-head.vue";
 import userVideoUploder from "@/components/home/user/user-video-uploder.vue";
+import router  from "@/components/view/router.vue";
 const routes=[
     {
         path:'/home',
         component:home,
         meta: { keepAlive: true }
     },
+
     {
         path:'/login',
         component:login
@@ -42,6 +44,10 @@ const routes=[
     {
         path: '/userVideoUploder',
         component: userVideoUploder
+    },
+    {
+      path: '/route',
+        component: router
     }
 ]
 

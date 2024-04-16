@@ -3,7 +3,7 @@ import animate from "animate.css";
 import {HttpGet} from "@/api/http";
 import {onMounted, ref, onActivated, onUnmounted, watch, reactive} from "vue";
 import {SERVICE_ROUT, Resonse, Play, Video, HomeViewCard} from '../../util/type'
-import {formatTime} from "../../util/util"
+import {formatTime, routerTo} from "../../util/util"
 import route from "@/router/router";
 import {TabsPaneContext} from "element-plus";
 import * as http from "http";
@@ -11,6 +11,8 @@ import HomeMainHome from "@/components/home/main/home-main-home.vue";
 import HomeUser from "@/components/home/user/home-main-manager-user.vue";
 import {active} from '../../store/DataStore'
 import HomeMsg from "@/components/home/msg/home-msg.vue";
+
+import {userImage} from '../../store/UserSrore'
 const player = ref(null)
 let url=ref('')
 const streamUrl = ref('')
@@ -101,6 +103,7 @@ async function  onRefresh(){
   console.log("下拉刷新:",play.value)
 }
 const count=ref(0)
+// https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png
 </script>
 
 <template>
@@ -116,9 +119,12 @@ const count=ref(0)
   <div id="home">
     <div id="home-head" v-if="active!=3&&active!=2">
 
-        <div id="home-user">
-            <img
-                src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
+        <div id="home-user" @click="active=3">
+            <van-image
+                round
+                height="10rem"
+                width="10rem"
+                :src="userImage"
             />
         </div>
 
@@ -172,27 +178,27 @@ const count=ref(0)
 
 
 
-      <div id="home-main-chat"  :class="fly"  v-if="active==2">
+      <div id="home-main-chat"    v-if="active==2">
         <home-msg></home-msg>
 
       </div>
 
 
 
-      <div id="home-main-manager" :class="fly"  v-if="active==3">
+      <div id="home-main-manager"   v-if="active==3">
         <home-user></home-user>
       </div>
 
 
     </div>
 
-    <div id="home-bottom">
+    <div id="home-bottom" v-if="false">
 <!--      <el-badge :value="12" class="item">-->
 <!--        <el-button>comments</el-button>-->
 <!--      </el-badge>-->
 
-
-      <van-tabbar v-model="active">
+<!-- 先关闭掉状态页面 -->
+      <van-tabbar v-model="active" v-if="false">
         <van-tabbar-item icon="wap-home-o">主页</van-tabbar-item>
         <van-tabbar-item icon="qr">社区</van-tabbar-item>
         <van-tabbar-item icon="chat-o"  badge="20">消息</van-tabbar-item>

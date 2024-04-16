@@ -20,6 +20,11 @@
         font-size: 5rem;
         height: 8rem;
         color: black;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
     }
     .user-massage{
         font-size: 2rem;
