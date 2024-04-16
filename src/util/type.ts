@@ -15,6 +15,7 @@ export enum SERVICE_ROUT{ // 后端路由
   VIDEO_UPLOAD_POST='/video/upload',
   USER_SOCKET="",
   USER_HISTORY="/user/history",
+  USER_COLLECTION="/user/collection",
   VIDEO_SOCKET=""
 }
 

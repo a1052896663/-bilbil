@@ -37,7 +37,9 @@ const DataStore={
     viewVideoId:ref<number>(0), //  播放页面需要播放的视频
     routePath:ref(""),//
     ViewCommentArray:ref<ViewComment[]>() ,// 评论数据
-    viewVideoShow:ref<boolean>(false) // 播放页面是否显示
+    viewVideoShow:ref<boolean>(false), // 播放页面是否显示
+
+    timeOrCollectionTitle:ref<string>('观看历史') //  页面 数据
 
 
 }
@@ -57,3 +59,4 @@ export const {viewVideoId}=DataStore
 export const {routePath}=DataStore
 export const {ViewCommentArray}=DataStore
 export const {viewVideoShow}=DataStore
+export const {timeOrCollectionTitle}=DataStore

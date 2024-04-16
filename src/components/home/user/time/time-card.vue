@@ -4,9 +4,9 @@ import SearchView from "@/components/home/search/search-view.vue";
 import {ref} from "vue";
 import {HomeViewCard} from "@/util/type";
 import {formatDateTime2, formatTime} from "@/util/util";
-import {viewVideoId} from "../../store/DataStore";
+import {viewVideoId} from "../../../../store/DataStore";
 
-import route from '../../router/router.js'
+import route from '../../../../router/router.js'
 const imageSrc=ref('src/public/interlude_Miku_in_Museland_3.png')
 
 

@@ -3,7 +3,7 @@
 import {ref} from "vue";
 import {active, typeShow} from '../../../store/DataStore'
 import route from '../../../router/router.js'
-
+import {timeOrCollectionTitle} from '../../../store/DataStore'
 import {userName,userImage,userConcern,userSomeone,userSparkle,userCommunity} from "../../../store/UserSrore";
 
 const visible=ref(true)
@@ -24,10 +24,19 @@ function OnClickBar(){
 
 function ToHistory(){
   setTimeout(()=>{
+    timeOrCollectionTitle.value='历史记录'
     route.push('/timeView')
   },200)
 
 }
+
+function ToCollection(){
+  setTimeout(()=>{
+    timeOrCollectionTitle.value='我的收藏'
+    route.push('/timeView')
+  },200)
+}
+
 </script>
 
 <template>
@@ -115,7 +124,7 @@ function ToHistory(){
 
         </div >
 
-        <div class="home-main-manager-user-list-item">
+        <div class="home-main-manager-user-list-item" @click="ToCollection" >
           <el-icon color="#1989fa" size="5.3rem"><Star /></el-icon>
           <div class="home-main-manager-user-list-item-font">
             我的收藏
