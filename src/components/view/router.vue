@@ -16,9 +16,9 @@ switch (routePath.value){
 </script>
 
 <template>
-<diu>
-  路由页面
-</diu>
+<div>
+  路由
+</div>
 </template>
 
 <style scoped>

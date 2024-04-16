@@ -5,6 +5,7 @@ import {formatDateTime, formatTime} from '../../../util/util'
 
 import {routerTo} from '../../../util/util'
 import {viewVideoId} from '../../../store/DataStore'
+import route from '../../../router/router.js'
 
 const imageSrc=ref('src/public/interlude_Miku_in_Museland_3.png')
 
@@ -28,7 +29,7 @@ function toView(videoId:number){
   console.log("跳转o:",videoId)
   viewVideoId.value=videoId
 
-  routerTo("/view")
+    routerTo("/view")
 
 }
 

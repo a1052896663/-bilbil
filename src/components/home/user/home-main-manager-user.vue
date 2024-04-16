@@ -2,6 +2,7 @@
 
 import {ref} from "vue";
 import {active, typeShow} from '../../../store/DataStore'
+import route from '../../../router/router.js'
 
 import {userName,userImage,userConcern,userSomeone,userSparkle,userCommunity} from "../../../store/UserSrore";
 
@@ -19,6 +20,13 @@ function OnClickBar(){
   setTimeout(()=>{
     active.value=0
   },200)
+}
+
+function ToHistory(){
+  setTimeout(()=>{
+    route.push('/timeView')
+  },200)
+
 }
 </script>
 
@@ -95,7 +103,7 @@ function OnClickBar(){
 
       <div id="home-main-manager-user-list">
 
-        <div class="home-main-manager-user-list-item">
+        <div class="home-main-manager-user-list-item" @click="ToHistory">
           <el-icon color="#1989fa" size="5.3rem"><Clock /></el-icon>
           <div class="home-main-manager-user-list-item-font">
             观看历史

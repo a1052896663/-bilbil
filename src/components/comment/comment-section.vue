@@ -130,6 +130,11 @@ function CommentService(item: ViewComment){
     case COMMENTS_TYPE.VIDEO:
       // 添加评论
         // {comments={commentsType=VIDEO, content=asd , date=1713197678917, likeNum=0, parentId=-1, review=false, toCommentId=-1, userId=null, userImageSrc=undefined, userName={__v_isShallow=false, __v_isRef=true, _rawValue=undefined, _value=undefined}, videoId=0}}
+
+
+      ViewCommentArray.value.push(item)
+
+      try {
         const comments:Comments={
 
           videoId:viewVideoId.value,
@@ -139,39 +144,27 @@ function CommentService(item: ViewComment){
           userName:userName.value,
           userImageSrc:userImage.value,
           commentsType:COMMENTS_TYPE.VIDEO,
-          content:"测试数据",
+          content:item.content,
           parentId:-1,
           likeNum:0,
           date:Date.now(),
 
-
-
-
-          // commentsType: COMMENTS_TYPE.VIDEO,
-          // content: item.content,
-          // date: Date.now(),
-          // likeNum: 0,
-          // parentId: -1, deleted: 0, id: 0,
-          // review: false,
-          // toCommentId: -1,
-          // userId: id.value,
-          // userImageSrc: userImage.value,
-          // userName: userName.value,
-          // videoId: item.videoId
-
         }
-
-      ViewCommentArray.value.push(item)
-
         HttpPut(SERVICE_ROUT.VIDEO_COMMENTS_PUT,comments).then((d)=>{
           console.log("响应体:",d.data)
         }).catch(e=>{
           console.error("error:",e)
         })
+      }catch (e){
+        console.error(e)
+      }
+
       break;
     case COMMENTS_TYPE.VIDEO_REPLY:
       // 对回复添加回复
      // console.log("收到评论 或者是")
+
+
       const findResult= ViewCommentArray.value.find(temp=>temp.id==item.parentId);
       if(!findResult){
         return;
@@ -180,7 +173,34 @@ function CommentService(item: ViewComment){
         findResult.child=[]
       }
 
+
+
       findResult.child.push(item);
+      try {
+        const comments2:Comments={
+
+          videoId:viewVideoId.value,
+          toCommentId: item.toComment.id,
+          userId:id.value,
+
+          userName:userName.value,
+          userImageSrc:userImage.value,
+          commentsType:COMMENTS_TYPE.VIDEO_REPLY,
+          content:item.content,
+          parentId:item.parentId,
+          likeNum:0,
+          date:Date.now(),
+
+        }
+        HttpPut(SERVICE_ROUT.VIDEO_COMMENTS_PUT,comments2).then((d)=>{
+          console.log("响应体:",d.data)
+        }).catch(e=>{
+          console.error("error:",e)
+        })
+      }catch (e){
+        console.error(e)
+      }
+
       console.log("添加评论的评论后：",ViewCommentArray.value)
      //replyObject.value=null
       break;
@@ -189,7 +209,7 @@ function CommentService(item: ViewComment){
       if(!(item&&item.toComment)){
         return;
       }
-      console.log("回队评论",item)
+      console.log("回怼评论",item)
       const findResult2= ViewCommentArray.value.find(temp=>temp.id==item.toComment.parentId);
       if(!findResult2){
         return;
@@ -198,7 +218,34 @@ function CommentService(item: ViewComment){
         findResult2.child=[]
       }
 
+
+
       findResult2.child.push(item);
+      try {
+        const comments3:Comments={
+
+          videoId:viewVideoId.value,
+          toCommentId: item.toComment.id,
+          userId:id.value,
+
+          userName:userName.value,
+          userImageSrc:userImage.value,
+          commentsType:COMMENTS_TYPE.VIDEO_REFUTATION,
+          content:item.content,
+          parentId:item.parentId,
+          likeNum:0,
+          date:Date.now(),
+
+        }
+        HttpPut(SERVICE_ROUT.VIDEO_COMMENTS_PUT,comments3).then((d)=>{
+          console.log("响应体:",d.data)
+        }).catch(e=>{
+          console.error("error:",e)
+        })
+      }catch (e){
+        console.error(e)
+      }
+
       console.log("添加评论的评论后：",ViewCommentArray.value)
    //   replyObject.value=null  //发送成功--对象重置
      // ViewCommentArray

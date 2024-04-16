@@ -2,9 +2,25 @@
 
 import TimeCard from "@/components/time/time-card.vue";
 import route from "@/router/router";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {HttpGet} from "@/api/http";
+import {HomeViewCard,Response, SERVICE_ROUT} from "../../util/type";
+
+
 
 const visible=ref(true)
+const history=ref<Response<HomeViewCard[]>>()
+onMounted( async ()=>{
+  try {
+    history.value= (await HttpGet(SERVICE_ROUT.USER_HISTORY)).data
+    console.log("历史记录：",history.value)
+
+  }catch (e){
+    console.error(e)
+  }
+
+})
+
 
 function OnClickBar(){
   visible.value=false
@@ -14,12 +30,14 @@ function OnClickBar(){
 
 }
 
+
+
 </script>
 
 <template>
   <transition name="van-slide-right">
 
-  <div id="time-view" v-show="visible">
+  <div id="time-view" v-show="visible"  v-if="history&&history.body">
     <div id="time-view-head">
       <van-nav-bar
           title="观看历史"
@@ -29,7 +47,7 @@ function OnClickBar(){
 
       />
     </div>
-    <time-card v-for="i in 10"></time-card>
+    <time-card  :homeViewCard="item" v-for="(item,index) in history.body" :key="index"></time-card>
   </div>
   </transition>
 

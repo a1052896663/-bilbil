@@ -16,11 +16,11 @@ export function isOfType<T>(  // 判断是什么类型
     date.setSeconds(seconds);
 
     let formattedTime = date.toISOString().substr(11, 8);
-    console.log("直接输出：",formattedTime)
+    //console.log("直接输出：",formattedTime)
     if(typeof formattedTime=="string"){
       const regex=/0+:/
       const result=   formattedTime.replace(regex,'')
-      console.log("匹配结果：",result)
+     // console.log("匹配结果：",result)
       formattedTime=result
     }
     return formattedTime;

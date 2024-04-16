@@ -2,8 +2,8 @@
 import animate from "animate.css";
 import {HttpGet} from "@/api/http";
 import {onMounted, ref, onActivated, onUnmounted, watch, reactive} from "vue";
-import {SERVICE_ROUT, Resonse, Play, Video, HomeViewCard} from '../../util/type'
-import {formatTime, routerTo} from "../../util/util"
+import {SERVICE_ROUT, Response, Play, Video, HomeViewCard} from '../../util/type'
+//import {formatTime, routerTo} from "../../util/util"
 import route from "@/router/router";
 import {TabsPaneContext} from "element-plus";
 import * as http from "http";
@@ -18,7 +18,27 @@ let url=ref('')
 const streamUrl = ref('')
 const progressBar = ref(null)
 
-const play=ref<Resonse<HomeViewCard[]>>(null)
+
+// 在页面跳转之前记录滚动位置
+const beforeRouteLeave = (to, from, next) => {
+  // 在路由元信息中添加需要记录滚动位置的标志，例如 meta: { scrollToTop: true }
+  if (from.meta.scrollToTop) {
+    from.meta.savedScrollY = window.scrollY;
+  }
+  next();
+};
+
+// 在页面返回时重新设置滚动位置
+const afterEach = (to, from) => {
+  if (to.meta.scrollToTop) {
+    // 利用 setTimeout 确保页面已经渲染完毕
+    setTimeout(() => {
+      window.scrollTo(0, from.meta.savedScrollY || 0);
+    }, 0);
+  }
+};
+
+const play=ref<Response<HomeViewCard[]>>(null)
 //
 // onMounted( async ()=>{
 //   console.log("组件home激活");
@@ -43,9 +63,9 @@ const play=ref<Resonse<HomeViewCard[]>>(null)
 //
 // })
 
-onUnmounted(async ()=>{
-  console.log("组件home销毁")
-})
+// onUnmounted(async ()=>{
+//   console.log("组件home销毁")
+// })
 const  to=()=>{
   route.push("/login")
   console.log("跳转login");
@@ -155,8 +175,8 @@ const count=ref(0)
 
 
 <!--主页显示-->
-      <home-main-home :class="fly"   v-show="active==0&&Tap_active==0"></home-main-home>
-
+      <home-main-home    v-show="active==0&&Tap_active==0"></home-main-home>
+<!--        <view v-show="true"></view>-->
       </van-pull-refresh>
       <div id="home-main-qr"  :class="fly"  v-if="active==1">
         <div>home2</div>

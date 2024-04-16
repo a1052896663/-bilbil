@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {Resonse, SERVICE_ROUT, Video, HomeViewCard} from "../../../util/type";
+import {Response, SERVICE_ROUT, Video, HomeViewCard} from "../../../util/type";
 import {HttpGet} from "@/api/http";
 import {viewVideoId} from '../../../store/DataStore'
 import {formatTime} from '../../../util/util'
 import route from "../../../router/router.js";
 
-const play=ref<Resonse<HomeViewCard[]>>()
+const play=ref<Response<HomeViewCard[]>>()
 console.log("进入home-main")
 //初始化
 function InitPlay():void{

@@ -1,4 +1,4 @@
-import {Resonse, SERVICE_ROUT, User} from "../util/type";
+import {Response, SERVICE_ROUT, User} from "../util/type";
 import {ref} from "vue";
 import {HttpPost, HttpPut} from "../api/http";
 
@@ -48,7 +48,7 @@ export const {userVideoSize} =USER_TEMP
         const P={
             token :token
         }
-        const user:Resonse<User>=  (await  HttpPost(SERVICE_ROUT.TOKEN_LOGIN,P)).data
+        const user:Response<User>=  (await  HttpPost(SERVICE_ROUT.TOKEN_LOGIN,P)).data
         if(user.status==200)  {
             USER_TEMP.id.value=user.body.id;
             USER_TEMP.token=user.token;

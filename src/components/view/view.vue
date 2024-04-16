@@ -6,6 +6,7 @@ import {computed, onMounted, ref, toRefs, watch, watchEffect} from "vue";
 import Danmaku from "@nplayer/danmaku";
 import {routerTo} from '../../util/util'
 import ViewUser from "@/components/view/view-user.vue";
+import route from "@/router/router";
 import ViewComments from "@/components/view/view-comments.vue";
 import {BulletOption} from "@nplayer/danmaku/dist/src/ts/danmaku/bullet";
 import { showToast } from 'vant';
@@ -19,13 +20,13 @@ import SearchView from "@/components/home/search/search-view.vue";
 import CommentSection from "@/components/comment/comment-section.vue";
 import CommentSectionReply from "@/components/comment/comment-section-reply.vue";
 import InputComment from "@/components/comment/input-comment.vue";
-import {Resonse, SERVICE_ROUT, ViewVideoCard} from '../../util/type'
+import {Response, SERVICE_ROUT, ViewVideoCard} from '../../util/type'
 import {HttpGet} from "../../api/http";
 import {viewVideoId } from  '../../store/DataStore'
 //import {emoji} from '../../store/DataStore'
 //import {hasKey} from "../../util/util";
 
-const viewCard=ref<Resonse<ViewVideoCard>>()
+const viewCard=ref<Response<ViewVideoCard>>()
 // const playSrc=computed(()=>{
 //   if(viewCard&&viewCard.value&&viewCard.value.body&&viewCard.value.body.videoSrc){
 //     console.log("播放链接：", viewCard.value.body.videoSrc)
@@ -35,14 +36,18 @@ const viewCard=ref<Resonse<ViewVideoCard>>()
 //
 // })
 
+const Src=ref<string>("")
 onMounted( async ()=>{
   try {
+    console.log("播放对象：",player)
     console.log("请求的视频id:",viewVideoId.value)
 
     viewCard.value= ( await HttpGet(SERVICE_ROUT.VIDEO_GET+"/"+viewVideoId.value)).data
     console.log("需要播放的数据：",viewCard.value)
-   const videoDome= document.getElementsByClassName("nplayer_video")[0]
-    videoDome.src=viewCard.value.body.videoSrc  // 改变播放列表
+  // const videoDome= document.getElementsByClassName("nplayer_video")[0]
+   // Src.value=viewCard.value.body.videoSrc
+        player.video.src=viewCard.value.body.videoSrc
+    //videoDome.src=viewCard.value.body.videoSrc  // 改变播放列表
 
    // options.value.src=viewCard.value.body.videoSrc
     console.log("后端传世的评论数据：",viewCard.value.body)
@@ -94,17 +99,17 @@ const danmakuOptions = {
 const danmaku= new Danmaku(danmakuOptions);
 
 
-// 播放数据
-let player={
-  src: "playSrc",
-
-  plugins: [
-    danmaku
-  ],
-
-
-}
-
+// // 播放数据
+// let player={
+//   src: "playSrc",
+//
+//   plugins: [
+//     danmaku
+//   ],
+//
+//
+// }
+let player = null;
 // 构造函数
 const setPlayer= (p) => {
     p.on('DanmakuSend', (opts) => {
@@ -611,10 +616,22 @@ function OnClickHortOrTime(){ // 换颜色
     fontColor.value="#b1b3b8"
   },200)
 }
+
+//
+const visible=ref(true)
+function ToHome(){
+  visible.value=false
+  setTimeout(()=>{
+
+    route.push('/home')
+  },200)
+
+}
 </script>
 
 <template>
-    <div id="view"  @click="AppOnClick">
+  <transition name="van-slide-right">
+    <div id="view"   v-show="visible" @click="AppOnClick">
       <van-toast v-model:show="show" style="padding: 0;top:10rem;height:8rem">
         <template #message>
           <div>发送成功</div>
@@ -623,10 +640,10 @@ function OnClickHortOrTime(){ // 换颜色
 
       <div id="view-head">
         <van-nav-bar
-            title=""
+            title="视频详情"
             left-text="返回"
             left-arrow
-            @click-left="routerTo('BACK')"
+            @click-left="ToHome"
         />
       </div>
 
@@ -637,9 +654,9 @@ function OnClickHortOrTime(){ // 换颜色
 -->
       <div>
         <NPlayer
-            v-model:options="options"
+            :options="{src:'123456'}"
             :set="setPlayer"
-            :get="getPlayer"
+
         />
       </div>
 
@@ -869,6 +886,7 @@ function OnClickHortOrTime(){ // 换颜色
       />
 
     </div>
+  </transition>
 </template>
 
 <style scoped>

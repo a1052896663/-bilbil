@@ -14,6 +14,7 @@ export enum SERVICE_ROUT{ // 后端路由
   VIDEO_GET="/video/video",
   VIDEO_UPLOAD_POST='/video/upload',
   USER_SOCKET="",
+  USER_HISTORY="/user/history",
   VIDEO_SOCKET=""
 }
 
@@ -122,7 +123,7 @@ export interface Play{
 
 
 
-export interface Resonse<T>{   // Http的响应体
+export interface Response<T>{   // Http的响应体
   token?:string
   status:number
   body?:T
@@ -235,6 +236,7 @@ export interface ViewVideoCard{
   recommend: HomeViewCard[] // 推荐
   comment:CommentsData[]
   date:number
+
 
 }
 

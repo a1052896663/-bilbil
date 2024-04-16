@@ -13,6 +13,7 @@ onMounted(()=>{
   try {
    // route.push('/userVideoUploder')
     routerTo('/home')
+  //  routerTo('/timeView')
    // route.push('/home')
   }catch (e){
     console.error("error:",e)
@@ -77,9 +78,20 @@ onMounted(()=>{
 <!--</div>-->
 
   <div>
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+<!--    <keep-alive>-->
+<!--      <router-view></router-view>-->
+<!--    </keep-alive>-->
+
+
+      <!-- vue3.0配置 keep-alive-->
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component"  v-if="$route.meta.keepAlive"/>
+        </keep-alive>
+        <component :is="Component"  v-if="!$route.meta.keepAlive"/>
+      </router-view>
+
+
   </div>
 
 

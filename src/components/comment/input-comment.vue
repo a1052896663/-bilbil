@@ -131,11 +131,12 @@ function OnClickSend(e){
       deleteShow: true,
       id: Date.now(),
       likeSize: 0,
+       likeState:false,
       parentId: parentIdTemp,
       time: Date.now(),
       toComment:  replyObject.value,
       type:typeTemp,
-      userImageSrc: "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
+      userImageSrc: userImage.value,
       userName: userName.value,
       videoId:  replyObject.value.videoId
 
@@ -150,6 +151,7 @@ function OnClickSend(e){
       deleteShow: true,
       id: Date.now(),
       likeSize: 0,
+       likeState:false,
       parentId: -1,
       time: Date.now(),
       toComment: null,
@@ -187,6 +189,7 @@ function UserMyCommentService(){
         deleteShow: true,
         id: 4,
         likeSize: 0,
+        likeState:false,
         parentId: replyObject.value.id,
         time: Date.now(),
         toComment: null,
@@ -202,6 +205,7 @@ function UserMyCommentService(){
         child: [],
         content: barrage.value,
         deleteShow: true,
+        likeState:false,
         id: Date.now(),
         likeSize: 0,
         parentId: replyObject.value.parentId,
@@ -221,6 +225,7 @@ function UserMyCommentService(){
         deleteShow: true,
         id: Date.now(),
         likeSize: 0,
+        likeState:false,
         parentId: replyObject.value.parentId,
         time: Date.now(),
         toComment: replyObject.value.toComment,
@@ -362,7 +367,7 @@ function OnClickInputDmSelect(e){
 
   -->
   <div :style="{'font-size':'4rem' }"  v-show="true" >
-    <div  id="input-comment-inputDm"  :style="{position: 'fixed', bottom: 0,width: '100%','min-height':'10rem'}">
+    <div @click.stop=""  id="input-comment-inputDm"  :style="{position: 'fixed', bottom: 0,width: '100%','min-height':'10rem'}">
 
 <!--      <input type="text" ref="inputCommentInputDmInput" :placeholder="InputPlaceholder" @keyup.enter="OnClickSend" id="input-comment-inputDm-input" v-model="barrage" @click="OnClickinputDmInput"    @focus="onInputFocus" @blur="onInputBlur" >-->
 

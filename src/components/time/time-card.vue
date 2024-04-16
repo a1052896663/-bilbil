@@ -2,44 +2,61 @@
 // 观看历史的展示卡片
 import SearchView from "@/components/home/search/search-view.vue";
 import {ref} from "vue";
+import {HomeViewCard} from "@/util/type";
+import {formatDateTime2, formatTime} from "@/util/util";
+import {viewVideoId} from "../../store/DataStore";
 
-
+import route from '../../router/router.js'
 const imageSrc=ref('src/public/interlude_Miku_in_Museland_3.png')
 
 
-defineProps({
-  searchSize: {
-    type:Number,
-    default:10
+const Popos= defineProps({
+  homeViewCard: {
+    type:Object,
+    default:null
   }
 })
+
+
+function ToView(videoId:number){
+ // console.log("历史记录传递的id页面外部：",videoId)
+  setTimeout(()=>{
+
+   // console.log("历史记录传递的id页面：",Popos.homeViewCard)
+    viewVideoId.value=videoId
+    route.push('/view')
+  },200)
+}
+
 </script>
+
+
 
 <template>
 <!--    <div id="time-card">-->
 <!--      -->
 <!--    </div>-->
 
-  <div id="time-view">
+  <div id="time-view" v-if="homeViewCard" @click="ToView(homeViewCard.videoId)">
     <div class="time-view-item" >
       <div class="time-view-item-image">
         <van-image
 
             width="100%"
             height="100%"
-            :src="imageSrc"
+            :src="homeViewCard.imageSrc"
         />
         <div class="time-view-item-image-m"> </div>
         <!--        <div class="time-view-item-view"><van-icon name="play-circle-o" /> 27.9万</div>-->
-        <div class="time-view-item-time">01:56</div>
+        <div class="time-view-item-time">{{formatTime(homeViewCard.time)}}</div>
       </div>
       <div class="time-view-item-content">
         <div  class="time-view-item-content-title">
-          初音未来！学些初音未来学些初音未来学些初音未来学些初音未来学些初音未来
+          {{homeViewCard.title}}
         </div>
         <div>
-          <div class="time-view-item-view"><van-icon size="4rem" name="user-circle-o" /> <span class="time-view-item-size-time1" >初音未来A初音未来AAAAAAAAAA</span> </div>
-          <div class="time-view-item-size">   <el-icon size="4rem"><Clock /></el-icon> <span class="time-view-item-size-time">  {{'2024/12/1'}} • {{'12:13'}} </span></div>
+          <div class="time-view-item-view"><van-icon size="4rem" name="user-circle-o" /> <span class="time-view-item-size-time1" >{{homeViewCard.userName}}</span> </div>
+          <div class="time-view-item-size">   <el-icon size="4rem"><Clock /></el-icon> <span class="time-view-item-size-time"> {{formatDateTime2(homeViewCard.date)}}</span></div>
         </div>
         <van-divider />
       </div>
