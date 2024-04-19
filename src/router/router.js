@@ -38,7 +38,8 @@ const routes=[
     {
         path: '/ommentSection',
         component: ommentSection,
-        name:'ommentSection'
+        name:'ommentSection',
+        meta: { keepAlive: false }
     },
     {
         path: '/timeView',

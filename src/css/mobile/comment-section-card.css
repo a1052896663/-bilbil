@@ -8,6 +8,7 @@
 
     }
 
+
     #comment-section-popup-content{
         width: 50rem;
         height: 50rem;
@@ -41,7 +42,10 @@
         padding-bottom: 4rem;
         border-bottom: 0.1px solid #ebedf0;
         background: white;
+        /*animation: opacityAnimation 1s infinite; !* 应用动画 *!*/
+
     }
+
     .comment-section-content-item-image{
         flex: 0 0 15rem;
         /*background: #0bc15f;*/

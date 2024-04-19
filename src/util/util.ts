@@ -188,24 +188,24 @@ TestData.push(a1)
 TestData.push(a2)
 TestData.push(a3)
 TestData.push(a4)
-const VIDEO_DATA:CommentsData[]=[]
-const VIDEO_REPLY_DATA:CommentsData[]=[]
-const VIDEO_REFUTATION_DATA:CommentsData[]=[]
+let VIDEO_DATA:CommentsData[]=[]
+let VIDEO_REPLY_DATA:CommentsData[]=[]
+let VIDEO_REFUTATION_DATA:CommentsData[]=[]
 
-const ViewCommentVideoData:ViewComment[]=[]
-const ViewCommentVideoReplyData:ViewComment[]=[]
-const ViewCommentVideoRefutationData:ViewComment[]=[]
+let ViewCommentVideoData:ViewComment[]=[]
+let ViewCommentVideoReplyData:ViewComment[]=[]
+let ViewCommentVideoRefutationData:ViewComment[]=[]
 
 // 分配-- 评论
 export function Assignment(List:CommentsData[]){ // 评论数据\
     // 数组清空
-  VIDEO_DATA.splice(0, VIDEO_DATA.length);
-  VIDEO_REPLY_DATA.splice(0, VIDEO_REPLY_DATA.length);
-  VIDEO_REFUTATION_DATA.splice(0, VIDEO_REFUTATION_DATA.length);
+  VIDEO_DATA=[];
+  VIDEO_REPLY_DATA=[]
+  VIDEO_REFUTATION_DATA=[]
 
-  ViewCommentVideoData.splice(0, ViewCommentVideoData.length);
-  ViewCommentVideoReplyData.splice(0, ViewCommentVideoReplyData.length);
-  ViewCommentVideoRefutationData.splice(0, ViewCommentVideoRefutationData.length);
+  ViewCommentVideoData=[]
+  ViewCommentVideoReplyData=[]
+  ViewCommentVideoRefutationData=[]
 
 
   List.forEach((item)=>{
@@ -254,7 +254,8 @@ function ViewCommentVideoDataInit(){
       deleteShow: true, // 是否可以删除 TODO 根据用户判断
       child:  [] , // 回复,
       type:   item.comments.commentsType,
-      likeState:item.likeState
+      likeState:item.likeState,
+      upload:true
     }
     ViewCommentVideoData.push(ViewCommentTemp)
   })
@@ -281,7 +282,8 @@ function ViewCommentVideoReplyDataInit(){
       deleteShow: true, // 是否可以删除 TODO 根据用户判断 直接的视频直接的评论
       child:  [] , // 回复,
       type:   item.comments.commentsType,
-      likeState:item.likeState
+      likeState:item.likeState,
+      upload:true
     }
     ViewCommentVideoReplyData.push(ViewCommentTemp)
 
@@ -315,7 +317,8 @@ function ViewCommentVideoRefutationDataInit(){
       deleteShow: true, // 是否可以删除 TODO 根据用户判断 直接的视频直接的评论
       child:  [] , // 回复,
       type:   item.comments.commentsType,
-      likeState:item.likeState
+      likeState:item.likeState,
+      upload:true
     }
 
     ViewCommentVideoRefutationData.push(ViewCommentTemp)

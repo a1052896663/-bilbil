@@ -10,7 +10,7 @@ import {
   emojiShow,
   headObject,
   inputCommentTopShow,
-  replyObject
+  replyObject, ViewCommentArray
 } from '../../store/DataStore'
 import CommentSectionCard from "@/components/comment/comment-section-card.vue";
 import {ref, watch} from "vue";
@@ -27,14 +27,26 @@ import {COMMENTS_TYPE, ViewComment} from "../../util/type";
 
 
 
-
+//commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
 const testDate=ref<ViewComment>(commentRoute.value)
+watch(commentRoute,(newValue)=>{
+  if(newValue){
+    testDate.value=commentRoute.value
+    commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
+    replyObject.value=testDate.value // 添加回复对象
+    console.log("回复区展开",replyObject.value)
+  }
+})
+
 watch(commentSectionReplyShow,(newValue)=>{
   //console.log("commentSectionReplyShow的值有改变",commentSectionReplyShow.value)
   if( newValue){
-     testDate.value=commentRoute.value
-     replyObject.value=testDate.value // 添加回复对象
-    console.log("回复区展开",replyObject.value)
+   // commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
+   //  console.log("接收到的值：",commentRoute.value)
+   //   testDate.value=commentRoute.value
+   //  commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
+   //   replyObject.value=testDate.value // 添加回复对象
+   //  console.log("回复区展开",replyObject.value)
     //console.log("评论区区回复收到的值：",commentRoute.value)
   }else {
     commentSectionReplyShow.value
@@ -102,6 +114,14 @@ const fontColor=ref<"#b1b3b8"|"#1989fa">("#b1b3b8")
 const OnTime=ref(false)
 function OnClickHortOrTime(){ // 换颜色
   OnTime.value=!OnTime.value
+
+  if(OnTime.value){
+    // TODO 评论排序
+    commentRoute.value.child.sort((a,b)=>b.time-a.time)
+  }else {
+    commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
+  }
+
   fontColor.value="#1989fa"
   setTimeout(()=>{
     fontColor.value="#b1b3b8"
@@ -143,7 +163,7 @@ function OnClickPopup(){
             <div class="comment-section-popup-content-main-font" @click="OnClickHortOrTime" :style="{color:fontColor}" ><van-icon :color="fontColor" name="list-switch" /> {{OnTime?'按时间':'按热度'}}</div>
           </div>
           <div id="comment-section-popup-content-child" v-if="commentRoute&&commentRoute.child">
-            <comment-section-card   v-for="(item,index) in commentRoute.child" :itemData="item"  :childShow="false"  :testData="false" :key="index"></comment-section-card>
+            <comment-section-card   v-for="(item,index) in commentRoute.child" :itemData="item"  :childShow="false"  :testData="false" :key="item.id"></comment-section-card>
           </div>
         </div>
       </van-popup>

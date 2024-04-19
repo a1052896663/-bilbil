@@ -9,12 +9,26 @@ export enum SERVICE_ROUT{ // 后端路由
   OUT_DELETE="/user/out", // 退出登录
   ENROLL_PUT="/user/enroll" ,//注册
   AVATAR_POST="/user/avatar", // 设置用户头像
-  VIDEO_INIT_GET="/video/init",
-  VIDEO_COMMENTS_PUT="/video/comments",
-  VIDEO_GET="/video/video",
-  VIDEO_UPLOAD_POST='/video/upload',
+  VIDEO_INIT_GET="/video/init",  // 获得视频推荐
+  VIDEO_COMMENTS_PUT="/video/comments", // 视频评论
+  VIDEO_COLLECTION_PUT="/video/collection", // 视频取消收藏
+  VIDEO_COLLECTION_DELETE="/video/collection", // 视频收藏
+  VIDEO_BULLETOPTION_PUT="/video/bulletoption", // 添加弹幕
+  VIDEO_LIKE_PUT="/video/videoLike",  // 视频点赞
+  VIDEO_LIKE_DELETE="/video/videoLike",   // 视频取消点赞
+  VIDEO_NOLIKE_PUT="/video/videoNoLike",  // 视频点踩
+  VIDEO_NOLIKE_DELETE="/video/videoNoLike",   // 取消视频点踩
+  VIDEO_COMMENTS_LIKE_PUT="/video/comments/like", // 视频评论点赞
+  VIDEO_COMMENTS_LIKE_DELETE="/video/comments/like", // 视频评论点赞取消
+  VIDEO_SPARKLE_PUT="/video/sparkle",   // 视频点火
+  VIDEO_GET="/video/video",  // 获得播放视频
+  VIDEO_UPLOAD_POST='/video/upload',    // 视频上传
   USER_SOCKET="",
   USER_HISTORY="/user/history",
+
+  USER_CONCERN_PUT="/user/concern",
+  USER_CONCERN_DELETE="/user/concern",
+
   USER_COLLECTION="/user/collection",
   VIDEO_SOCKET=""
 }
@@ -148,7 +162,8 @@ export interface ViewComment{  // 视图需要的信息--评论
   deleteShow:boolean, // 是否可以删除
   child?:ViewComment[]  // 回复,
   type:COMMENTS_TYPE,
-  likeState:boolean
+  likeState:boolean,
+  upload:boolean, // 上传状态--针对新加的评论
 
 }
 
@@ -230,6 +245,7 @@ export interface ViewVideoCard{
   likeState:boolean, // 点赞状态        ---
   noLikeState:boolean, // 点踩状态 TODO
   collectionState:boolean, // 收藏状态
+  sparkleState :boolean, // 点火状态
   likeSize:number, // 点赞数
   collectionSize:number,// 收藏数量
   heatSize: number, // 热度数

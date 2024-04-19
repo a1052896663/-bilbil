@@ -8,8 +8,12 @@ import {ref, toRefs} from "vue";
 import {shareShow} from '../../store/DataStore'
 import {formatDateTime3} from  '../../util/util'
 import Search from "@/components/home/search/search-view.vue";
+import {HttpDelete, HttpPut} from "@/api/http";
+import {Response, SERVICE_ROUT} from "../../util/type";
+import {showToast} from "vant";
+import {InitData} from "../../store/UserSrore";
  //import {shareShow} from '../../store/RouterStore'
-const userButton=ref(false)
+
 
 const activeNames = ref([]);
 
@@ -59,6 +63,129 @@ const labe=ref([])
 
 const labs= ProP.viewCardBody.label.split(';')
 labe.value=labs
+
+const userButton=ref<boolean>(ProP.viewCardBody.concern) // 关注状态
+async function  OnClickConcern(){  //
+  if(userButton.value){
+    // 取消关注
+    userButton.value=false
+    try {
+      await HttpDelete(SERVICE_ROUT.USER_CONCERN_DELETE+"/"+ProP.viewCardBody.userId)
+
+    }catch (e){
+
+    }
+  }else {
+    // 关注
+    userButton.value=true
+    await HttpPut(SERVICE_ROUT.USER_CONCERN_PUT+"/"+ProP.viewCardBody.userId)
+  }
+
+ await InitData()
+}
+
+
+// 收藏
+const collectionState=ref<Boolean>(ProP.viewCardBody.collectionState)
+const collectionSize=ref<Number>(ProP.viewCardBody.collectionSize)
+function OnClickCollection(){
+    try {
+      if (collectionState.value){
+        // 取消点赞
+        if(collectionSize.value>0){
+          collectionSize.value--
+          collectionState.value=false
+          HttpDelete(SERVICE_ROUT.VIDEO_COLLECTION_DELETE+"/"+ProP.viewCardBody.videoId);
+        }
+
+      }else {
+        // 点赞
+        collectionState.value=true
+        collectionSize.value++
+        HttpPut(SERVICE_ROUT.VIDEO_COLLECTION_PUT+"/"+ProP.viewCardBody.videoId);
+      }
+    }catch (e){
+      console.error(e)
+    }
+}
+
+
+
+// 点赞
+const likeState=ref<Boolean>(ProP.viewCardBody.likeState)
+const likeSize=ref<Number>(ProP.viewCardBody.likeSize)
+function OnClickLike(){
+  try {
+    if (likeState.value){
+      // 取消点赞
+      if(likeSize.value>0){
+        likeSize.value--
+        likeState.value=false
+        HttpDelete(SERVICE_ROUT.VIDEO_LIKE_DELETE+"/"+ProP.viewCardBody.videoId);
+      }
+
+    }else {
+      // 点赞
+      likeState.value=true
+      likeSize.value++
+      HttpPut(SERVICE_ROUT.VIDEO_LIKE_PUT+"/"+ProP.viewCardBody.videoId);
+    }
+  }catch (e){
+    console.error(e)
+  }
+}
+
+// 点踩
+const noLikeState=ref<Boolean>(ProP.viewCardBody.noLikeState)
+
+function OnClickNoLike(){
+  try {
+    if (noLikeState.value){
+      // 取消点菜
+      noLikeState.value=false
+        HttpDelete(SERVICE_ROUT.VIDEO_NOLIKE_DELETE+"/"+ProP.viewCardBody.videoId);
+
+
+    }else {
+      // 点踩
+      noLikeState.value=true
+
+      HttpPut(SERVICE_ROUT.VIDEO_NOLIKE_PUT+"/"+ProP.viewCardBody.videoId);
+    }
+  }catch (e){
+    console.error(e)
+  }
+}
+
+
+// 点火
+const sparkleState=ref<Boolean>(ProP.viewCardBody.sparkleState)
+const heatSize=ref<number>(ProP.viewCardBody.heatSize)
+async function OnClickSparkle(){
+
+  try {
+
+  const sparkleStateRef=ref<Response<any>>()
+    sparkleStateRef.value=  (await HttpPut(SERVICE_ROUT.VIDEO_SPARKLE_PUT+"/"+ProP.viewCardBody.videoId)).data;
+    if(sparkleStateRef.value.status==404){
+      console.error("火花数量不足")
+      showToast({
+        message: '火花数量不足2',
+        position: 'top',
+      });
+
+    }else {
+     if(sparkleState.value==false){
+       sparkleState.value=true
+     }
+      heatSize.value+=2;
+
+    }
+  }catch (e){
+    console.error(e)
+  }
+}
+
 </script>
 
 <template>
@@ -93,7 +220,7 @@ labe.value=labs
 <!--        <el-button   size="small" :color="userButton?'#0264e7': '#e9e9eb'" auto-insert-space="true"  @click="userButton=!userButton" type="primary" :icon="userButton? Plus:Check"> {{userButton?'已关注':'关注'}} {{" "}}  </el-button>-->
 
 
-        <van-button  style="white-space:pre" size="mini"   @click="userButton=!userButton" :icon="userButton?'success':'plus'"  :color="userButton?'#0264e7': '#e9e9eb'" type="primary"> {{userButton?'已关注':` 关  注 `}} </van-button>
+        <van-button  style="white-space:pre; transition: background-color 0.3s ease;" size="mini"   @click="OnClickConcern" :icon="userButton?'success':'plus'"  :color="userButton?'#e9e9eb': '#0264e7'" type="primary"> {{userButton?'已关注':` 关  注 `}} </van-button>
 
 <!--        按钮 -->
 
@@ -135,28 +262,28 @@ labe.value=labs
       <div id="view-user-like">
 
         <div  class="view-user-like-item">
-          <van-icon :color="buttonLike?'#0264e7':''" @click="buttonLike=!buttonLike" size="7rem" name="good-job" />
-          <div class="view-user-like-item-font">{{viewCardBody.likeSize}}</div>
+          <van-icon :color="likeState?'#0264e7':''" @click="OnClickLike" size="7rem" name="good-job" />
+          <div class="view-user-like-item-font">{{likeSize}}</div>
         </div>
 
         <div class="view-user-like-item">
-          <van-icon  :color=" buttonNoLike?'#0264e7':''" @click="buttonNoLike=!buttonNoLike" id="view-user-like-item-buttonNoLike"  size="7rem" name="good-job" />
+          <van-icon  :color="noLikeState?'#0264e7':''" @click="OnClickNoLike" id="view-user-like-item-buttonNoLike"  size="7rem" name="good-job" />
           <div class="view-user-like-item-font">不喜欢</div>
         </div>
 
         <div class="view-user-like-item">
-          <van-icon :color="buttonFire?'#0264e7':''" @click="buttonFire=!buttonFire" size="7rem"  name="fire" />
-          <div class="view-user-like-item-font">{{viewCardBody.heatSize}}</div>
+          <van-icon :color="sparkleState?'#0264e7':''" @click="OnClickSparkle" size="7rem"  name="fire" />
+          <div class="view-user-like-item-font">{{heatSize}}</div>
         </div>
 
         <div class="view-user-like-item">
 
-          <van-icon :color="buttonCollection?'#0264e7':''" @click="buttonCollection=!buttonCollection" size="7rem"  name="star" />
-          <div class="view-user-like-item-font">{{viewCardBody.collectionSize}}</div>
+          <van-icon :color="collectionState?'#0264e7':''" @click="OnClickCollection" size="7rem"  name="star" />
+          <div class="view-user-like-item-font">{{collectionSize}}</div>
         </div>
 
         <div class="view-user-like-item">
-          <van-icon :color="buttonShare?'#0264e7':''" @click="(buttonShare=!buttonShare)&(shareShow = !shareShow)" size="7rem" name="share" />
+          <van-icon  @click="(buttonShare=!buttonShare)&(shareShow = !shareShow)" size="7rem" name="share" />
           <div class="view-user-like-item-font">分享</div>
         </div>
 

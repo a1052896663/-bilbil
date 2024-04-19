@@ -150,7 +150,17 @@ function CommentService(item: ViewComment){
           date:Date.now(),
 
         }
+
         HttpPut(SERVICE_ROUT.VIDEO_COMMENTS_PUT,comments).then((d)=>{
+          try {
+            if(d.data.status==200){
+              item.id=d.data.body;
+              item.upload=true
+            }
+          }catch (e){
+
+          }
+
           console.log("响应体:",d.data)
         }).catch(e=>{
           console.error("error:",e)
@@ -193,6 +203,15 @@ function CommentService(item: ViewComment){
 
         }
         HttpPut(SERVICE_ROUT.VIDEO_COMMENTS_PUT,comments2).then((d)=>{
+          try {
+            if(d.data.status==200){
+              item.id=d.data.body;
+              item.upload=true
+            }
+          }catch (e){
+
+          }
+
           console.log("响应体:",d.data)
         }).catch(e=>{
           console.error("error:",e)
@@ -238,6 +257,15 @@ function CommentService(item: ViewComment){
 
         }
         HttpPut(SERVICE_ROUT.VIDEO_COMMENTS_PUT,comments3).then((d)=>{
+          try {
+            if(d.data.status==200){
+              item.id=d.data.body;
+              item.upload=true
+            }
+          }catch (e){
+
+          }
+
           console.log("响应体:",d.data)
         }).catch(e=>{
           console.error("error:",e)
@@ -338,6 +366,12 @@ const fontColor=ref<"#b1b3b8"|"#1989fa">("#b1b3b8")
 const OnTime=ref(false)
 function OnClickHortOrTime(){ // 换颜色
   OnTime.value=!OnTime.value
+  if(OnTime.value){
+    // TODO 评论排序
+    ViewCommentArray.value.sort((a,b)=>b.time-a.time)
+  }else {
+    ViewCommentArray.value.sort((a,b)=>b.likeSize-a.likeSize)
+  }
   fontColor.value="#1989fa"
   setTimeout(()=>{
     fontColor.value="#b1b3b8"
@@ -372,7 +406,7 @@ function OnClickHortOrTime(){ // 换颜色
           <div class="comment-section-popup-content-main-m"></div>
           <div class="comment-section-popup-content-main-font" @click="OnClickHortOrTime" :style="{color:fontColor}" ><van-icon :color="fontColor" name="list-switch" /> {{OnTime?'按时间':'按热度'}}</div>
         </div>
-        <comment-section-card :itemData="item"  v-for="(item,index) in ViewCommentArray" :key="index" ></comment-section-card>
+        <comment-section-card :itemData="item"  v-for="(item,index) in ViewCommentArray" :key="item.id" ></comment-section-card>
         <div class="comment-section-popup-content-main-zw"></div>
       </div>
 

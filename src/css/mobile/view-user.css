@@ -104,7 +104,14 @@
         flex-direction: column;
         font-size: 3rem;
 
+        padding-top: 2rem;
+        transition: background-color 0.3s ease; /* 添加过渡效果 */
+
     }
+    .view-user-like-item:active{
+        background: #e9e9eb;
+    }
+
     .view-user-like-item-font{
         color: #c8c9cc;
     }

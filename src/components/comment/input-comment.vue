@@ -138,8 +138,8 @@ function OnClickSend(e){
       type:typeTemp,
       userImageSrc: userImage.value,
       userName: userName.value,
-      videoId:  replyObject.value.videoId
-
+      videoId:  replyObject.value.videoId,
+       upload:false
     }
     addOrDeleteNumber.value++;
 
@@ -159,7 +159,7 @@ function OnClickSend(e){
       userImageSrc: userImage.value,
       userName: userName.value,
       videoId: viewVideoId.value ,
-
+       upload:false
     }
 
     addOrDeleteNumber.value++;
@@ -197,7 +197,7 @@ function UserMyCommentService(){
         userImageSrc: userImage.value,
         userName: userName.value,
         videoId:  viewVideoId.value,
-
+        upload:false
       }
       break;
     case COMMENTS_TYPE.VIDEO_REPLY:
@@ -215,6 +215,7 @@ function UserMyCommentService(){
         userImageSrc: userImage.value,
         userName: userName.value,
         videoId:  viewVideoId.value,
+        upload:false
 
       }
       break;
@@ -233,6 +234,7 @@ function UserMyCommentService(){
         userImageSrc: userImage.value,
         userName: userName.value,
         videoId:  viewVideoId.value,
+        upload:false
 
       }
       break;

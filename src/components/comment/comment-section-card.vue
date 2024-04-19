@@ -2,8 +2,10 @@
 
 import {commentRoute, headObject,commentSectionReplyShow,replyObject} from "../../store/DataStore";
 import {computed, ref} from "vue";
-import {COMMENTS_TYPE, ViewComment} from "../../util/type";
+import {COMMENTS_TYPE, SERVICE_ROUT, ViewComment} from "../../util/type";
 import {formatDateTime} from "@/util/util";
+import {showToast} from "vant";
+import {HttpDelete, HttpPut} from "@/api/http";
 //import {ref} from "vue/dist/vue";
 
 
@@ -114,7 +116,10 @@ function OnClickToReply(item:ViewComment){
   commentRoute.value=item
   headObject.value=item
   console.log("发送的值：",commentRoute.value)
-  commentSectionReplyShow.value=true
+  setTimeout(()=>{
+    commentSectionReplyShow.value=true
+  },100)
+
 
 
 
@@ -145,8 +150,17 @@ function OnClickTextEllipsis(e){
 // 点击按时间或是按风景
 const fontColor=ref<"#2c3e50"|"#1989fa">("#2c3e50")
 const OnTime=ref(false)
-function OnClickHortOrTime(e){ // 换颜色
-  e.stopPropagation();
+function OnClickHortOrTime(upload:boolean){ // 换颜色
+ // e.stopPropagation();
+  if(!upload){
+    // 处于加载状态
+    showToast({
+      message: '此评论处于与添加中',
+      position: 'top',
+    });
+    return;
+  }
+
   inputComment(comment.value)
   OnTime.value=!OnTime.value
   fontColor.value="#1989fa"
@@ -155,11 +169,37 @@ function OnClickHortOrTime(e){ // 换颜色
   },200)
 }
 
+//comment.likeSize
+const likeState=ref<boolean>(comment.value.likeState)
+console.log("id:",comment.value.id,"点赞状态：",comment.value.likeState)
+const likeSize=ref<boolean>(comment.value.likeSize)
+async function OnClickLike(upload:boolean,id:number){
+  if(!upload){
+    // 处于加载状态
+    showToast({
+      message: '此评论处于与添加中',
+      position: 'top',
+    });
+    return;
+  }
+  if(likeState.value){
+    // 取消点赞
+    likeState.value=false
+    likeSize.value--;
+    HttpDelete(SERVICE_ROUT.VIDEO_COMMENTS_LIKE_DELETE+"/"+id)
+  }else {
+    // 点赞
+    likeState.value=true
+    likeSize.value++;
+    HttpPut(SERVICE_ROUT.VIDEO_COMMENTS_LIKE_PUT+"/"+id)
+  }
+
+}
 
 </script>
 
 <template>
-  <div class="comment-section-content-item" v-if="itemData&&comment">
+  <div class="comment-section-content-item" :style="{animation:comment.upload?'':'opacityAnimation 1s infinite'}"  v-if="itemData&&comment">
     <van-divider />
     <div class="comment-section-content-item-image">
       <van-image
@@ -196,8 +236,8 @@ function OnClickHortOrTime(e){ // 换颜色
 
         </div>
         <div class="comment-section-content-item-card-comment-fonts">
-          <div class="comment-section-content-item-card-comment-font"><van-icon size="5rem" name="good-job-o" /> <span style="text-indent: 1rem;">{{comment.likeSize}}</span></div>
-          <div class="comment-section-content-item-card-comment-font" @click ="OnClickHortOrTime"><van-icon size="5rem" :color="fontColor" name="chat-o" /></div>
+          <div class="comment-section-content-item-card-comment-font"  @click.stop="OnClickLike(comment.upload,comment.id)"><van-icon :color="likeState?'#0264e7':''" size="5rem" name="good-job-o" /> <span style="text-indent: 1rem;">{{likeSize}}</span></div>
+          <div class="comment-section-content-item-card-comment-font" @click.stop ="OnClickHortOrTime(comment.upload)"><van-icon size="5rem" :color="fontColor" name="chat-o" /></div>
           <div class="comment-section-content-item-card-comment-font-m"> </div>
           <div class="comment-section-content-item-card-comment-font-last" v-if="comment.deleteShow"><van-icon size="5rem" name="delete-o" /></div>
         </div>

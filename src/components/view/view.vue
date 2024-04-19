@@ -21,8 +21,9 @@ import CommentSection from "@/components/comment/comment-section.vue";
 import CommentSectionReply from "@/components/comment/comment-section-reply.vue";
 import InputComment from "@/components/comment/input-comment.vue";
 import {Response, SERVICE_ROUT, ViewVideoCard} from '../../util/type'
-import {HttpGet} from "../../api/http";
+import {HttpGet, HttpPut} from "../../api/http";
 import {viewVideoId } from  '../../store/DataStore'
+import {id} from "../../store/UserSrore";
 //import {emoji} from '../../store/DataStore'
 //import {hasKey} from "../../util/util";
 
@@ -39,6 +40,7 @@ const viewCard=ref<Response<ViewVideoCard>>()
 const Src=ref<string>("")
 onMounted( async ()=>{
   try {
+    ViewCommentArray.value=[]
     console.log("播放对象：",player)
     console.log("请求的视频id:",viewVideoId.value)
 
@@ -47,11 +49,19 @@ onMounted( async ()=>{
   // const videoDome= document.getElementsByClassName("nplayer_video")[0]
    // Src.value=viewCard.value.body.videoSrc
         player.video.src=viewCard.value.body.videoSrc
+      if( player.danmaku.items){
+        player.danmaku.items.push( ...viewCard.value.body.barrage)
+        console.log("初始化弹幕")
+      }else {
+        console.error("初始化弹幕失败")
+      }
+
     //videoDome.src=viewCard.value.body.videoSrc  // 改变播放列表
 
    // options.value.src=viewCard.value.body.videoSrc
     console.log("后端传世的评论数据：",viewCard.value.body)
     ViewCommentArray.value=  Assignment(viewCard.value.body.comment)
+    ViewCommentArray.value.sort((a,b)=>b.likeSize-a.likeSize)  // 按热度
     console.log("评论数据：",ViewCommentArray.value)
 
     if(viewCard.value.status==404){
@@ -72,22 +82,7 @@ onMounted( async ()=>{
 // 弹幕元素
 const danmakuOptions = {
   items: [
-    { time: 1, text: '弹幕～1' },
-    { time: 2, text: '弹幕～2' },
-    { time: 3, text: '弹幕～3' },
-    { time: 4, text: '弹幕～4' },
-    { time: 5, text: '弹幕～5' },
-    { time: 6, text: '弹幕～6' },
-    { time: 7, text: '弹幕～7' },
-    { time: 8, text: '弹幕～8' },
-    { time: 9, text: '弹幕～9' },
-    { time: 10, text: '弹幕10～' },
-    { time: 11, text: '弹幕～11' },
-    { time: 12, text: '弹幕～12' },
-    { time: 13, text: '弹幕～13' },
-    { time: 14, text: '弹幕～14' },
-    { time: 15, text: '弹幕～15' },
-    { time: 16, text: '弹幕～16' }
+
 
   ]
 }
@@ -99,17 +94,17 @@ const danmakuOptions = {
 const danmaku= new Danmaku(danmakuOptions);
 
 
-// // 播放数据
-// let player={
-//   src: "playSrc",
-//
-//   plugins: [
-//     danmaku
-//   ],
-//
-//
-// }
-let player = null;
+// 播放数据
+let player={
+  src: "playSrc",
+
+  plugins: [
+    danmaku
+  ],
+
+
+}
+//let player = null;
 // 构造函数
 const setPlayer= (p) => {
     p.on('DanmakuSend', (opts) => {
@@ -424,7 +419,7 @@ const barrage=ref<BulletOption>({
 
 // 弹幕数据发送 TODO
 const show = ref(false); // 消息控件
-function OnClickSend(){
+async function  OnClickSend(){
   barrage.value.color=checkedColor.value // 弹幕颜色
  // barrage.value.text=''  // 弹幕文字
   if(player&&('currentTime' in player)){
@@ -440,14 +435,36 @@ function OnClickSend(){
     const danmakuTemp=  player.danmaku
     if (danmakuTemp && ('send' in  danmakuTemp)){
       danmakuTemp.send(barrage.value)
-      barrage.value.text=''
+
       console.log("发送弹幕：",barrage.value)
-      //ToastPosition
-      // showToast({
-      //
-      //   message: '发送成功',
-      //   position: 'top',
-      // });
+
+      try {
+        const barrageItem={  //构建弹幕对象
+          videoId:viewVideoId.value,
+          userId:id.value,
+          time: barrage.value.time,
+          type: barrage.value.type,
+          color:barrage.value.color,
+          text:barrage.value.text,
+        }
+        await HttpPut(SERVICE_ROUT.VIDEO_BULLETOPTION_PUT,barrageItem)
+        showToast({
+
+          message: '发送成功',
+          position: 'top',
+        });
+        // 弹幕数据+1
+        barrage.value.text=''
+      }catch (e){
+        //ToastPosition
+        showToast({
+
+          message: '网络错误',
+          position: 'top',
+        });
+      }
+
+
       show.value=true;
       setTimeout(()=>{
         show.value=false;
@@ -500,7 +517,10 @@ function sendDanmakuItem() {
       console.log("进入发送--方法")
       //player && ('send' in  player)
       danmakuTemp.send(item)
-      console.log("发送弹幕：", item)
+
+
+
+
     }
   }
 }
@@ -632,11 +652,11 @@ function ToHome(){
 <template>
   <transition name="van-slide-right">
     <div id="view"   v-show="visible" @click="AppOnClick">
-      <van-toast v-model:show="show" style="padding: 0;top:10rem;height:8rem">
-        <template #message>
-          <div>发送成功</div>
-        </template>
-      </van-toast>
+<!--      <van-toast v-model:show="show" style="padding: 0;top:10rem;height:8rem">-->
+<!--        <template #message>-->
+<!--          <div>发送成功</div>-->
+<!--        </template>-->
+<!--      </van-toast>-->
 
       <div id="view-head">
         <van-nav-bar
@@ -654,7 +674,7 @@ function ToHome(){
 -->
       <div>
         <NPlayer
-            :options="{src:'123456'}"
+            :options="options"
             :set="setPlayer"
 
         />
