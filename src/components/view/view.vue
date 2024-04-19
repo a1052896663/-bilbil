@@ -741,7 +741,7 @@ function ToHome(){
             <comment-section ></comment-section  >
 
           </div>
-          <comment-section-reply></comment-section-reply>
+          <comment-section-reply ></comment-section-reply>
 
         </div>
         <input-comment v-show="commentsShow&&active==1"></input-comment>

@@ -143,7 +143,7 @@ function OnClickPopup(){
 </script>
 
 <template>
-    <div id="comment-section-reply"  @click.stop="OnClickfonStop">
+    <div id="comment-section-reply"  v-if="commentRoute" @click.stop="OnClickfonStop">
       <van-popup
           @click-close-icon="OnClickPopup"
           @click-overlay="OnClickPopup"

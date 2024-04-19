@@ -19,7 +19,7 @@ const cardData= defineProps({
     default:true
   },
   itemData:{
-    type:ref<ViewComment>,
+    type:Object,
     default:undefined
 
   }
@@ -85,14 +85,14 @@ const comment=computed(()=>{
 //test()
 
 const childTemp=computed(()=>{
-  if(!(comment&&comment.value.child)){
+  if(!(cardData.itemData&&cardData.itemData.child)){
     return []
   }
-  if(comment.value.child.length<=3){
-        return comment.value.child
+  if(cardData.itemData.child.length<=3){
+        return cardData.itemData.child
   }
-  if (comment.value.child.length>3){
-    return [comment.value.child[0],comment.value.child[1],comment.value.child[2]]
+  if (cardData.itemData.child.length>3){
+    return [cardData.itemData.child[0],cardData.itemData.child[1],cardData.itemData.child[2]]
   }
 
 })
@@ -161,7 +161,7 @@ function OnClickHortOrTime(upload:boolean){ // 换颜色
     return;
   }
 
-  inputComment(comment.value)
+  inputComment(cardData.itemData)
   OnTime.value=!OnTime.value
   fontColor.value="#1989fa"
   setTimeout(()=>{
@@ -170,9 +170,10 @@ function OnClickHortOrTime(upload:boolean){ // 换颜色
 }
 
 //comment.likeSize
-const likeState=ref<boolean>(comment.value.likeState)
-console.log("id:",comment.value.id,"点赞状态：",comment.value.likeState)
-const likeSize=ref<boolean>(comment.value.likeSize)
+console.log("当前状态值：",cardData.itemData)
+const likeState=ref<boolean>(cardData.itemData.likeState)
+console.log("id:",cardData.itemData.id,"点赞状态：",cardData.itemData.likeState)
+const likeSize=ref<boolean>(cardData.itemData.likeSize)
 async function OnClickLike(upload:boolean,id:number){
   if(!upload){
     // 处于加载状态
@@ -199,7 +200,7 @@ async function OnClickLike(upload:boolean,id:number){
 </script>
 
 <template>
-  <div class="comment-section-content-item" :style="{animation:comment.upload?'':'opacityAnimation 1s infinite'}"  v-if="itemData&&comment">
+  <div class="comment-section-content-item" :style="{animation:itemData.upload?'':'opacityAnimation 1s infinite'}"  v-if="itemData">
     <van-divider />
     <div class="comment-section-content-item-image">
       <van-image
@@ -208,19 +209,19 @@ async function OnClickLike(upload:boolean,id:number){
           height="9rem"
           fit="cover"
 
-          :src="comment.userImageSrc"
+          :src="itemData.userImageSrc"
       />
     </div>
     <div class="comment-section-content-item-card">
       <div class="comment-section-content-item-card-user">
-        <div class="comment-section-content-item-card-user-name">{{comment.userName}}</div>
-        <div  class="comment-section-content-item-card-user-time">{{formatDateTime(comment.time)}}</div>
+        <div class="comment-section-content-item-card-user-name">{{itemData.userName}}</div>
+        <div  class="comment-section-content-item-card-user-time">{{formatDateTime(itemData.time)}}</div>
       </div>
       <div class="comment-section-content-item-card-comment">
 <!--        <div   @click ="inputComment(comment)" class="comment-section-content-item-card-comment-title">-->
         <div    class="comment-section-content-item-card-comment-title">
 
-        <span v-if="comment&&comment.type==COMMENTS_TYPE.VIDEO_REFUTATION&&comment.toComment">回复：<span style="color: #1989fa">@{{comment.toComment.userName}}:</span></span>
+        <span v-if="itemData&&itemData.type==COMMENTS_TYPE.VIDEO_REFUTATION&&itemData.toComment">回复：<span style="color: #1989fa">@{{itemData.toComment.userName}}:</span></span>
 
            <van-text-ellipsis
             @click-action="OnClickTextEllipsis"
@@ -236,14 +237,14 @@ async function OnClickLike(upload:boolean,id:number){
 
         </div>
         <div class="comment-section-content-item-card-comment-fonts">
-          <div class="comment-section-content-item-card-comment-font"  @click.stop="OnClickLike(comment.upload,comment.id)"><van-icon :color="likeState?'#0264e7':''" size="5rem" name="good-job-o" /> <span style="text-indent: 1rem;">{{likeSize}}</span></div>
-          <div class="comment-section-content-item-card-comment-font" @click.stop ="OnClickHortOrTime(comment.upload)"><van-icon size="5rem" :color="fontColor" name="chat-o" /></div>
+          <div class="comment-section-content-item-card-comment-font"  @click.stop="OnClickLike(itemData.upload,itemData.id)"><van-icon :color="likeState?'#0264e7':''" size="5rem" name="good-job-o" /> <span style="text-indent: 1rem;">{{likeSize}}</span></div>
+          <div class="comment-section-content-item-card-comment-font" @click.stop ="OnClickHortOrTime(itemData.upload)"><van-icon size="5rem" :color="fontColor" name="chat-o" /></div>
           <div class="comment-section-content-item-card-comment-font-m"> </div>
-          <div class="comment-section-content-item-card-comment-font-last" v-if="comment.deleteShow"><van-icon size="5rem" name="delete-o" /></div>
+          <div class="comment-section-content-item-card-comment-font-last" v-if="itemData.deleteShow"><van-icon size="5rem" name="delete-o" /></div>
         </div>
 
       </div>
-      <div class="comment-section-content-item-card-reply"  @click.stop="OnClickToReply(comment)"  v-if="comment&&comment.type==COMMENTS_TYPE.VIDEO&&childShow&&comment.child.length>0">
+      <div class="comment-section-content-item-card-reply"  @click.stop="OnClickToReply(itemData)"  v-if="itemData&&itemData.type==COMMENTS_TYPE.VIDEO&&childShow&&itemData.child.length>0">
         <div class="comment-section-content-item-card-reply-item" >
           <div class="comment-section-content-item-card-reply-name" v-for="(item,index) in childTemp" :key="index">
             <template v-if="item.type==COMMENTS_TYPE.VIDEO_REPLY">
@@ -261,7 +262,7 @@ async function OnClickLike(upload:boolean,id:number){
 
 
         </div>
-        <div v-if="comment.child.length>3"   @click="commentSectionReplyShow=true" class="comment-section-content-item-card-reply-more">共{{comment.child.length}}条回复 <van-icon name="arrow" /></div>
+        <div v-if="itemData.child.length>3"   @click="commentSectionReplyShow=true" class="comment-section-content-item-card-reply-more">共{{itemData.child.length}}条回复 <van-icon name="arrow" /></div>
       </div>
 
     </div>

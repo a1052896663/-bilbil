@@ -179,6 +179,7 @@ async function OnClickSparkle(){
        sparkleState.value=true
      }
       heatSize.value+=2;
+      await InitData();
 
     }
   }catch (e){
