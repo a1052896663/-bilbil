@@ -1,5 +1,6 @@
-import {replyObject, routePath} from "../store/DataStore";
+import {replyObject, routePath, ViewCommentArray, ViewUpUserId} from "../store/DataStore";
 import {Comments, COMMENTS_TYPE, CommentsData, ViewComment} from "./type";
+import {id} from '../store/UserSrore'
 import route from "@/router/router";
 export function isOfType<T>(  // 判断是什么类型
     target: unknown,
@@ -251,7 +252,7 @@ function ViewCommentVideoDataInit(){
       likeSize:   item.comments.likeNum,// 点赞数目
       time:   item.comments.date,   // 时间搓
       content:    item.comments.content,  // 评论内容
-      deleteShow: true, // 是否可以删除 TODO 根据用户判断
+      deleteShow: ViewUpUserId.value==id.value||id.value==item.comments.userId, // 是否可以删除
       child:  [] , // 回复,
       type:   item.comments.commentsType,
       likeState:item.likeState,
@@ -279,7 +280,7 @@ function ViewCommentVideoReplyDataInit(){
       time:   item.comments.date,   // 时间搓
       userId:item.comments.userId,
       content:    item.comments.content,  // 评论内容
-      deleteShow: true, // 是否可以删除 TODO 根据用户判断 直接的视频直接的评论
+      deleteShow: ViewUpUserId.value==id.value||id.value==item.comments.userId, // 是否可以删除 TODO 根据用户判断 直接的视频直接的评论
       child:  [] , // 回复,
       type:   item.comments.commentsType,
       likeState:item.likeState,
@@ -314,7 +315,7 @@ function ViewCommentVideoRefutationDataInit(){
       likeSize:   item.comments.likeNum,// 点赞数目
       time:   item.comments.date,   // 时间搓
       content:    item.comments.content,  // 评论内容
-      deleteShow: true, // 是否可以删除 TODO 根据用户判断 直接的视频直接的评论
+      deleteShow: ViewUpUserId.value==id.value||id.value==item.comments.userId, // 是否可以删除 TODO 根据用户判断 直接的视频直接的评论
       child:  [] , // 回复,
       type:   item.comments.commentsType,
       likeState:item.likeState,
@@ -328,6 +329,35 @@ function ViewCommentVideoRefutationDataInit(){
     }
 
   })
+}
+
+/**
+ * 删除评论
+ * @param commentId
+ * @param parentId
+ * @constructor
+ */
+export function DeleteComment(commentId:number,parentId:number){
+  console.log("需要删除的评论：",commentId, " 父亲：",parentId)
+  if(parentId==-1){
+    // 删除视频评论
+    const indexToDelete = ViewCommentArray.value.findIndex(obj => obj.id === commentId);
+
+    if (indexToDelete !== -1) {
+      ViewCommentArray.value.splice(indexToDelete, 1); // 删除一个元素
+      console.log("删除评论：",commentId)
+    }
+
+  }else {
+    // 删除回怼
+    const fzItem = ViewCommentArray.value.find(obj => obj.id === parentId);
+    const indexToDelete=  fzItem.child.findIndex(obj=>obj.id === commentId)
+    if (indexToDelete !== -1) {
+      fzItem.child.splice(indexToDelete, 1); // 删除一个元素
+      console.log("删除评论：",commentId)
+    }
+
+  }
 }
 
 //Assignment()

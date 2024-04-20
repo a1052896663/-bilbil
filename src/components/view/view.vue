@@ -10,7 +10,7 @@ import route from "@/router/router";
 import ViewComments from "@/components/view/view-comments.vue";
 import {BulletOption} from "@nplayer/danmaku/dist/src/ts/danmaku/bullet";
 import { showToast } from 'vant';
-import {videoSocket, ViewCommentArray} from '../../store/DataStore'
+import {videoSocket, ViewCommentArray, ViewUpUserId} from '../../store/DataStore'
 import {Assignment} from '../../util/util'
 
 //import '../../store/RouterStore'
@@ -49,6 +49,7 @@ onMounted( async ()=>{
   // const videoDome= document.getElementsByClassName("nplayer_video")[0]
    // Src.value=viewCard.value.body.videoSrc
         player.video.src=viewCard.value.body.videoSrc
+    ViewUpUserId.value=viewCard.value.body.userId // 作者id
       if( player.danmaku.items){
         player.danmaku.items.push( ...viewCard.value.body.barrage)
         console.log("初始化弹幕")

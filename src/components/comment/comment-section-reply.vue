@@ -27,27 +27,27 @@ import {COMMENTS_TYPE, ViewComment} from "../../util/type";
 
 
 
-//commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
+
 const testDate=ref<ViewComment>(commentRoute.value)
-watch(commentRoute,(newValue)=>{
-  if(newValue){
-    testDate.value=commentRoute.value
-    commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
-    replyObject.value=testDate.value // 添加回复对象
-    console.log("回复区展开",replyObject.value)
-  }
-})
+// watch(commentRoute,(newValue)=>{
+//   if(newValue){
+//     testDate.value=commentRoute.value
+//     commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
+//     replyObject.value=testDate.value // 添加回复对象
+//     console.log("回复区展开",replyObject.value)
+//   }
+// })
 
 watch(commentSectionReplyShow,(newValue)=>{
   //console.log("commentSectionReplyShow的值有改变",commentSectionReplyShow.value)
   if( newValue){
-   // commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
-   //  console.log("接收到的值：",commentRoute.value)
-   //   testDate.value=commentRoute.value
-   //  commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
-   //   replyObject.value=testDate.value // 添加回复对象
-   //  console.log("回复区展开",replyObject.value)
-    //console.log("评论区区回复收到的值：",commentRoute.value)
+  // commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
+    console.log("接收到的值：",commentRoute.value)
+     testDate.value=commentRoute.value
+    commentRoute.value.child.sort((a,b)=>b.likeSize-a.likeSize)
+     replyObject.value=testDate.value // 添加回复对象
+    console.log("回复区展开",replyObject.value)
+    console.log("评论区区回复收到的值：",commentRoute.value)
   }else {
     commentSectionReplyShow.value
     replyObject.value=null

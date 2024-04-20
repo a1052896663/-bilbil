@@ -1,9 +1,17 @@
 <script setup lang="ts">
 
-import {commentRoute, headObject,commentSectionReplyShow,replyObject} from "../../store/DataStore";
+import {
+  commentRoute,
+  headObject,
+  commentSectionReplyShow,
+  ViewUpUserId,
+  replyObject,
+  ViewCommentArray
+} from "../../store/DataStore";
+import {id} from '../../store/UserSrore'
 import {computed, ref} from "vue";
-import {COMMENTS_TYPE, SERVICE_ROUT, ViewComment} from "../../util/type";
-import {formatDateTime} from "@/util/util";
+import {COMMENTS_TYPE, Response, SERVICE_ROUT, ViewComment} from "../../util/type";
+import {DeleteComment, formatDateTime} from "@/util/util";
 import {showToast} from "vant";
 import {HttpDelete, HttpPut} from "@/api/http";
 //import {ref} from "vue/dist/vue";
@@ -197,10 +205,57 @@ async function OnClickLike(upload:boolean,id:number){
 
 }
 
+// 删除评论id
+const isNoDelete=ref(true)
+async function Delete(upload:boolean,commetId:number,parentId:number){
+
+  console.log("当前全部评论：",ViewCommentArray.value)
+  if(!upload){
+    // 处于加载状态
+    showToast({
+      message: '此评论处于与添加中',
+      position: 'top',
+    });
+    return;
+  }
+  console.log("需要删除的评论id:",commetId," 视频作者id：",ViewUpUserId.value," 当前本人用户id:",id.value)
+  try {
+  const rep:Response<string>=  (await HttpDelete(SERVICE_ROUT.VIDEO_COMMENTS_DELETE+"/"+commetId)).data
+  if(rep.status==200){
+    showToast({
+      message: '评论删除成功',
+      position: 'top',
+    });
+   // isNoDelete.value=false;
+    if(parentId==-1){
+      // 点击头部 -- 关闭
+      commentSectionReplyShow.value=false
+    }
+
+    DeleteComment(commetId,parentId)
+
+  }else {
+    showToast({
+      message: '评论删除失败',
+      position: 'top',
+    });
+  }
+  }catch (e){
+    showToast({
+      message: '评论删除失败',
+      position: 'top',
+    });
+    isNoDelete.value=true;
+  }
+
+
+
+}
+
 </script>
 
 <template>
-  <div class="comment-section-content-item" :style="{animation:itemData.upload?'':'opacityAnimation 1s infinite'}"  v-if="itemData">
+  <div class="comment-section-content-item" :style="{animation:itemData.upload?'':'opacityAnimation 1s infinite'}"  v-if="itemData&&isNoDelete">
     <van-divider />
     <div class="comment-section-content-item-image">
       <van-image
@@ -240,7 +295,7 @@ async function OnClickLike(upload:boolean,id:number){
           <div class="comment-section-content-item-card-comment-font"  @click.stop="OnClickLike(itemData.upload,itemData.id)"><van-icon :color="likeState?'#0264e7':''" size="5rem" name="good-job-o" /> <span style="text-indent: 1rem;">{{likeSize}}</span></div>
           <div class="comment-section-content-item-card-comment-font" @click.stop ="OnClickHortOrTime(itemData.upload)"><van-icon size="5rem" :color="fontColor" name="chat-o" /></div>
           <div class="comment-section-content-item-card-comment-font-m"> </div>
-          <div class="comment-section-content-item-card-comment-font-last" v-if="itemData.deleteShow"><van-icon size="5rem" name="delete-o" /></div>
+          <div class="comment-section-content-item-card-comment-font-last" v-if="itemData.deleteShow" @click.stop="Delete(itemData.upload,itemData.id,itemData.parentId)"><van-icon size="5rem" name="delete-o" /></div>
         </div>
 
       </div>

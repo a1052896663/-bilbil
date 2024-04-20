@@ -21,6 +21,7 @@ export enum SERVICE_ROUT{ // 后端路由
   VIDEO_NOLIKE_DELETE="/video/videoNoLike",   // 取消视频点踩
   VIDEO_COMMENTS_LIKE_PUT="/video/comments/like", // 视频评论点赞
   VIDEO_COMMENTS_LIKE_DELETE="/video/comments/like", // 视频评论点赞取消
+  VIDEO_COMMENTS_DELETE="/video/comments",
   VIDEO_SPARKLE_PUT="/video/sparkle",   // 视频点火
   VIDEO_GET="/video/video",  // 获得播放视频
   VIDEO_UPLOAD_POST='/video/upload',    // 视频上传
