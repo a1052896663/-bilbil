@@ -15,6 +15,7 @@
     "@nplayer/vue": "^1.0.12",
     "@types/ws": "^8.5.10",
     "axios": "^1.6.2",
+    "cropper": "^4.1.0",
     "element-plus": "^2.6.2",
     "element-ui": "^2.15.14",
     "lodash": "^4.17.21",
@@ -23,6 +24,8 @@
     "qs": "^6.11.2",
     "vant": "^4.8.7",
     "vue": "^3.3.11",
+    "vue-cropper-h5": "next",
+    "vue-img-cutter": "^3.0.4",
     "vue-router": "^4.2.5",
     "vue-video-player": "^6.0.0",
     "vue3-emoji": "^2.1.8",
@@ -33,6 +36,7 @@
     "@types/ws": "^8.5.10",
     "@vitejs/plugin-vue": "^4.5.2",
     "vite": "^5.0.10",
-    "vite-plugin-windicss": "^1.9.2"
+    "vite-plugin-windicss": "^1.9.2",
+    "vue-img-cutter": "^3.0.4"
   }
 }

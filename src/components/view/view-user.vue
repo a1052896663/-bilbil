@@ -5,13 +5,15 @@
 
 <script setup lang="ts">
 import {ref, toRefs} from "vue";
-import {shareShow} from '../../store/DataStore'
+import {shareShow, videoSocket, viewVideoId} from '../../store/DataStore'
+import {id} from '../../store/UserSrore'
 import {formatDateTime3} from  '../../util/util'
 import Search from "@/components/home/search/search-view.vue";
 import {HttpDelete, HttpPut} from "@/api/http";
 import {Response, SERVICE_ROUT} from "../../util/type";
 import {showToast} from "vant";
 import {InitData} from "../../store/UserSrore";
+import {Ws} from '../../api/WebSocket'
  //import {shareShow} from '../../store/RouterStore'
 
 
@@ -187,6 +189,45 @@ async function OnClickSparkle(){
   }
 }
 
+
+/**
+ * 连连接socket服务
+ */
+const viewSize=ref<string>(""+ProP.viewCardBody.viewSize)
+async function OnWs(){
+  try {
+    // const ws: Ws<string> =new Ws(SERVICE_ROUT.SERVER_SOCKET+"/"+
+    //     SERVICE_ROUT.VIDEO_SOCKET+"/"+viewVideoId.value+"/"+id.value)
+    // ws.onMessage(rep=>{
+    //   console.log("socket收到的消息：",rep)
+    // })
+
+    const root=SERVICE_ROUT.SERVER_SOCKET+
+        SERVICE_ROUT.VIDEO_SOCKET+"/"+viewVideoId.value+"/"+id.value
+
+    console.log("ws地址：",root)
+
+     videoSocket.value=new WebSocket(root);
+
+    videoSocket.value.onopen = function() {
+      console.log('WebSocket 连接已打开');
+    };
+
+    videoSocket.value.onmessage = function(event) {
+      console.log('接收到消息:', event.data);
+     const Data:Response<string>=  JSON.parse( event.data)
+      viewSize.value=Data.body
+      console.log("解析后的websocket消息",Data)
+    };
+
+
+  }catch (e){
+    console.error("socket:",e)
+  }
+
+}
+
+OnWs();
 </script>
 
 <template>
@@ -236,7 +277,7 @@ async function OnClickSparkle(){
                   <div class="view-user-unfold-attribute-item"><van-icon name="play-circle-o" /> {{viewCardBody.playback}}</div>
                   <div class="view-user-unfold-attribute-item"><van-icon name="other-pay" /> {{viewCardBody.barrage.length}}</div>
                   <div class="view-user-unfold-attribute-item"><van-icon name="clock-o" />  {{formatDateTime3(viewCardBody.date)}}</div>
-                  <div class="view-user-unfold-attribute-item"><van-icon name="friends-o" /> {{viewCardBody.viewSize}}</div>
+                  <div class="view-user-unfold-attribute-item"><van-icon name="friends-o" /> {{viewSize}}</div>
                 </div>
 
               </div>

@@ -11,6 +11,7 @@ import homeMsgHead from "@/components/home/msg/home-msg-head.vue";
 import userVideoUploder from "@/components/home/user/user-video-uploder.vue";
 import router  from "@/components/view/router.vue";
 import {onActivated} from "vue";
+import userSetting from "@/components/home/user/user-setting.vue";
 const routes=[
     {
         path:'/home',
@@ -61,6 +62,10 @@ const routes=[
         name: 'route',
         meta: { keepAlive: false },
         component: router
+    },
+    {
+        path: '/userSetting',
+        component: userSetting
     }
 ]
 

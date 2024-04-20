@@ -75,6 +75,16 @@
 
 
     }
+
+    .user-setting-font{
+        color: #c8c9cc ;
+        transition: background-color 0.3s ease; /* 添加过渡效果 */
+
+    }
+    .user-setting-font:active{
+        color: #1989fa;;
+    }
+
     .home-main-manager-user-car-item:active{
         background: #e9e9eb;
     }

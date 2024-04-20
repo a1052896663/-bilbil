@@ -10,7 +10,7 @@ import route from "@/router/router";
 import ViewComments from "@/components/view/view-comments.vue";
 import {BulletOption} from "@nplayer/danmaku/dist/src/ts/danmaku/bullet";
 import { showToast } from 'vant';
-import {ViewCommentArray} from '../../store/DataStore'
+import {videoSocket, ViewCommentArray} from '../../store/DataStore'
 import {Assignment} from '../../util/util'
 
 //import '../../store/RouterStore'
@@ -640,6 +640,13 @@ function OnClickHortOrTime(){ // 换颜色
 //
 const visible=ref(true)
 function ToHome(){
+
+  try {
+    videoSocket.value.close();
+  }catch (e){
+    console.error("video-socket：",e)
+  }
+
   visible.value=false
   setTimeout(()=>{
 

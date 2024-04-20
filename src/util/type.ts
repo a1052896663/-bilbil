@@ -2,6 +2,7 @@ import {BulletOption} from "@nplayer/danmaku/dist/src/ts/danmaku/bullet";
 
 export enum SERVICE_ROUT{ // 后端路由
   ServerPath="http://localhost:8080",
+  SERVER_SOCKET="ws://localhost:8080",
   //ServerPath="http://127.0.0.1:8080",
   HELLO_GET="/hello",
   TOKEN_LOGIN="user/token/login", // 使用token自动登录
@@ -27,10 +28,12 @@ export enum SERVICE_ROUT{ // 后端路由
   USER_HISTORY="/user/history",
 
   USER_CONCERN_PUT="/user/concern",
+  USER_SETTING_POST="/user/setting",
+  USER_SETTING_NOIMAGE_POST="/user/setting/no",
   USER_CONCERN_DELETE="/user/concern",
 
   USER_COLLECTION="/user/collection",
-  VIDEO_SOCKET=""
+  VIDEO_SOCKET="/socket/video/session"  // video 会话
 }
 
 //   <----  响应体相关
@@ -50,7 +53,10 @@ export interface User{
   avatar?:string
   time?:number
   imageSrc:string
-  version?:number
+  version?:number,
+  gender:string, // 性别
+  brief:string, // 简介
+
 }
 
 export interface Video{

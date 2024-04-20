@@ -7,5 +7,6 @@ module.exports = {
         alias: {
             '@/': path.resolve('src'),
         }
-    }
+    },
+
 }

@@ -17,6 +17,9 @@ export const USER_TEMP={
     userCommunity:ref<number>(0), // 社区动态数量
     userVideoSize:ref<number>(0),// 视频数量
 
+    userGender:ref<string>('保密'), // 保密
+    userBrief:ref<string>("我没有简介 >_<" ), // 简介
+
     password: "",
     role: "",
     time: 0,
@@ -34,6 +37,8 @@ export const {userSomeone} =USER_TEMP
 export const {userSparkle} =USER_TEMP
 export const {userCommunity} =USER_TEMP
 export const {userVideoSize} =USER_TEMP
+export const {userBrief} =USER_TEMP
+export const {userGender} =USER_TEMP
 
 // 自动登录--token登录--token登录失败--保存密码
 // TODO 存储浏览器 -- 添加评论-- 添加粉丝--点赞-- 删除评论--收藏--soket
@@ -63,6 +68,9 @@ export const {userVideoSize} =USER_TEMP
             USER_TEMP.userSomeone.value=user.body.someone;
             USER_TEMP.userVideoSize.value=user.body.videoSize;
 
+            USER_TEMP. userBrief.value=user.body.brief
+            USER_TEMP. userGender.value=user.body.gender
+
             localStorage.setItem('user-token',user.token)
             localStorage.   setItem('user-id',String( user.body.id))
             localStorage.   setItem('user-account',user.body.account)
@@ -79,6 +87,10 @@ export const {userVideoSize} =USER_TEMP
             localStorage.   setItem('user-concern',String(user.body.concern) )
             localStorage.   setItem('user-someone',String(user.body.someone) )
             localStorage.   setItem('user-videoSize',String(user.body.videoSize) )
+
+
+            localStorage.   setItem('user-gender',String(user.body.gender) )
+            localStorage.   setItem('user-brief',String(user.body.brief) )
 
 
 
@@ -124,6 +136,9 @@ async function localhostData(){
     USER_TEMP.userConcern.value= Number( localStorage. getItem('user-concern'))
     USER_TEMP.userSomeone.value= Number( localStorage. getItem('user-someone'))
     USER_TEMP.userVideoSize.value= Number( localStorage. getItem('user-videoSize'))
+
+    USER_TEMP.userGender.value=  localStorage. getItem('user-gender')
+    USER_TEMP.userBrief.value= localStorage. getItem('user-brief')
 
 }
 

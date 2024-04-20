@@ -37,6 +37,14 @@ function ToCollection(){
   },200)
 }
 
+function ToUserStting(){
+  setTimeout(()=>{
+   // timeOrCollectionTitle.value='我的收藏'
+    route.push('/userSetting') // 跳转用户信息修改
+   // route.push('/timeView')
+  },200)
+}
+
 </script>
 
 <template>
@@ -68,7 +76,7 @@ function ToCollection(){
         <div id="view-user-body-user">
           <div class="user-name">{{userName}}
 
-            <el-icon :color="'#c8c9cc'" size="4.3rem"><EditPen /></el-icon>
+            <el-icon @click="ToUserStting"  class="user-setting-font"  size="4.3rem"><EditPen /></el-icon>
           </div>
           <div class="user-massage">
             <div class="user-fan user-massage-item">火花：{{userSparkle}}</div>
@@ -137,7 +145,7 @@ function ToCollection(){
 
         </div>
 
-        <div class="home-main-manager-user-list-item">
+        <div class="home-main-manager-user-list-item" @click="ToUserStting">
           <el-icon color="#1989fa" size="5.3rem"><Edit /></el-icon>
           <div class="home-main-manager-user-list-item-font">
             信息修改

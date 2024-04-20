@@ -39,8 +39,9 @@ const DataStore={
     ViewCommentArray:ref<ViewComment[]>() ,// 评论数据
     viewVideoShow:ref<boolean>(false), // 播放页面是否显示
 
-    timeOrCollectionTitle:ref<string>('观看历史') //  页面 数据
+    timeOrCollectionTitle:ref<string>('观看历史'), //  页面 数据
 
+    videoSocket:ref<WebSocket>(),
 
 }
 export const {shareShow}=DataStore
@@ -60,3 +61,4 @@ export const {routePath}=DataStore
 export const {ViewCommentArray}=DataStore
 export const {viewVideoShow}=DataStore
 export const {timeOrCollectionTitle}=DataStore
+export const {videoSocket}=DataStore

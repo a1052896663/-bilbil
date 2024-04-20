@@ -11,9 +11,9 @@ onMounted(()=>{
   InitData()
   console.log("跳转home")
   try {
-   // route.push('/userVideoUploder')
+   // route.push('/userSetting')
     routerTo('/home')
-  //  routerTo('/timeView')
+  // routerTo('/userSetting')
    // route.push('/home')
   }catch (e){
     console.error("error:",e)

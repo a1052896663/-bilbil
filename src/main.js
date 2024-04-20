@@ -8,6 +8,13 @@ import router from "./router/router.js"
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'vant/lib/index.css';
+
+
+
+
+
+
+//import 'vue-cropper/dist/index.css'
 import { Tabbar, TabbarItem ,Search } from 'vant';
 
 
@@ -35,6 +42,7 @@ import { Toast } from 'vant';
 
 import { Collapse, CollapseItem } from 'vant';
 
+
 const app = createApp(App)
 
 //const pian=
@@ -58,7 +66,26 @@ import V3Emoji from 'vue3-emoji'
 import { List } from 'vant';
 
 import { Uploader } from 'vant';
+import { Cascader } from 'vant';
+import { Picker } from 'vant';
 
+import H5Cropper from 'vue-cropper-h5'
+app.component('H5Cropper',H5Cropper)
+
+//注意！！！vue3.0版本需要引入样式
+import "vue-cropper-h5/dist/style.css";
+//import ImgCutter from 'vue-img-cutter';
+//import AvatarCropper from "vue-avatar-cropper"
+
+//app.use(AvatarCropper)
+
+//app.use(NPlayer, { name: 'NPlayer' })
+import { Dialog } from 'vant';
+
+app.use(Dialog)
+app.use(Picker);
+
+app.use(Cascader);
 
 app.use(Uploader)
 app.use(List);
