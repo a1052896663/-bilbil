@@ -171,13 +171,13 @@ const count=ref(0)
 
     </van-tabs>
     <div id="home-main">
-      <van-pull-refresh v-model="loading"  success-text="刷新成功" @refresh="onRefresh">
+<!--      <van-pull-refresh v-model="loading"  success-text="刷新成功" @refresh="onRefresh">-->
 
-
+<!--      </van-pull-refresh>-->
 <!--主页显示-->
       <home-main-home    v-show="active==0&&Tap_active==0"></home-main-home>
 <!--        <view v-show="true"></view>-->
-      </van-pull-refresh>
+
       <div id="home-main-qr"  :class="fly"  v-if="active==1">
         <div>home2</div>
         <van-skeleton>

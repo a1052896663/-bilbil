@@ -12,7 +12,10 @@ export function isOfType<T>(  // 判断是什么类型
 
 
 
-  export     function formatTime(seconds) {  // 传递一个秒
+export     function formatTime(seconds) {  // 传递一个秒
+
+
+  try {
     const date = new Date(null);
     date.setSeconds(seconds);
 
@@ -21,33 +24,39 @@ export function isOfType<T>(  // 判断是什么类型
     if(typeof formattedTime=="string"){
       const regex=/0+:/
       const result=   formattedTime.replace(regex,'')
-     // console.log("匹配结果：",result)
+      // console.log("匹配结果：",result)
       formattedTime=result
     }
     return formattedTime;
-  }
-  export  function hasKey(obj:any,key:string){
-      return obj&&(key in obj)
+  }catch (e){
+    console.error(e)
+    return seconds
   }
 
-  export function formatDateTime(time:number) {   // 时间格式化--时间搓
-    const date:Date=new Date(time)
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    // const hours = String(date.getHours()).padStart(2, '0');
-    // const minutes = String(date.getMinutes()).padStart(2, '0');
-    // const seconds = String(date.getSeconds()).padStart(2, '0');
+}
 
-    return `${year}-${month}-${day}`;
-  }
+export  function hasKey(obj:any,key:string){
+  return obj&&(key in obj)
+}
+
+export function formatDateTime(time:number) {   // 时间格式化--时间搓
+  const date:Date=new Date(time)
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  // const hours = String(date.getHours()).padStart(2, '0');
+  // const minutes = String(date.getMinutes()).padStart(2, '0');
+  // const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
 
 export function formatDateTime3(time:number) {   // 时间格式化--时间搓
   const date:Date=new Date(time)
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
- const hours = String(date.getHours()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
   // const seconds = String(date.getSeconds()).padStart(2, '0');
 

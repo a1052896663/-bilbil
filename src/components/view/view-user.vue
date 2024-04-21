@@ -5,13 +5,14 @@
 
 <script setup lang="ts">
 import {ref, toRefs} from "vue";
-import {shareShow, videoSocket, viewVideoId} from '../../store/DataStore'
+import {shareShow, videoSocket, ViewUserDynamicId, viewVideoId} from '../../store/DataStore'
 import {id} from '../../store/UserSrore'
 import {formatDateTime3} from  '../../util/util'
 import Search from "@/components/home/search/search-view.vue";
 import {HttpDelete, HttpPut} from "@/api/http";
 import {Response, SERVICE_ROUT} from "../../util/type";
 import {showToast} from "vant";
+import route from '../../router/router.js'
 import {InitData} from "../../store/UserSrore";
 import {Ws} from '../../api/WebSocket'
  //import {shareShow} from '../../store/RouterStore'
@@ -71,6 +72,7 @@ async function  OnClickConcern(){  //
   if(userButton.value){
     // 取消关注
     userButton.value=false
+
     try {
       await HttpDelete(SERVICE_ROUT.USER_CONCERN_DELETE+"/"+ProP.viewCardBody.userId)
 
@@ -228,13 +230,25 @@ async function OnWs(){
 }
 
 OnWs();
+
+
+
+// 跳转到用户详情
+function ToUser(){
+  setTimeout(()=>{
+    ViewUserDynamicId.value=ProP.viewCardBody.userId
+    // timeOrCollectionTitle.value='我的收藏'
+    route.push('/userDynamic') // 跳转用户信息修改
+    // route.push('/timeView')
+  },200)
+}
 </script>
 
 <template>
   <div id="view-user">
     <div id="view-user-body">
       <div id="view-user-brief">
-        <div id="view-user-brief-image">
+        <div id="view-user-brief-image" @click.stop="ToUser">
           <van-image
               round
               width="10rem"

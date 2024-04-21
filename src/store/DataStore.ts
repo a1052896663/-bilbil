@@ -42,7 +42,8 @@ const DataStore={
     timeOrCollectionTitle:ref<string>('观看历史'), //  页面 数据
 
     videoSocket:ref<WebSocket>(), // 当前socket服务
-    ViewUpUserId:ref<number>(-1), // 当前 视频播放作者的userId
+    ViewUpUserId:ref<number>(-1), // 当前 视频播放作者的userId,
+    ViewUserDynamicId:ref<number>(-1) ,// 当前 ViewUserDynamic 页面需要展示的用户id
 
 }
 export const {shareShow}=DataStore
@@ -64,3 +65,4 @@ export const {viewVideoShow}=DataStore
 export const {timeOrCollectionTitle}=DataStore
 export const {videoSocket}=DataStore
 export const {ViewUpUserId}=DataStore
+export const {ViewUserDynamicId}=DataStore

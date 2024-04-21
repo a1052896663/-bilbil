@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {Response, SERVICE_ROUT, Video, HomeViewCard} from "../../../util/type";
+import {Response, SERVICE_ROUT, Video, HomeViewCard, ViewUserCard} from "../../../util/type";
 import {HttpGet} from "@/api/http";
 import {viewVideoId} from '../../../store/DataStore'
 import {formatTime} from '../../../util/util'
 import route from "../../../router/router.js";
+import {showToast} from "vant";
 
 const play=ref<Response<HomeViewCard[]>>()
 console.log("进入home-main")
@@ -40,7 +41,7 @@ onMounted( async ()=>{
       console.error("home页面错误：404")
     }
 
-
+    await EnrollInit()
 
   }catch (e){
     if(e.code === 'ECONNABORTED'){
@@ -57,16 +58,81 @@ function toViewVideo(id:number) {
   route.push('/view')
 
 }
+
+
+// const view= document.getElementById('view')
+// console.log("view dom:",view)
+// const handleScroll = (e) => {
+//   let el = e.target
+//
+//
+//   if (Number(el.scrollTop + el.clientHeight).toFixed(0) == el.scrollHeight) {
+//     //console.log(currentPage.value, "yema");
+//     // currentPage.value++
+//     console.log("滚动到底部")
+//     //etchDatas()
+//   }
+// }
+// view.addEventListener('scroll', handleScroll );
+
+
+async function EnrollInit(){ // 注册shij
+
+  try {
+    const handleScroll =async (e) => {
+      let el = e.target
+    //  console.log("滚动")
+
+      if (Number(el.scrollTop + el.clientHeight).toFixed(0) == el.scrollHeight) {
+        console.log("滚动到底部")
+       const rep:Response<HomeViewCard[]>= await (await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data
+
+         if(rep.status==200){
+           rep.body.pop() // 只要10 条数据
+           console.log("添加新数据：",rep.body)
+          play.value.body.push(...rep.body)
+        }
+
+
+      }
+    }
+    const homeMainDom=document.getElementById('home-main-home')
+    console.log("dom:",homeMainDom)
+    homeMainDom.addEventListener('scroll', handleScroll );
+  }catch (e){
+    console.error(e)
+  }
+
+}
+
+
+
+// 上拉刷新
+const count = ref(0);
+const loading2 = ref(false);
+const onRefresh = () => {
+  setTimeout(() => {
+    showToast('刷新成功');
+    loading.value = false;
+    count.value++;
+  }, 1000);
+};
+
+
 </script>
 
 <template>
 
+<!--  <van-pull-refresh v-model="loading2" @refresh="onRefresh">-->
+<!--    <p>刷新次数: {{ count }}</p>-->
+
   <div id="home-main-home"  >
 
 
-
+<!--        <p>刷新次数: {{ count }}</p>-->
     <div  v-show="play&& play.body" @click="toViewVideo(item.videoId)"  v-for="(item,index) in play.body" :key="index" class="home-main-home-item">
       <van-skeleton   :row="3" :loading="loading" class="home-main-home-loading" title-width="90%">
+
         <template #template>
 
 
@@ -119,6 +185,7 @@ function toViewVideo(id:number) {
         <!--            作者-->
       </van-skeleton>
     </div>
+
 
   </div>
 

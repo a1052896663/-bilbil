@@ -11,7 +11,7 @@ onMounted(()=>{
   InitData()
   console.log("跳转home")
   try {
-   // route.push('/userSetting')
+   // routerTo('/userDynamic')
     routerTo('/home')
   // routerTo('/userSetting')
    // route.push('/home')

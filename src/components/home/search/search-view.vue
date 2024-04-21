@@ -55,7 +55,7 @@ function toView(videoId:number){
           {{item.title}}
         </div>
         <div>
-          <div class="view-search-item-view"><van-icon name="user-circle-o" /> 初音未来{{item.userName}}</div>
+          <div class="view-search-item-view" ><van-icon name="user-circle-o" /> {{item.userName}}</div>
           <div class="view-search-item-size"><van-icon name="play-circle-o" />  {{item.playback}} • {{formatDateTime(item.date)}} </div>
         </div>
         <van-divider />

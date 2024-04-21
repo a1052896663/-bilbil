@@ -14,7 +14,7 @@ import {
 } from '../../store/DataStore'
 import {COMMENTS_TYPE, ViewComment} from "../../util/type";
 import {getCOMMENTS_TYPE} from "../../util/util";
-import {userImage, userName} from "../../store/UserSrore";
+import {userImage, id,userName} from "../../store/UserSrore";
 
 
 // 表情元素
@@ -127,6 +127,7 @@ function OnClickSend(e){
 
      sendObj={
       child: [],
+
       content: barrage.value,
       deleteShow: true,
       id: Date.now(),
@@ -138,6 +139,7 @@ function OnClickSend(e){
       type:typeTemp,
       userImageSrc: userImage.value,
       userName: userName.value,
+       userId: id.value,
       videoId:  replyObject.value.videoId,
        upload:false
     }
@@ -149,6 +151,7 @@ function OnClickSend(e){
       child: [],
       content: barrage.value,
       deleteShow: true,
+       userId: id.value,
       id: Date.now(),
       likeSize: 0,
        likeState:false,
@@ -193,6 +196,7 @@ function UserMyCommentService(){
         parentId: replyObject.value.id,
         time: Date.now(),
         toComment: null,
+        userId: id.value,
         type:COMMENTS_TYPE.VIDEO_REPLY,
         userImageSrc: userImage.value,
         userName: userName.value,
@@ -208,6 +212,7 @@ function UserMyCommentService(){
         likeState:false,
         id: Date.now(),
         likeSize: 0,
+        userId: id.value,
         parentId: replyObject.value.parentId,
         time: Date.now(),
         toComment: replyObject.value.toComment,
@@ -227,6 +232,7 @@ function UserMyCommentService(){
         id: Date.now(),
         likeSize: 0,
         likeState:false,
+        userId: id.value,
         parentId: replyObject.value.parentId,
         time: Date.now(),
         toComment: replyObject.value.toComment,

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
 import {ref} from "vue";
-import {active, typeShow} from '../../../store/DataStore'
+import {active, typeShow, ViewUserDynamicId} from '../../../store/DataStore'
 import route from '../../../router/router.js'
 import {timeOrCollectionTitle} from '../../../store/DataStore'
-import {userName,userImage,userConcern,userSomeone,userSparkle,userCommunity} from "../../../store/UserSrore";
+import {userName, userImage, userConcern, userSomeone, userSparkle, userCommunity, id} from "../../../store/UserSrore";
 
 const visible=ref(true)
 
@@ -45,6 +45,14 @@ function ToUserStting(){
   },200)
 }
 
+function ToUser(){
+  setTimeout(()=>{
+    ViewUserDynamicId.value=id.value
+    // timeOrCollectionTitle.value='我的收藏'
+    route.push('/userDynamic') // 跳转用户信息修改
+    // route.push('/timeView')
+  },200)
+}
 </script>
 
 <template>
@@ -61,7 +69,7 @@ function ToUserStting(){
       />
 
       <div id="view-user-brief">
-        <div id="view-user-brief-image">
+        <div id="view-user-brief-image"  @click="ToUser">
           <van-image
               round
               width="20rem"

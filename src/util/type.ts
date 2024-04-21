@@ -1,8 +1,8 @@
 import {BulletOption} from "@nplayer/danmaku/dist/src/ts/danmaku/bullet";
 
 export enum SERVICE_ROUT{ // 后端路由
-  ServerPath="http://localhost:8080",
-  SERVER_SOCKET="ws://localhost:8080",
+  ServerPath="http://zxp200405221.com:8080",
+  SERVER_SOCKET="ws://zxp200405221.com:8080",
   //ServerPath="http://127.0.0.1:8080",
   HELLO_GET="/hello",
   TOKEN_LOGIN="user/token/login", // 使用token自动登录
@@ -32,6 +32,9 @@ export enum SERVICE_ROUT{ // 后端路由
   USER_SETTING_POST="/user/setting",
   USER_SETTING_NOIMAGE_POST="/user/setting/no",
   USER_CONCERN_DELETE="/user/concern",
+  USER_DYNAMIC_GET="/user/dynamic", // 用户动态信息查看
+  USER_VIDEO_GET="/user/video", // 分页获得数据 /userId/page
+
 
   USER_COLLECTION="/user/collection",
   VIDEO_SOCKET="/socket/video/session"  // video 会话
@@ -262,5 +265,12 @@ export interface ViewVideoCard{
   date:number
 
 
+}
+
+export interface ViewUserCard{
+
+   user:User;// 用户
+   userVideo:HomeViewCard[]; // 视频列表
+  concernState:boolean; // 关注动态
 }
 

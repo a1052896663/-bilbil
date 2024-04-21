@@ -20,7 +20,7 @@ import SearchView from "@/components/home/search/search-view.vue";
 import CommentSection from "@/components/comment/comment-section.vue";
 import CommentSectionReply from "@/components/comment/comment-section-reply.vue";
 import InputComment from "@/components/comment/input-comment.vue";
-import {Response, SERVICE_ROUT, ViewVideoCard} from '../../util/type'
+import {HomeViewCard, Response, SERVICE_ROUT, ViewUserCard, ViewVideoCard} from '../../util/type'
 import {HttpGet, HttpPut} from "../../api/http";
 import {viewVideoId } from  '../../store/DataStore'
 import {id} from "../../store/UserSrore";
@@ -38,6 +38,7 @@ const viewCard=ref<Response<ViewVideoCard>>()
 // })
 
 const Src=ref<string>("")
+const viewDom=ref(null)
 onMounted( async ()=>{
   try {
     ViewCommentArray.value=[]
@@ -46,6 +47,7 @@ onMounted( async ()=>{
 
     viewCard.value= ( await HttpGet(SERVICE_ROUT.VIDEO_GET+"/"+viewVideoId.value)).data
     console.log("需要播放的数据：",viewCard.value)
+ list.value.push(viewCard.value.body.recommend)
   // const videoDome= document.getElementsByClassName("nplayer_video")[0]
    // Src.value=viewCard.value.body.videoSrc
         player.video.src=viewCard.value.body.videoSrc
@@ -65,6 +67,7 @@ onMounted( async ()=>{
     ViewCommentArray.value.sort((a,b)=>b.likeSize-a.likeSize)  // 按热度
     console.log("评论数据：",ViewCommentArray.value)
 
+    viewDom.value= document.getElementById('view')
     if(viewCard.value.status==404){
       console.error("home页面错误：404")
     }
@@ -74,8 +77,28 @@ onMounted( async ()=>{
     }
     console.log("error:播放页面错误view:",e)
   }
-
+  // try {
+  //
+  // }catch (e){
+  //   console.error(e)
+  // }
+  // const view= document.getElementById('view')
+  // console.log("view dom:",view)
+  // const handleScroll = (e) => {
+  //   let el = e.target
+  //
+  //
+  //   if (Number(el.scrollTop + el.clientHeight).toFixed(0) == el.scrollHeight) {
+  //     //console.log(currentPage.value, "yema");
+  //     // currentPage.value++
+  //     console.log("滚动到底部")
+  //     //etchDatas()
+  //   }
+  // }
+  // view.addEventListener('scroll', handleScroll );
 })
+
+
 
 //const emojiRef= ref<string[]>(emoji)
 //  <----- 视频播放器相关
@@ -655,6 +678,45 @@ function ToHome(){
   },200)
 
 }
+
+
+// 随机推荐
+
+const list = ref([]); // 播放列表
+const page=ref<number>(0) // 分页数据
+const loading = ref(false);
+const finished = ref(false);
+
+const onLoad =async () => {
+  // 异步更新数据
+  // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+  page.value++;
+  console.log("到达底部")
+  try {
+
+    const rep:Response<HomeViewCard[]>=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data;
+    console.log("加载成功：",page.value," ",rep)
+    if(rep.status==200){
+      if(rep.body.length==0){
+        finished.value = true;
+        return;
+      }
+      list.value.push(rep.body)
+      loading.value = false;
+    }
+
+  }catch (e){
+    console.error(e)
+  }
+
+};
+
+
+
+// 假设 el 是你要监听滚动事件的 DOM 元素
+
+
+
 </script>
 
 <template>
@@ -741,7 +803,24 @@ function ToHome(){
 
           <div class="view-select-user" :class="flyA"  v-show="userShow">
             <view-user v-if="viewCard&&viewCard.body" :viewCardBody="viewCard.body"  v-model:msg="msg"></view-user>
-            <search-view v-if="viewCard&&viewCard.body"  :recommend="viewCard.body.recommend"  id="view-select-user-search"></search-view>
+
+<!--            <search-view v-if="viewCard&&viewCard.body"  :recommend="viewCard.body.recommend"  id="view-select-user-search"></search-view>-->
+
+            <div v-if="viewCard&&viewCard.body"  id="view-select-user-search">
+              <van-list
+                  v-model:loading="loading"
+                  :finished="finished"
+                  finished-text="没有更多了"
+                  error-text="请求失败，点击重新加载"
+                  @load="onLoad"
+                  :scroller="viewDom"
+              >
+
+                <van-cell v-for="item in list" :key="item" >
+                  <search-view   :recommend="item" ></search-view>
+                </van-cell>
+              </van-list>
+            </div>
 
           </div >
           <div class="view-select-comments"  :class="flyB"  v-show="commentsShow">

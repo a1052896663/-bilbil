@@ -10,7 +10,8 @@
         /*background: #181818;*/
         flex-wrap: wrap;
         justify-content: space-between;
-
+        overflow: hidden;
+        overflow-y: auto;
     }
 
 

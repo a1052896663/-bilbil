@@ -6,7 +6,7 @@ import {
   commentSectionReplyShow,
   ViewUpUserId,
   replyObject,
-  ViewCommentArray
+  ViewCommentArray, ViewUserDynamicId
 } from "../../store/DataStore";
 import {id} from '../../store/UserSrore'
 import {computed, ref} from "vue";
@@ -14,6 +14,7 @@ import {COMMENTS_TYPE, Response, SERVICE_ROUT, ViewComment} from "../../util/typ
 import {DeleteComment, formatDateTime} from "@/util/util";
 import {showToast} from "vant";
 import {HttpDelete, HttpPut} from "@/api/http";
+import route from '../../router/router.js'
 //import {ref} from "vue/dist/vue";
 
 
@@ -252,12 +253,24 @@ async function Delete(upload:boolean,commetId:number,parentId:number){
 
 }
 
+
+
+// 跳转 用户
+function ToUser(){
+  commentSectionReplyShow.value=false
+  setTimeout(()=>{
+    ViewUserDynamicId.value=cardData.itemData.userId
+    // timeOrCollectionTitle.value='我的收藏'
+    route.push('/userDynamic') // 跳转用户信息修改
+    // route.push('/timeView')
+  },200)
+}
 </script>
 
 <template>
   <div class="comment-section-content-item" :style="{animation:itemData.upload?'':'opacityAnimation 1s infinite'}"  v-if="itemData&&isNoDelete">
     <van-divider />
-    <div class="comment-section-content-item-image">
+    <div class="comment-section-content-item-image" @click.stop="ToUser">
       <van-image
           round
           width="9rem"
