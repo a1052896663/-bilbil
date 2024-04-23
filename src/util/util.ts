@@ -369,6 +369,91 @@ export function DeleteComment(commentId:number,parentId:number){
   }
 }
 
+
+export function VideoGetImage(file:any,fun:((image,time)=>void)){
+  //let file = event.target.files[0];
+  console.log("进入加载封面：",file.type)
+  // 检查文件类型，确保是视频文件
+  if (file.type.startsWith('video/')) {
+    console.log("开始加载图片：1")
+    const video = document.createElement('video');
+    let reader = new FileReader();
+
+    reader.onload = function(event) {
+      // @ts-ignore
+      video.src = event.target.result;
+
+      console.log("开始加载图片：2")
+      // 当视频加载完成后
+      video.addEventListener('loadedmetadata', function() {
+        let canvas = document.createElement('canvas');
+        let ctx = canvas.getContext('2d');
+        console.log("开始加载图片：3")
+        // 设置 canvas 尺寸与视频尺寸相同
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+       let time= Math.floor(video.duration) // 向下取整
+        console.log("视频秒数：",video.duration)
+        // 视频准备就绪后设置视频播放时间为 5 秒
+        video.currentTime =  Math.ceil(time/100);  // 设置为你想要捕获封面图像的时间点，单位为秒
+
+        // 当视频跳转到指定时间后
+        video.addEventListener('seeked', function() {
+
+          console.log("开始加载图片：4")
+          // // 绘制当前视频帧到 canvas
+          // ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          //
+          // // 导出封面图像为 base64 格式
+          // let coverImageData = canvas.toDataURL('image/png');
+          // console.log(coverImageData); // 这里是封面图像的 base64 数据
+
+          setTimeout(function() {
+            // 绘制当前视频帧到 canvas
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // 导出封面图像为 base64 格式
+
+            let coverImageData = canvas.toDataURL('image/jpeg');
+            console.log(coverImageData); // 这里是封面图像的 base64 数据
+            fun(coverImageData,time);
+
+
+          }, 1000); // 1 秒后执行截屏操作，可以根据实际情况调整等待时间
+        });
+      });
+
+      // 加载视频
+      video.load();
+    };
+
+    // 读取视频文件
+    reader.readAsDataURL(file);
+  } else {
+    console.error('请选择视频文件！');
+  }
+}
+
+// 把base 64的数据转换成 Blob
+
+export function Base64ToImage(base64ImageData :any){
+// 假设这是你的 Base64 图片数据
+  //var base64ImageData = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gA...";
+
+// 从 Base64 解码为二进制数据
+  let byteCharacters = atob(base64ImageData.split(',')[1]);
+  let byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  let byteArray = new Uint8Array(byteNumbers);
+
+// 创建 Blob 对象
+  return new Blob([byteArray], { type: 'image/png' });
+
+
+}
+
 //Assignment()
 
 // console.log("最终需要的数据",JSON.stringify(ViewCommentVideoData));

@@ -203,7 +203,7 @@ const textShow=ref<string>("未发布视频")
         </div>
 
         <div id="user-msg-name-brif">
-          <div class="user-msg-name-brif-name"><span>{{ user.name }}</span>  <el-icon v-if="user.gender=='男'" color="#c8c9cc" size="3.5rem"><Female /></el-icon> <el-icon  v-if="user.gender=='女'" color="#c8c9cc" size="3.5rem"><Male /></el-icon></div>
+          <div class="user-msg-name-brif-name"><span>{{ user.name }}</span>  <el-icon v-if="user.gender=='女'" color="#c8c9cc" size="3.5rem"><Female /></el-icon> <el-icon  v-if="user.gender=='男'" color="#c8c9cc" size="3.5rem"><Male /></el-icon></div>
           <div  class="user-msg-name-brif-brif"><span>{{user.brief}}</span></div>
         </div>
 <!--        <van-divider />-->

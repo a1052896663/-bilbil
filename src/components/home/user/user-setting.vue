@@ -229,8 +229,6 @@ async function upload(){
                   :src="img"
                   class="img"
               ></van-image>
-<!--              <img :src="img" class="img" />-->
-
               <h5-cropper  :option="option" @getbase64Data="getbase64Data" @getblobData="getblobData" @getFile="getFile"></h5-cropper>
 
             </div>
@@ -243,7 +241,7 @@ async function upload(){
       <van-field
           v-model="name"
           label="昵称"
-          placeholder="输入框内容右对齐"
+          placeholder="更改昵称"
           input-align="right"
       />
       <van-field

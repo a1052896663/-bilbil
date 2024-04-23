@@ -303,12 +303,8 @@ function ToUser(){
 
             <div id="view-user-unfold-tag" v-if="labe">
               <van-tag round color="rgb(228 230 236)"  v-for="item in labe" text-color="#606266" :style="{'font-size':'3.4rem'}"  size="large" type="success" class="view-user-unfold-tag-item">{{item}}</van-tag>
-<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}" size="large" type="primary" class="view-user-unfold-tag-item"> 标签B</van-tag>-->
-<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"   :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item"> 标签C标</van-tag>-->
-<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item">标签D标签A标签A</van-tag>-->
-<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item">标签D标签A</van-tag>-->
-<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"  size="large" type="primary" class="view-user-unfold-tag-item">标签D</van-tag>-->
-<!--              <van-tag round color="rgb(228 230 236)" text-color="#606266"  :style="{'font-size':'3.4rem'}"   size="large" type="primary" class="view-user-unfold-tag-item">标签D标签A </van-tag>-->
+
+
             </div>
 
           </van-collapse-item>
