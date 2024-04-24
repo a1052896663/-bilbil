@@ -62,6 +62,15 @@ function ToVideoUpload(){
   },200)
 }
 
+
+function ToUserSettingVideo(){
+  setTimeout(()=>{
+
+    route.push('/userSettingVideo') // 视频投稿
+    // route.push('/timeView')
+  },200)
+}
+
 </script>
 
 <template>
@@ -184,7 +193,7 @@ function ToVideoUpload(){
           </div>
 
         </div>
-        <div class="home-main-manager-user-list-item">
+        <div class="home-main-manager-user-list-item" @click="ToUserSettingVideo">
           <el-icon color="#1989fa" size="5.3rem"><DocumentAdd /></el-icon>
           <div class="home-main-manager-user-list-item-font">
             稿件管理

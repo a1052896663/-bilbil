@@ -45,6 +45,9 @@ const DataStore={
     ViewUpUserId:ref<number>(-1), // 当前 视频播放作者的userId,
     ViewUserDynamicId:ref<number>(-1) ,// 当前 ViewUserDynamic 页面需要展示的用户id
 
+    UserSettingVideo:ref<number>(-1),// 当前需要修改的视频数据
+
+
 }
 export const {shareShow}=DataStore
 export const {commentSectionReplyShow}=DataStore
@@ -66,3 +69,4 @@ export const {timeOrCollectionTitle}=DataStore
 export const {videoSocket}=DataStore
 export const {ViewUpUserId}=DataStore
 export const {ViewUserDynamicId}=DataStore
+export const {UserSettingVideo}=DataStore

@@ -91,7 +91,7 @@ async function  OnClickConcern(){  //
 
 
 const list = ref([]); // 播放列表
-const page=ref<number>(0) // 分页数据
+const page=ref<number>(1) // 分页数据
 const loading = ref(false);
 const finished = ref(false);
 
@@ -104,17 +104,18 @@ const onLoad =async () => {
     const rep:Response<ViewUserCard>=(await HttpGet(SERVICE_ROUT.USER_VIDEO_GET+"/"+user.value.id+'/'+page.value)).data;
     console.log("加载成功：",page.value," ",rep)
     if(rep.status==200){
+      list.value.push(rep.body.userVideo)
+      loading.value = false;
       if(rep.body.userVideo.length==0){
         finished.value = true;
         console.log("list 列表：",list.value)
-        if(list.value.length>1){
+        if(list.value.length>0){
           textShow.value="暂无更多"
         }
 
         return;
       }
-      list.value.push(rep.body.userVideo)
-      loading.value = false;
+
     }
 
   }catch (e){

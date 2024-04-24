@@ -276,7 +276,7 @@ function ToUser(){
 <!--        <el-button   size="small" :color="userButton?'#0264e7': '#e9e9eb'" auto-insert-space="true"  @click="userButton=!userButton" type="primary" :icon="userButton? Plus:Check"> {{userButton?'已关注':'关注'}} {{" "}}  </el-button>-->
 
 
-        <van-button  style="white-space:pre; transition: background-color 0.3s ease;" size="mini"   @click="OnClickConcern" :icon="userButton?'success':'plus'"  :color="userButton?'#e9e9eb': '#0264e7'" type="primary"> {{userButton?'已关注':` 关  注 `}} </van-button>
+        <van-button  style="white-space:pre; transition: background-color 0.3s ease;" size="mini"   v-show="id!=viewCardBody.userId" @click="OnClickConcern" :icon="userButton?'success':'plus'"  :color="userButton?'#e9e9eb': '#0264e7'" type="primary"> {{userButton?'已关注':` 关  注 `}} </van-button>
 
 <!--        按钮 -->
 

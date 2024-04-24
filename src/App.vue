@@ -12,7 +12,8 @@ onMounted(()=>{
   console.log("跳转home")
   try {
    // routerTo('/userDynamic')
-    routerTo('/home')
+   routerTo('/home')
+  //  routerTo('/userSettingVideo')
   // routerTo('/userSetting')
    // route.push('/home')
   }catch (e){

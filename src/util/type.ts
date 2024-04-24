@@ -34,6 +34,10 @@ export enum SERVICE_ROUT{ // 后端路由
   USER_CONCERN_DELETE="/user/concern",
   USER_DYNAMIC_GET="/user/dynamic", // 用户动态信息查看
   USER_VIDEO_GET="/user/video", // 分页获得数据 /userId/page
+  USER_VIDEO_LIST_GET="/user/video/list", // /user/video/list/{page} 获得视频的投稿列表
+
+  USER_VIDEO_LIST_DELETE="/user/video/list", // /user/video/list/{videoId}  删除视频
+
 
 
   USER_COLLECTION="/user/collection",
@@ -232,6 +236,9 @@ export interface HomeViewCard{
   time:number,// 视频时长
   playback :number ,// 播放量
   date:number,// 日期
+  reviewMsg:string, // 审核信息  50 个字体
+  review:boolean // 审核状态
+
 }
 
 export interface ViewVideoCard{

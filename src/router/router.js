@@ -13,6 +13,7 @@ import router  from "@/components/view/router.vue";
 import {onActivated} from "vue";
 import userSetting from "@/components/home/user/user-setting.vue";
 import userDynamic from "@/components/home/user/user-dynamic.vue";
+import userSettingVideo from "@/components/home/user/user-setting-video.vue";
 const routes=[
     {
         path:'/home',
@@ -71,6 +72,10 @@ const routes=[
     {
         path: '/userDynamic',
         component: userDynamic
+    },
+    {
+        path: '/userSettingVideo',
+        component: userSettingVideo
     }
 ]
 
