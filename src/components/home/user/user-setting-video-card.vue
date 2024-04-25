@@ -9,6 +9,9 @@ import {formatDateTime, formatTime} from "../../../util/util";
 import {closeToast, showConfirmDialog, showFailToast, showLoadingToast, showSuccessToast, showToast} from "vant";
 import {HttpDelete} from "@/api/http";
 import {SERVICE_ROUT} from "@/util/type";
+
+import route from '../../../router/router.js'
+
 const imageSrc=ref('src/public/interlude_Miku_in_Museland_3.png')
 
 
@@ -106,6 +109,7 @@ const onSelect = (option) => {
 
   if(option.name=='修改'){
     UserSettingVideo.value=operateId.value
+    route.push("/userSettingVideoSetting")
     return;
   }
 };

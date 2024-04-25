@@ -75,6 +75,17 @@ export function formatDateTime2(time:number) {   // 时间格式化--时间搓
   return `${year}/${month}/${day} • ${hours}:${minutes}`;
 }
 
+export function formatDateTime4(time:number) {   // 时间格式化--时间搓
+  const date:Date=new Date(time)
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  // const seconds = String(date.getSeconds()).padStart(2, '0');
+  // 2024/1/12 • 14:20
+  return `${year}年${month}月${day}日${hours}:${minutes}`;
+}
 /**
  *
  *   VIDEO="VIDEO",// 对视频的评论
@@ -437,19 +448,24 @@ export function VideoGetImage(file:any,fun:((image,time)=>void)){
 // 把base 64的数据转换成 Blob
 
 export function Base64ToImage(base64ImageData :any){
-// 假设这是你的 Base64 图片数据
-  //var base64ImageData = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gA...";
-
-// 从 Base64 解码为二进制数据
-  let byteCharacters = atob(base64ImageData.split(',')[1]);
-  let byteNumbers = new Array(byteCharacters.length);
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteNumbers[i] = byteCharacters.charCodeAt(i);
-  }
-  let byteArray = new Uint8Array(byteNumbers);
+  try {
+    let byteCharacters = atob(base64ImageData.split(',')[1]);
+    let byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    let byteArray = new Uint8Array(byteNumbers);
 
 // 创建 Blob 对象
-  return new Blob([byteArray], { type: 'image/png' });
+    return new Blob([byteArray], { type: 'image/png' });
+  }catch (e){
+    console.error(e)
+    return null;
+
+  }
+
+// 从 Base64 解码为二进制数据
+
 
 
 }

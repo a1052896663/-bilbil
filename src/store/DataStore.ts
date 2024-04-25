@@ -1,5 +1,5 @@
 import {ref} from "vue";
-import {ViewComment} from "../util/type";
+import {Comments, ViewComment} from "../util/type";
 
 /**
  * 状态数据管理--跨页面  解决 pinia 失效的问题
@@ -33,7 +33,7 @@ const DataStore={
     addOrDeleteObject:ref<ViewComment>(), // 新加的对象或者是需要删除的对象
     headObject:ref<ViewComment>(), // 新加的对象或者是需要删除的对象
     addOrDeleteNumber:ref(0), // 添加或删除评论的信号量
-    active:ref<number>(0),// 主页tab页面
+    active:ref<number>(1),// 主页tab页面
     viewVideoId:ref<number>(0), //  播放页面需要播放的视频
     routePath:ref(""),//
     ViewCommentArray:ref<ViewComment[]>() ,// 评论数据
@@ -47,6 +47,10 @@ const DataStore={
 
     UserSettingVideo:ref<number>(-1),// 当前需要修改的视频数据
 
+    SpaceInputDom:ref(null) , // 动态页面的输入框
+    SpaceInputShow:ref<boolean>(false) , // 动态页面的输入框是否显示
+    SpaceInputComment:ref<Comments>(null) , // 输入框需要回复的对象
+    SpaceInputShowMsg:ref<string>("悄悄地留下足迹") , // 输入框需要回复的对象 // 提示消息
 
 }
 export const {shareShow}=DataStore
@@ -70,3 +74,7 @@ export const {videoSocket}=DataStore
 export const {ViewUpUserId}=DataStore
 export const {ViewUserDynamicId}=DataStore
 export const {UserSettingVideo}=DataStore
+export const {SpaceInputDom}=DataStore
+export const {SpaceInputShow}=DataStore
+export const {SpaceInputComment}=DataStore
+export const {SpaceInputShowMsg}=DataStore

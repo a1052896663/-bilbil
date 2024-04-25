@@ -2,10 +2,15 @@
 import route from '../../../router/router.js'
 
 import {onMounted, ref} from "vue";
-import {HomeViewCard, Response, SERVICE_ROUT, ViewUserCard} from "../../../util/type";
+import {HomeViewCard, Response, SERVICE_ROUT, Video, ViewUserCard} from "../../../util/type";
 import {HttpGet} from "@/api/http";
 import UserSettingVideoCard from "@/components/home/user/user-setting-video-card.vue";
-import {ViewUserDynamicId} from "@/store/DataStore";
+import {ViewUserDynamicId,UserSettingVideo} from "@/store/DataStore";
+
+
+
+
+
 
 const visible=ref(true)
 function OnClickBar(){

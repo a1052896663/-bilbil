@@ -14,6 +14,7 @@ import {onActivated} from "vue";
 import userSetting from "@/components/home/user/user-setting.vue";
 import userDynamic from "@/components/home/user/user-dynamic.vue";
 import userSettingVideo from "@/components/home/user/user-setting-video.vue";
+import userSettingVideoSetting from "@/components/home/user/user-setting-video-setting.vue";
 const routes=[
     {
         path:'/home',
@@ -76,6 +77,10 @@ const routes=[
     {
         path: '/userSettingVideo',
         component: userSettingVideo
+    },
+    {
+        path: '/userSettingVideoSetting',
+        component: userSettingVideoSetting
     }
 ]
 

@@ -34,6 +34,9 @@ export enum SERVICE_ROUT{ // 后端路由
   USER_CONCERN_DELETE="/user/concern",
   USER_DYNAMIC_GET="/user/dynamic", // 用户动态信息查看
   USER_VIDEO_GET="/user/video", // 分页获得数据 /userId/page
+  USER_SETTING_VIDEO_GET="/user/setting/video", // 分页获得数据 /setting/user/video/{video}  // 修改视频稿件
+  USER_UPLOAD_POST="/user/upload", // 分页获得数据 /setting/user/video/{video}  // 修改视频稿件
+
   USER_VIDEO_LIST_GET="/user/video/list", // /user/video/list/{page} 获得视频的投稿列表
 
   USER_VIDEO_LIST_DELETE="/user/video/list", // /user/video/list/{videoId}  删除视频
@@ -76,6 +79,7 @@ export interface Video{
   title?:string
   brief?:string
   viewNum?:number
+  type: string  // 分区
   collection?:number
   likes?:number
   comments?:string
@@ -125,18 +129,21 @@ export interface  VideoMessage{  // VIDEO_SOCKET   rep ANd req
 export interface Comments{ // 评论 ---
   userImageSrc: string;
   userName: string;
+
   id:number
   videoId:number
-
+  spaceId:number // todo // 动态id
   userId:number
   commentsType:COMMENTS_TYPE
   content:string
   toCommentId:number  // 新加回怼的评论id
-  parentId:number
+  parentId:number  //  不一样  视频下面是 评论的id ,动态下面是回怼 的userId
+  parentName:string, // todo
   likeNum:number
   date:number
   review:boolean  // 审核状态
   deleted:number
+  upload:boolean // todo 是否处于加载状态 前端独有
 }
 export interface CommentsData{ // 评论信息
   comments:Comments
@@ -274,10 +281,29 @@ export interface ViewVideoCard{
 
 }
 
-export interface ViewUserCard{
 
-   user:User;// 用户
-   userVideo:HomeViewCard[]; // 视频列表
-  concernState:boolean; // 关注动态
+
+
+export interface ViewSpaceComment{
+  id:number ,// 评论id
+  upUserId:number, // 评论的用户id
+
 }
 
+export enum SPACE_TYPE{  // 动态类型
+  VIDEO='VIDEO',
+  SHOW='SHOW'
+}
+
+export interface ViewSpaceCard{  // 动态卡片
+  type:string  ,//  video  视频动态| show  所说
+  videoId:number,  // 视频id
+  upId:number, // 用户id
+  upImageSrc:string, // 用户路径
+  showImageList:string[] // 说说的路径配图地址
+  title: string,//  说说标题
+  commentList:Comments[], // 评论列表
+  upName:string,
+  data:number,  //发布日期
+  videoImagSrc:string // 视频封面
+}

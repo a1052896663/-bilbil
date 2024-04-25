@@ -13,6 +13,7 @@ import {active} from '../../store/DataStore'
 import HomeMsg from "@/components/home/msg/home-msg.vue";
 
 import {userImage} from '../../store/UserSrore'
+import HomeSpace from "@/components/home/space/home-space.vue";
 const player = ref(null)
 let url=ref('')
 const streamUrl = ref('')
@@ -137,7 +138,7 @@ const count=ref(0)
 <!--  </div>-->
 
   <div id="home">
-    <div id="home-head" v-if="active!=3&&active!=2">
+    <div id="home-head" v-if="active==0">
 
         <div id="home-user" @click="active=3">
             <van-image
@@ -178,21 +179,21 @@ const count=ref(0)
       <home-main-home    v-show="active==0&&Tap_active==0"></home-main-home>
 <!--        <view v-show="true"></view>-->
 
-      <div id="home-main-qr"  :class="fly"  v-if="active==1">
-        <div>home2</div>
-        <van-skeleton>
-          <template #template>
+      <div id="home-main-qr"    v-if="active==1">
+        <home-space></home-space>
+<!--        <van-skeleton>-->
+<!--          <template #template>-->
 
 
-              <div :style="{ flex: 1, marginLeft: '16px' }">
-                <van-skeleton-paragraph row-width="60%" />
-                <van-skeleton-paragraph />
-                <van-skeleton-paragraph />
-                <van-skeleton-paragraph />
+<!--              <div :style="{ flex: 1, marginLeft: '16px' }">-->
+<!--                <van-skeleton-paragraph row-width="60%" />-->
+<!--                <van-skeleton-paragraph />-->
+<!--                <van-skeleton-paragraph />-->
+<!--                <van-skeleton-paragraph />-->
 
-            </div>
-          </template>
-        </van-skeleton>
+<!--            </div>-->
+<!--          </template>-->
+<!--        </van-skeleton>-->
 
       </div>
 
@@ -212,15 +213,15 @@ const count=ref(0)
 
     </div>
 
-    <div id="home-bottom" v-if="false">
+    <div id="home-bottom" >
 <!--      <el-badge :value="12" class="item">-->
 <!--        <el-button>comments</el-button>-->
 <!--      </el-badge>-->
 
 <!-- 先关闭掉状态页面 -->
-      <van-tabbar v-model="active" v-if="false">
+      <van-tabbar v-model="active" >
         <van-tabbar-item icon="wap-home-o">主页</van-tabbar-item>
-        <van-tabbar-item icon="qr">社区</van-tabbar-item>
+        <van-tabbar-item icon="qr">动态</van-tabbar-item>
         <van-tabbar-item icon="chat-o"  badge="20">消息</van-tabbar-item>
         <van-tabbar-item icon="manager-o">我的</van-tabbar-item>
       </van-tabbar>

@@ -78,7 +78,7 @@ onMounted(()=>{
 <!--  <el-button>按钮</el-button>-->
 <!--</div>-->
 
-  <div>
+  <div @click.prevent="" @mousedown.prevent="" @mouseup.prevent="">
 <!--    <keep-alive>-->
 <!--      <router-view></router-view>-->
 <!--    </keep-alive>-->
