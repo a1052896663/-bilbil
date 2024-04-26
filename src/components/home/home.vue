@@ -14,6 +14,7 @@ import HomeMsg from "@/components/home/msg/home-msg.vue";
 
 import {userImage} from '../../store/UserSrore'
 import HomeSpace from "@/components/home/space/home-space.vue";
+import HomeSpaceSelect from "@/components/home/space/home-space-select.vue";
 const player = ref(null)
 let url=ref('')
 const streamUrl = ref('')
@@ -180,7 +181,7 @@ const count=ref(0)
 <!--        <view v-show="true"></view>-->
 
       <div id="home-main-qr"    v-if="active==1">
-        <home-space></home-space>
+        <home-space-select></home-space-select>
 <!--        <van-skeleton>-->
 <!--          <template #template>-->
 

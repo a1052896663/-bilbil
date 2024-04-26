@@ -119,6 +119,7 @@ const Upload=async ()=>{
 
   const formData=new FormData();
   formData.append("play",JSON.stringify(play))
+  formData.append("space",switchChecked.value)
   formData.append("video",video.value)
   if (imageSelect.value){
     formData.append("coverImage",  imageBlob.value,Date.now()+'.png')
@@ -244,6 +245,8 @@ function getLables(){
   })
  return result
 }
+
+const switchChecked=ref<boolean>(true) // 同步到动态
 </script>
 
 <template>
@@ -361,6 +364,12 @@ function getLables(){
             maxlength="800"
 
         />
+        <van-field name="switch"  input-align="right"  label="同步到动态">
+          <template #input>
+            <van-switch v-model="switchChecked" size="20" />
+          </template>
+        </van-field>
+        <van-divider />
         <van-button round block type="primary"  @click.stop="Upload">
           发布
         </van-button>

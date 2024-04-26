@@ -13,6 +13,7 @@ onMounted(()=>{
   try {
    // routerTo('/userDynamic')
    routerTo('/home')
+   //routerTo('/homeSpaceAdd')
   //  routerTo('/userSettingVideo')
   // routerTo('/userSetting')
    // route.push('/home')
@@ -78,7 +79,7 @@ onMounted(()=>{
 <!--  <el-button>按钮</el-button>-->
 <!--</div>-->
 
-  <div @click.prevent="" @mousedown.prevent="" @mouseup.prevent="">
+  <div >
 <!--    <keep-alive>-->
 <!--      <router-view></router-view>-->
 <!--    </keep-alive>-->

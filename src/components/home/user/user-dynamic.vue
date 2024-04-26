@@ -18,6 +18,7 @@ import {HttpGet, HttpDelete, HttpPut} from "@/api/http";
 import SearchView from "@/components/home/search/search-view.vue";
 import {Check, Plus} from "@element-plus/icons-vue";
 import {ViewUserDynamicId} from "../../../store/DataStore";
+import HomeSpace3 from "@/components/home/space/home-space3.vue";
 
 
 onMounted(async ()=>{
@@ -136,6 +137,13 @@ function ToUserStting(){
 }
 
 const textShow=ref<string>("未发布视频")
+
+
+
+
+// 标签页面
+const Tap=ref(['动态','视频'])
+const Tap_active=ref(0)
 </script>
 
 <template >
@@ -218,20 +226,34 @@ const textShow=ref<string>("未发布视频")
 
 <!--      <search-view  :recommend="item"  v-for="item in userVideo" :key="item.videoId"></search-view>-->
 <!--    -->
-      <div v-if="userVideo" id="user-video-list">
 
-        <van-list
-            v-model:loading="loading"
-            :finished="finished"
-            :finished-text="textShow"
-            @load="onLoad"
-        >
 
-          <van-cell v-for="item in list" :key="item" >
-            <search-view   :recommend="item" ></search-view>
-          </van-cell>
-        </van-list>
+      <div>
+        <van-tabs v-model:active="Tap_active" scrollspy sticky title-active-color="#1989fa" swipeable="false"  >
+          <van-tab v-for="(item,index) in Tap" :title="item" :key="index">
+
+          </van-tab>
+
+        </van-tabs>
+
+        <home-space3 v-if="Tap_active==0"></home-space3>
+        <div  id="user-video-list" v-if="(Tap_active==1)&&userVideo">
+
+          <van-list
+              v-model:loading="loading"
+              :finished="finished"
+              :finished-text="textShow"
+              @load="onLoad"
+          >
+
+            <van-cell v-for="item in list" :key="item" >
+              <search-view   :recommend="item" ></search-view>
+            </van-cell>
+          </van-list>
+        </div>
+
       </div>
+
 
 
     </div>

@@ -82,7 +82,9 @@ import "vue-cropper-h5/dist/style.css";
 //app.use(NPlayer, { name: 'NPlayer' })
 import { Dialog } from 'vant';
 import { FloatingBubble } from 'vant';
+import { Switch } from 'vant';
 
+app.use(Switch)
 app.use(FloatingBubble)
 
 app.use(Dialog)

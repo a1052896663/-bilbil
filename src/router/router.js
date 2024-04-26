@@ -15,6 +15,10 @@ import userSetting from "@/components/home/user/user-setting.vue";
 import userDynamic from "@/components/home/user/user-dynamic.vue";
 import userSettingVideo from "@/components/home/user/user-setting-video.vue";
 import userSettingVideoSetting from "@/components/home/user/user-setting-video-setting.vue";
+import homeSpaceAdd from "@/components/home/space/home-space-add.vue";
+import homeSpaceSelect from "@/components/home/space/home-space-select.vue";
+
+
 const routes=[
     {
         path:'/home',
@@ -81,6 +85,14 @@ const routes=[
     {
         path: '/userSettingVideoSetting',
         component: userSettingVideoSetting
+    },
+    {
+        path: '/homeSpaceAdd',
+        component: homeSpaceAdd
+    },
+    {
+        path: "/homeSpaceSelect",
+        component: homeSpaceSelect
     }
 ]
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 /**
- * 自己以及关注人的动态
+ * 全站的动态
  */
 
 // 卡片有两类
@@ -38,7 +38,7 @@ const spaceList=ref<ViewSpaceCard[]>(null)
 
 onMounted(async ()=>{
   SpaceInputDom.value=inputDom.value // dom赋值
-  const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.SPACE_GET+"/1")).data
+  const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.SPACE_ALL_GET+"/1")).data
 
   if(rep.status==200){
     console.log("获得动态卡片数据:",rep.body)
@@ -247,7 +247,7 @@ const onLoad =async () => {
   console.log("到达底部")
   try {
 
-    const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.SPACE_GET+"/"+page.value)).data
+    const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.SPACE_ALL_GET+"/"+page.value)).data
     //const rep:Response<HomeViewCard[]>=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data;
     console.log("加载成功：",page.value," ",rep)
     if(rep.status==200){
@@ -346,7 +346,7 @@ const onLoad =async () => {
 
 
     </div>
-    <van-floating-bubble style="margin-left: 15rem" gap="90" icon="plus" @click="onClick" />
+    <van-floating-bubble style="margin-left: 8rem" gap="60" icon="plus" @click="onClick" />
 
   </div>
 

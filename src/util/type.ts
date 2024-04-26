@@ -41,6 +41,15 @@ export enum SERVICE_ROUT{ // 后端路由
 
   USER_VIDEO_LIST_DELETE="/user/video/list", // /user/video/list/{videoId}  删除视频
 
+  SPACE_ADD_POST="/space/add", // 添加动态
+  SPACE_DELETE="/space/delete", // 删除动态 /space/delete/{spaceId}
+
+
+  SPACE_GET="/space/get", // 获得动态 /space/get/{page}
+  SPACE_ALL_GET="/space/getAll", // 获得动态 /space/get/{page}
+  SPACE_USER_GET="/space/getUser", // 获得动态 /space/get/{page}/{userId}
+  SPACE_APP_COMMENT_PUT="/space/add/comment", // 添加评论 /space/get/{page}
+  SPACE_DELETE_COMMENT_DELETE="/space/delete/comment", // 添加评论 /space/delete/comment/{page}
 
 
   USER_COLLECTION="/user/collection",
@@ -142,7 +151,7 @@ export interface Comments{ // 评论 ---
   likeNum:number
   date:number
   review:boolean  // 审核状态
-  deleted:number
+  deleted:number,
   upload:boolean // todo 是否处于加载状态 前端独有
 }
 export interface CommentsData{ // 评论信息
@@ -296,6 +305,7 @@ export enum SPACE_TYPE{  // 动态类型
 }
 
 export interface ViewSpaceCard{  // 动态卡片
+  spaceId:number, // 动态id
   type:string  ,//  video  视频动态| show  所说
   videoId:number,  // 视频id
   upId:number, // 用户id
@@ -307,3 +317,4 @@ export interface ViewSpaceCard{  // 动态卡片
   data:number,  //发布日期
   videoImagSrc:string // 视频封面
 }
+

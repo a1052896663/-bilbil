@@ -6,17 +6,19 @@
 import {ref} from "vue";
 import {emojiShow} from "@/store/DataStore";
 import {formatDateTime4} from "@/util/util";
-import {Comments, COMMENTS_TYPE} from "../../../util/type";
+import {Comments, COMMENTS_TYPE, SERVICE_ROUT} from "../../../util/type";
+import route from '../../../router/router.js'
 import {
   SpaceInputComment,
   SpaceInputDom,
   SpaceInputShow,
   SpaceInputShowMsg,
-  UserSettingVideo
+  UserSettingVideo, ViewUserDynamicId, viewVideoId
 } from "../../../store/DataStore";
 import {id,userName} from "../../../store/UserSrore"
 import {last} from "lodash";
 import {closeToast, showConfirmDialog, showFailToast, showLoadingToast, showSuccessToast} from "vant";
+import {HttpDelete} from "@/api/http";
 
 const Pop= defineProps({
 
@@ -54,7 +56,7 @@ function OnInput(item:Comments){
     SpaceInputShow.value=true // 输入框显示
     SpaceInputComment.value={
       commentsType:COMMENTS_TYPE.DYNAMIC , // 回复
-      spaceId:Pop.Date2.id, // 动态id
+      spaceId:Pop.Date2.spaceId, // 动态id
       userId: id.value,
       userName:userName.value,
       upload:false
@@ -81,7 +83,7 @@ function OnInputUser(item:Comments){
       // 自己回复自己
       SpaceInputComment.value={
         commentsType:COMMENTS_TYPE.DYNAMIC , // 回复
-        spaceId:Pop.Date2.id, // 动态id
+        spaceId:Pop.Date2.spaceId, // 动态id
         userId: id.value,
         userName:userName.value,
         upload:false
@@ -90,7 +92,7 @@ function OnInputUser(item:Comments){
     }else {
       SpaceInputComment.value={
         commentsType:COMMENTS_TYPE.DYNAMIC_REPLY , // 回复 回怼
-        spaceId:Pop.Date2.id, // 动态id
+        spaceId:Pop.Date2.spaceId, // 动态id
         userId: id.value,
         userName:userName.value,
         parentId:item.userId,
@@ -116,11 +118,12 @@ function OnInputUser(item:Comments){
 
 
 // 删除评论
-function OnDelete(itemId:number,index:number){
-  console.log("需要删除的评论 ：","需要移除的评论位置：",index)
+async function OnDelete(itemId:number,index:number){
+  console.log("需要删除的评论 ：",czItem.value,"需要移除的评论位置：",index)
  // Pop.Date2.
 // 删除
   Pop.Date2.commentList.splice(index,1)
+  await HttpDelete(SERVICE_ROUT.SPACE_DELETE_COMMENT_DELETE+"/"+itemId)
   //
   // showConfirmDialog({
   //   title: '删除视频',
@@ -190,7 +193,7 @@ const onSelect = (option) => {
   }
 
   if(option.name.trim()=='删除'){
-    OnDelete(czItem.value,czIndex.value)
+    OnDelete(czItem.value.id,czIndex.value)
     return;
   }
 };
@@ -234,7 +237,21 @@ function OnClickCommtent(item:Comments,index:number){
 
 // 跳转用户主页
 function  ToUser(userId:number){
+
   console.log("跳转userId:",userId)
+  setTimeout(()=>{
+    ViewUserDynamicId.value=userId
+    // timeOrCollectionTitle.value='我的收藏'
+    route.push('/userDynamic') // 跳转用户信息修改
+    // route.push('/timeView')
+  },200)
+}
+
+
+
+function ToVideoView(videId:number){  // 跳转到视频
+  viewVideoId.value=videId
+  route.push('/view')
 }
 
 </script>
@@ -243,7 +260,7 @@ function  ToUser(userId:number){
   <div id="home-space-video-card"  v-if="Date2">
     <div>
       <div id="view-user-brief">
-        <div id="view-user-brief-image" @click.stop="">
+        <div id="view-user-brief-image" @click.stop="ToUser(Date2.upId)">
           <van-image
               round
               width="10rem"
@@ -272,7 +289,7 @@ function  ToUser(userId:number){
         <div id="home-space-video-card-title">
           {{ttRef.title}}
         </div>
-        <div  id="home-space-video-card-image" >
+        <div  id="home-space-video-card-image" @click.stop="ToVideoView(Date2.videoId)">
           <van-image
 
               fit="cover"
@@ -297,7 +314,7 @@ function  ToUser(userId:number){
             <span class="home-space-video-comment-name"  @click.stop="ToUser(item.userId)" >{{item.userName}} ：</span>
             <span  class="home-space-video-comment-connten"   >{{item.content}}
 
-            哈 哈哈哈哈哈哈和哈哈哈 哈 哈哈哈哈哈哈和哈哈哈 哈 哈哈哈哈哈哈和哈哈哈 哈 哈哈哈哈哈哈和哈哈哈 哈 哈哈哈哈哈哈和哈哈哈 哈 哈哈哈哈哈哈和哈哈哈
+
             </span>
 
           </div>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 /**
- * 自己以及关注人的动态
+ * 获得单独用户的全部
  */
 
 // 卡片有两类
@@ -26,7 +26,13 @@ import {
   SERVICE_ROUT,
   HomeViewCard
 } from "../../../util/type";
-import {SpaceInputComment, SpaceInputDom, SpaceInputShow, SpaceInputShowMsg} from "../../../store/DataStore";
+import {
+  SpaceInputComment,
+  SpaceInputDom,
+  SpaceInputShow,
+  SpaceInputShowMsg,
+  ViewUserDynamicId
+} from "../../../store/DataStore";
 import {showToast} from "vant";
 import HomeSpaceShuoCard from "@/components/home/space/home-space-shuo-card.vue";
 import route from '../../../router/router.js'
@@ -38,7 +44,7 @@ const spaceList=ref<ViewSpaceCard[]>(null)
 
 onMounted(async ()=>{
   SpaceInputDom.value=inputDom.value // dom赋值
-  const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.SPACE_GET+"/1")).data
+  const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.SPACE_USER_GET+"/1"+"/"+ViewUserDynamicId.value)).data
 
   if(rep.status==200){
     console.log("获得动态卡片数据:",rep.body)
@@ -247,7 +253,7 @@ const onLoad =async () => {
   console.log("到达底部")
   try {
 
-    const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.SPACE_GET+"/"+page.value)).data
+    const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.SPACE_USER_GET+"/"+page.value+"/"+ViewUserDynamicId.value)).data
     //const rep:Response<HomeViewCard[]>=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data;
     console.log("加载成功：",page.value," ",rep)
     if(rep.status==200){
@@ -346,7 +352,7 @@ const onLoad =async () => {
 
 
     </div>
-    <van-floating-bubble style="margin-left: 15rem" gap="90" icon="plus" @click="onClick" />
+    <van-floating-bubble style="margin-left: 8rem" gap="60" icon="plus" @click="onClick" />
 
   </div>
 
