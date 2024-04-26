@@ -118,15 +118,6 @@ function ToUserSettingVideo(){
         <div class="home-main-manager-user-car-item">
 
           <div class="home-main-manager-user-car-item-size">
-            {{userCommunity}}
-          </div>
-          <div class="home-main-manager-user-car-item-font">
-            社区
-          </div>
-        </div>
-
-        <div class="home-main-manager-user-car-item home-main-manager-user-car-item2">
-          <div class="home-main-manager-user-car-item-size">
             {{userConcern}}
           </div>
           <div class="home-main-manager-user-car-item-font">
@@ -134,12 +125,21 @@ function ToUserSettingVideo(){
           </div>
         </div>
 
-        <div class="home-main-manager-user-car-item">
+        <div class="home-main-manager-user-car-item home-main-manager-user-car-item2">
           <div class="home-main-manager-user-car-item-size">
             {{userSomeone}}
           </div>
           <div class="home-main-manager-user-car-item-font">
             粉丝
+          </div>
+        </div>
+
+        <div class="home-main-manager-user-car-item">
+          <div class="home-main-manager-user-car-item-size">
+            {{userCommunity}}
+          </div>
+          <div class="home-main-manager-user-car-item-font">
+            动态
           </div>
         </div>
       </div>

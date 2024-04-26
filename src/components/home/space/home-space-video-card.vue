@@ -384,6 +384,7 @@ function ToVideoView(videId:number){  // 跳转到视频
 #home-space-video-card{
   background: white;
   margin-bottom: 3rem;
+  padding-top: 2rem;
 }
 
   .home-space-video-comment-name{

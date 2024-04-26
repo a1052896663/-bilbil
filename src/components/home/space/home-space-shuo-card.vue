@@ -365,6 +365,7 @@ function OnImageClick(url:string){
   #home-space-video-card{
     background: white;
     margin-bottom: 3rem;
+    padding-top: 2rem;
   }
 
   .home-space-video-comment-name{

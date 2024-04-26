@@ -263,8 +263,12 @@ const Tap_active=ref(0)
 <style scoped>
 @media screen  and (min-device-width: 200px) and (max-device-width:5000px) {
   #user-video-list{
-    margin-top: 4rem;
+    //margin-top: 4rem;
     background: white;
+    overflow: hidden;
+    height: 65vh;
+    overflow-y: auto;
+
   }
 
   #user-show-car-m{
@@ -311,7 +315,7 @@ const Tap_active=ref(0)
 
   #user-dynamic{
     overflow: hidden;
-    overflow-y: auto;
+
     width: 100vw;
     height: 100vh;
     background: #e9e9eb;
