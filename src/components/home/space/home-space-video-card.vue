@@ -15,7 +15,7 @@ import {
   SpaceInputShowMsg,
   UserSettingVideo, ViewUserDynamicId, viewVideoId
 } from "../../../store/DataStore";
-import {id,userName} from "../../../store/UserSrore"
+import {id, InitData, userName} from "../../../store/UserSrore"
 import {last} from "lodash";
 import {closeToast, showConfirmDialog, showFailToast, showLoadingToast, showSuccessToast} from "vant";
 import {HttpDelete} from "@/api/http";
@@ -254,10 +254,53 @@ function ToVideoView(videId:number){  // 跳转到视频
   route.push('/view')
 }
 
+
+
+
+
+// 删除动态
+const showSpace=ref<boolean>(true)
+function SpaceDelete(spaceId:number){
+  showConfirmDialog({
+    title: '是否删除',
+    message:
+        '删除后无法回复',
+
+  }).then(async ()=>{
+    console.log("确定")
+
+    showLoadingToast({
+      message: '删除中……',
+      forbidClick: true,
+      duration:10000
+    });
+
+
+    try {
+      await HttpDelete(SERVICE_ROUT.SPACE_DELETE+"/"+spaceId)
+      closeToast(true)
+      showSuccessToast('删除成功');
+      showSpace.value=false
+      await InitData()
+    }catch (e){
+      closeToast(true)
+      showFailToast('删除失败');
+      console.error(e)
+    }
+
+
+
+  }).catch(()=>{
+    console.log("取消")
+  })
+}
+
+
+
 </script>
 
 <template>
-  <div id="home-space-video-card"  v-if="Date2">
+  <div id="home-space-video-card"  v-if="Date2&&showSpace">
     <div>
       <div id="view-user-brief">
         <div id="view-user-brief-image" @click.stop="ToUser(Date2.upId)">
@@ -275,7 +318,8 @@ function ToVideoView(videId:number){  // 跳转到视频
 
 
         <div id="view-user-body-user">
-          <div class="user-name">{{Date2.upName}}</div>
+          <div class="user-name"><span>{{Date2.upName}}</span> <van-icon v-if="id==Date2.upId" @click="SpaceDelete(Date2.spaceId)" class="view-user-body-user-delete" style="float: right" name="delete-o" /> </div>
+
           <div class="user-massage">
             <div class="user-fan user-massage-item">{{formatDateTime4(Date2.data)}} • 发布了视频</div>
 
@@ -372,11 +416,11 @@ function ToVideoView(videId:number){  // 跳转到视频
 
   .home-space-video-card-image-m{
     width: 100%;
-    height: 50rem;
+    height: 100rem;
     background: rgba(0, 0, 0, 0.2);
     position: relative;
     z-index: 89;
-    top: -74rem;
+    top: -80rem;
 
     color: white;
   }
@@ -479,9 +523,18 @@ function ToVideoView(videId:number){  // 跳转到视频
   #view-user-body-user{
     margin-left: 2rem;
 
-    flex: 0 1 60rem;
+    flex: 0 1 75rem;
     display: flex;
     flex-direction: column;
+  }
+
+
+  .view-user-body-user-delete{
+    transition: color 0.4s ease;
+  }
+
+  .view-user-body-user-delete:active{
+    color: #0264e7;
   }
 
   .user-name{

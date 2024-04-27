@@ -118,6 +118,7 @@ const Upload=async ()=>{
   }
 
   const formData=new FormData();
+  console.log("是否发动态：",switchChecked.value)
   formData.append("play",JSON.stringify(play))
   formData.append("space",switchChecked.value)
   formData.append("video",video.value)

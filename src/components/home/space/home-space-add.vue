@@ -80,7 +80,7 @@ const fileList=ref( [
 
 <template>
   <transition name="van-slide-up">
-  <div id="home-space-add" v-show="visible">
+  <div id="home-space-add"  v-show="visible">
 
     <van-nav-bar
         title="发布动态"
@@ -92,7 +92,7 @@ const fileList=ref( [
 
     />
 
-    <div style="width: 100%;height: 6rem;background: white">
+    <div style="width: 100%;height: 6rem;background:  #dedfe0;">
 
     </div>
 
@@ -122,7 +122,7 @@ const fileList=ref( [
   #home-space-add{
     width: 100vw;
     height: 100vh;
-    background: yellow;
+    background:  #dedfe0;
 
   }
 

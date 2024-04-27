@@ -17,35 +17,38 @@ import userSettingVideo from "@/components/home/user/user-setting-video.vue";
 import userSettingVideoSetting from "@/components/home/user/user-setting-video-setting.vue";
 import homeSpaceAdd from "@/components/home/space/home-space-add.vue";
 import homeSpaceSelect from "@/components/home/space/home-space-select.vue";
+import userConcern from "@/components/home/user/user-concern.vue";
+import userSomeone from "@/components/home/user/user-someone.vue";
+
 
 
 const routes=[
     {
         path:'/home',
         name:'home',
-        component:home,
+        component:home, // 主页面
         meta: { keepAlive: true }
     },
 
     {
         path:'/login',
-        component:login,
+        component:login,    // 登录页面
         name:'login'
     },
     {
         path: '/view',
-        component: view,
+        component: view,    // 视频详情也页面
         name:'view',
         meta: { keepAlive: false }
     },
     {
         path: '/search',
-        component: search,
+        component: search,  // 搜索页面
         name:'search'
     },
     {
         path: '/ommentSection',
-        component: ommentSection,
+        component: ommentSection,    // 视频评论页面
         name:'ommentSection',
         meta: { keepAlive: false }
     },
@@ -56,43 +59,51 @@ const routes=[
     },
     {
         path: '/homeMsgHead',
-        component: homeMsgHead,
+        component: homeMsgHead, // 消息通知页面
         name:'homeMsgHead'
     },
     {
         path: '/userVideoUploder',
         name:'userVideoUploder',
-        component: userVideoUploder
+        component: userVideoUploder // 视频投稿页面
     },
     {
       path: '/route',
         name: 'route',
         meta: { keepAlive: false },
-        component: router
+        component: router  // 中转路由
     },
     {
         path: '/userSetting',
-        component: userSetting
+        component: userSetting  // 用户信息设置页面-- 信息修改
     },
     {
         path: '/userDynamic',
-        component: userDynamic
+        component: userDynamic  // 用户动态页面
     },
     {
         path: '/userSettingVideo',
-        component: userSettingVideo
+        component: userSettingVideo // 稿件编辑列表
     },
     {
         path: '/userSettingVideoSetting',
-        component: userSettingVideoSetting
+        component: userSettingVideoSetting  // 稿件修改编辑
     },
     {
         path: '/homeSpaceAdd',
-        component: homeSpaceAdd
+        component: homeSpaceAdd  // 添加动态
     },
     {
         path: "/homeSpaceSelect",
-        component: homeSpaceSelect
+        component: homeSpaceSelect   // 动态
+    },
+    {
+        path: '/userConcern',
+        component: userConcern   // 关注列表
+    },
+    {
+        path: '/userSomeone', // 粉丝列表页面
+        component: userSomeone
     }
 ]
 

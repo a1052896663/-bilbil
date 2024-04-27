@@ -41,6 +41,10 @@ export enum SERVICE_ROUT{ // 后端路由
 
   USER_VIDEO_LIST_DELETE="/user/video/list", // /user/video/list/{videoId}  删除视频
 
+  USER_CONCERN_GET="/user/get/concern",  // 获得关注列表
+  USER_SOMEONE_GET="/user/get/someone", // 获得粉丝列表
+
+
   SPACE_ADD_POST="/space/add", // 添加动态
   SPACE_DELETE="/space/delete", // 删除动态 /space/delete/{spaceId}
 
@@ -318,3 +322,12 @@ export interface ViewSpaceCard{  // 动态卡片
   videoImagSrc:string // 视频封面
 }
 
+//
+export interface ViewUserConcern{
+
+  userId:number // 用户id
+  userName:string // 用户名字
+  userImageSrc:string   // 用户动态
+  userBrief:string // 用户简介
+  concernStart:boolean // 关注状态
+}

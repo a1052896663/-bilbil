@@ -48,9 +48,9 @@ function ToUserStting(){
 function ToUser(){
   setTimeout(()=>{
     ViewUserDynamicId.value=id.value
-    // timeOrCollectionTitle.value='我的收藏'
+
     route.push('/userDynamic') // 跳转用户信息修改
-    // route.push('/timeView')
+
   },200)
 }
 
@@ -66,7 +66,25 @@ function ToVideoUpload(){
 function ToUserSettingVideo(){
   setTimeout(()=>{
 
-    route.push('/userSettingVideo') // 视频投稿
+    route.push('/userSettingVideo') // 视频投稿--修改
+    // route.push('/timeView')
+  },200)
+}
+
+
+// 跳转 关注列表
+function TouserConcern(){
+  setTimeout(()=>{
+
+    route.push('/userConcern') // 关注列表
+    // route.push('/timeView')
+  },200)
+}
+// 跳转 关注列表 粉丝列表
+function TouserSomeone(){
+  setTimeout(()=>{
+
+    route.push('/userSomeone') // 粉丝列表
     // route.push('/timeView')
   },200)
 }
@@ -80,9 +98,6 @@ function ToUserSettingVideo(){
     <div id="home-main-manager-user" v-show="visible">
       <van-nav-bar
           title="个人中心"
-          left-text="返回"
-          left-arrow
-          @click-left="OnClickBar"
 
       />
 
@@ -115,7 +130,7 @@ function ToUserSettingVideo(){
 
       </div>
       <div id="home-main-manager-user-car">
-        <div class="home-main-manager-user-car-item">
+        <div class="home-main-manager-user-car-item"  @click="TouserConcern">
 
           <div class="home-main-manager-user-car-item-size">
             {{userConcern}}
@@ -125,7 +140,7 @@ function ToUserSettingVideo(){
           </div>
         </div>
 
-        <div class="home-main-manager-user-car-item home-main-manager-user-car-item2">
+        <div class="home-main-manager-user-car-item home-main-manager-user-car-item2" @click="TouserSomeone">
           <div class="home-main-manager-user-car-item-size">
             {{userSomeone}}
           </div>
@@ -134,7 +149,7 @@ function ToUserSettingVideo(){
           </div>
         </div>
 
-        <div class="home-main-manager-user-car-item">
+        <div class="home-main-manager-user-car-item" @click="ToUser">
           <div class="home-main-manager-user-car-item-size">
             {{userCommunity}}
           </div>

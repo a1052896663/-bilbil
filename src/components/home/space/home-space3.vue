@@ -222,7 +222,7 @@ function OnAppClick(){  // 清除冒泡
 
 // 点击发布表
 const onClick = () => {
-  showToast('点击气泡');
+  //showToast('点击气泡');
   setTimeout(()=>{
 
     route.push('/homeSpaceAdd')
@@ -301,7 +301,7 @@ const onLoad =async () => {
     </van-list>
 
     <div :style="{'font-size':'4rem' }"   @click.stop="OnInputDiv"  v-show="SpaceInputShow">
-      <div @click.stop=""  id="input-comment-inputDm"  style="position: fixed;background: #E6E8EB; display: flex;align-items: center; bottom: 13rem;width: 100%;min-height:10rem">
+      <div @click.stop=""  id="input-comment-inputDm"  style="position: fixed;background: #E6E8EB; display: flex;align-items: center; bottom: 0rem;width: 100%;min-height:10rem">
 
         <!--      <input type="text" ref="inputCommentInputDmInput" :placeholder="InputPlaceholder" @keyup.enter="OnClickSend" id="input-comment-inputDm-input" v-model="barrage" @click="OnClickinputDmInput"    @focus="onInputFocus" @blur="onInputBlur" >-->
 
@@ -363,7 +363,7 @@ const onLoad =async () => {
 
   #home-space{
     width: 100vw;
-    max-height: 95vh;
+    max-height: 67vh;
     background: #f1f1f2;;
     overflow: hidden;
     overflow-y: auto;

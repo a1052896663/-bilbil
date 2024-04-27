@@ -216,7 +216,7 @@ function OnAppClick(){  // 清除冒泡
 
 // 点击发布表
 const onClick = () => {
-  showToast('点击气泡');
+ // showToast('点击气泡');
   setTimeout(()=>{
 
     route.push('/homeSpaceAdd')

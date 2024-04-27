@@ -17,6 +17,7 @@ const Tap_active=ref(0)
 
 <template>
   <div>
+
   <van-tabs v-model:active="Tap_active" scrollspy sticky title-active-color="#1989fa" swipeable="false"  >
     <van-tab v-for="(item,index) in Tap" :title="item" :key="index">
 

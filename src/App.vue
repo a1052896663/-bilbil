@@ -13,6 +13,7 @@ onMounted(()=>{
   try {
    // routerTo('/userDynamic')
    routerTo('/home')
+   //routerTo('/userConcern')
    //routerTo('/homeSpaceAdd')
   //  routerTo('/userSettingVideo')
   // routerTo('/userSetting')
