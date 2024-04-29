@@ -9,12 +9,13 @@ import {TabsPaneContext} from "element-plus";
 import * as http from "http";
 import HomeMainHome from "@/components/home/main/home-main-home.vue";
 import HomeUser from "@/components/home/user/home-main-manager-user.vue";
-import {active} from '../../store/DataStore'
+import {active, homeMessageList, homeMessageShowSize} from '../../store/DataStore'
 import HomeMsg from "@/components/home/msg/home-msg.vue";
 
 import {userImage} from '../../store/UserSrore'
 import HomeSpace from "@/components/home/space/home-space.vue";
 import HomeSpaceSelect from "@/components/home/space/home-space-select.vue";
+import HomeMsgHead from "@/components/home/msg/home-msg-head.vue";
 const player = ref(null)
 let url=ref('')
 const streamUrl = ref('')
@@ -201,7 +202,8 @@ const count=ref(0)
 
 
       <div id="home-main-chat"    v-if="active==2">
-        <home-msg></home-msg>
+<!--        <home-msg></home-msg>-->
+        <home-msg-head></home-msg-head>
 
       </div>
 
@@ -223,7 +225,7 @@ const count=ref(0)
       <van-tabbar v-model="active" >
         <van-tabbar-item icon="wap-home-o">主页</van-tabbar-item>
         <van-tabbar-item icon="qr">动态</van-tabbar-item>
-        <van-tabbar-item icon="chat-o"  badge="20">消息</van-tabbar-item>
+        <van-tabbar-item icon="chat-o"  :badge="homeMessageList&&homeMessageShowSize?homeMessageShowSize:''">消息</van-tabbar-item>
         <van-tabbar-item icon="manager-o">我的</van-tabbar-item>
       </van-tabbar>
     </div>

@@ -1,5 +1,5 @@
 import {ref} from "vue";
-import {Comments, ViewComment} from "../util/type";
+import {Comments, ViewComment, ViewMessage} from "../util/type";
 
 /**
  * 状态数据管理--跨页面  解决 pinia 失效的问题
@@ -52,6 +52,9 @@ const DataStore={
     SpaceInputComment:ref<Comments>(null) , // 输入框需要回复的对象
     SpaceInputShowMsg:ref<string>("悄悄地留下足迹") , // 输入框需要回复的对象 // 提示消息
 
+    homeMessageList:ref([]), // 消息卡片
+    homeMessageShowSize:ref<number>(0), // 消息个数
+
 }
 export const {shareShow}=DataStore
 export const {commentSectionReplyShow}=DataStore
@@ -78,3 +81,5 @@ export const {SpaceInputDom}=DataStore
 export const {SpaceInputShow}=DataStore
 export const {SpaceInputComment}=DataStore
 export const {SpaceInputShowMsg}=DataStore
+export const {homeMessageList}=DataStore
+export const {homeMessageShowSize}=DataStore

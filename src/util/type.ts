@@ -55,9 +55,11 @@ export enum SERVICE_ROUT{ // 后端路由
   SPACE_APP_COMMENT_PUT="/space/add/comment", // 添加评论 /space/get/{page}
   SPACE_DELETE_COMMENT_DELETE="/space/delete/comment", // 添加评论 /space/delete/comment/{page}
 
+  MESSAGE_REMOVE="/message/remove"  ,//  设置为消息已经查看
 
   USER_COLLECTION="/user/collection",
-  VIDEO_SOCKET="/socket/video/session"  // video 会话
+  VIDEO_SOCKET="/socket/video/session",  // video 会话
+  MASSAGE_SOCKET="/socket/massage/session"  // video 会话  /socket/massage/session/{userId}
 }
 
 //   <----  响应体相关
@@ -330,4 +332,39 @@ export interface ViewUserConcern{
   userImageSrc:string   // 用户动态
   userBrief:string // 用户简介
   concernStart:boolean // 关注状态
+}
+
+
+
+
+
+
+export  enum MESSAGE_TYPE{
+  VIDEO_LIKE='VIDEO_LIKE',  // 视频点赞
+  VIDEO_COMMENTS="VIDEO_COMMENTS", // 视频评论
+  VIDEO_COLLECTION="VIDEO_COLLECTION", //  视频收藏
+
+  COMMENTS_LIKE="COMMENTS_LIKE", // 评论点赞
+  COMMENTS_REPLY="COMMENTS_REPLY", // 评论回复
+
+  SPACE_COMMENTS="SPACE_COMMENTS",// 动态回复
+
+}
+
+
+export interface ViewMessage{
+  id:number, // 消息id,
+  type:string
+  userName:"初音未来", // 用户的名字
+  userComment:"你好",// 用户的评论
+  userImageSrc:string,  // 用户头像
+  myComment: "收到", // 我的评论内容
+  time:number,// 消息时间
+  userId:number,
+  videoId:number,
+  spaceId:number, // 动态id
+  spaceTitle:string, // 动态标题
+  videoImageSrc:string,// 图片路径
+  view:boolean, // 是否观看了
+
 }

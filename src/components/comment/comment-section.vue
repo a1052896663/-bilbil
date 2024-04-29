@@ -187,7 +187,7 @@ function CommentService(item: ViewComment){
 
       findResult.child.push(item);
       try {
-        const comments2:Comments={
+        const comments2={
 
           videoId:viewVideoId.value,
           toCommentId: item.toComment.id,

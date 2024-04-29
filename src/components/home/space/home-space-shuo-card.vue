@@ -37,7 +37,7 @@ const InputPlaceholder=ref("小心翼翼的留下足迹.....")
 const barrage=ref("");
 
 
-console.log("收到的值：",Pop.Date2)
+//console.log("收到的值：",Pop.Date2)
 
 const lsatTime=ref<number>(new Date().getTime()) // 点击时间
 // 点击输入
@@ -459,8 +459,8 @@ function SpaceDelete(spaceId:number){
     width: 90%;
     line-height: 7rem;
     text-indent: 2rem;
-    color: #c8c9cc;
-    background: #dedfe0;
+    color:#b1b3b8;
+    background: #e7e7e7;
     border-radius: 1.2rem;
   }
 

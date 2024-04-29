@@ -1,10 +1,18 @@
 <script setup lang="ts">
 
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import route from "@/router/router.js";
 import HomeMsgHeadCar from "@/components/home/msg/home-msg-head-car.vue";
 
-import {MSG_HEAD_TYPE, MsgCard} from '../../../util/type'
+import {MESSAGE_TYPE, MSG_HEAD_TYPE, MsgCard, Response, SERVICE_ROUT} from '../../../util/type'
+import HomeMsgVideoLike from "@/components/home/msg/home-msg-video-like.vue";
+import HomeMsgVideoCollection from "@/components/home/msg/home-msg-video-collection.vue";
+import HomeMsgVideoComment from "@/components/home/msg/home-msg-video-comment.vue";
+import HomeMsgCommentLike from "@/components/home/msg/home-msg-comment-like.vue";
+import HomeMsgCommentReply from "@/components/home/msg/home-msg-comment-reply.vue";
+import HomeMsgSpaceComment from "@/components/home/msg/home-msg-space-comment.vue";
+import {homeMessageList, homeMessageShowSize} from "@/store/DataStore";
+import {HttpPost} from "@/api/http";
 const visible=ref(true)
 
 function OnClickBar(){
@@ -37,35 +45,93 @@ const tt=ref<MsgCard>({
   videoImageSrc:"public/interlude_Miku_in_Museland_5.png",// 图片路径
 })
 
+
+
+
+async function messageRemove(){
+  const remList=  homeMessageList.value.filter(item=>!item.view).map(item=>item.id)
+  if(homeMessageShowSize.value>0){
+    homeMessageShowSize.value=homeMessageShowSize.value- remList.length;
+  }
+
+  const rep:Response<number>= (await HttpPost(SERVICE_ROUT.MESSAGE_REMOVE,remList)).data
+
+  if(rep.status==200){
+    console.log("消息查阅完成：",remList)
+  }
+
+}
+
+onMounted( async ()=>{
+  await messageRemove();
+})
+
+
+
+const reMore=ref(false)
+
+
+function  mm(){
+  reMore.value=true
+  console.log("停止山")
+}
 </script>
 
 <template>
   <transition name="van-slide-right">
 
-    <div id="time-view" v-show="visible">
+    <div id="time-view" v-show="visible&&homeMessageList">
       <div id="time-view-head">
         <van-nav-bar
-            :title="title"
-            left-text="返回"
-            left-arrow
-            @click-left="OnClickBar"
+            title="收到的消息"
+
+
 
         />
       </div>
-      <home-msg-head-car :content="tt" v-for="i in 10" :type="MSG_HEAD_TYPE.LIKE_VIDE"></home-msg-head-car>
-<!--      <time-card v-for="i in 10"></time-card>-->
+<!--      <home-msg-head-car :content="tt" :type="MSG_HEAD_TYPE.LIKE_VIDE"></home-msg-head-car>-->
+
+      <div     v-if="homeMessageList&&homeMessageList.length" v-for="(item,index) in homeMessageList" :key="item.id">
+
+        <!--    视频点赞-->
+        <home-msg-video-like           :Obj="item"  v-if="item&&item.type==MESSAGE_TYPE.VIDEO_LIKE"></home-msg-video-like>
+        <!--      视频收藏-->
+        <home-msg-video-collection          :Obj="item"  v-else-if="item&&item.type==MESSAGE_TYPE.VIDEO_COLLECTION"></home-msg-video-collection>
+        <!--      视频评论-->
+        <home-msg-video-comment            :Obj="item"  v-else-if="item&&item.type==MESSAGE_TYPE.VIDEO_COMMENTS"></home-msg-video-comment>
+        <!--      评论点赞-->
+        <home-msg-comment-like             :Obj="item"  v-else-if="item&&item.type==MESSAGE_TYPE.COMMENTS_LIKE"> </home-msg-comment-like>
+        <!--    评论回复  -->
+        <home-msg-comment-reply             :Obj="item"  v-else-if="item&&item.type==MESSAGE_TYPE.COMMENTS_REPLY"></home-msg-comment-reply>
+        <!--    动态回复  -->
+        <home-msg-space-comment             :Obj="item"  v-else-if="item&&item.type==MESSAGE_TYPE.SPACE_COMMENTS"></home-msg-space-comment>
+      </div>
+
+<!--      <home-msg-comment-like  :Obj="homeMessageList[1]"  > </home-msg-comment-like>-->
+<!--      <home-msg-comment-reply @click="mm"  :style="{ animation: (reMore==false)?' backgroundColorChange 3s infinite':''}" :Obj="homeMessageList[0]"></home-msg-comment-reply>-->
+
+
+      <!--      <home-msg-comment-like  :Obj="homeMessageList[0]"  > </home-msg-comment-like>-->
+<!--    -->
     </div>
   </transition>
 
 </template>
 
 <style scoped>
+
+
 @media screen  and (min-device-width: 200px) and (max-device-width:500px) {
 
 
+
+  .element {
+    animation: backgroundColorChange 5s infinite alternate;
+  }
+
   #time-view{
     width: 100vw;
-    height: 100vh;
+    height: 94vh;
     overflow-y: auto;
     /*background: #0bc15f;*/
   }
