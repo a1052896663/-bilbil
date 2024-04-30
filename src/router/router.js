@@ -19,6 +19,7 @@ import homeSpaceAdd from "@/components/home/space/home-space-add.vue";
 import homeSpaceSelect from "@/components/home/space/home-space-select.vue";
 import userConcern from "@/components/home/user/user-concern.vue";
 import userSomeone from "@/components/home/user/user-someone.vue";
+import searchResult from "@/components/home/search/search-result.vue";
 
 
 
@@ -104,6 +105,10 @@ const routes=[
     {
         path: '/userSomeone', // 粉丝列表页面
         component: userSomeone
+    },
+    {
+        path: '/searchResult',
+        component: searchResult // 搜索结果页面
     }
 ]
 

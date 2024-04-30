@@ -44,4 +44,5 @@
     <tree path="/src/store/DataStore.ts" title="全局变量"/>
     <tree path="/src/store/UserSrore.ts" title="用户信息"/>
     <tree path="/src/components/home/msg" title="消息提示"/>
+    <tree path="/src/components/home/search/search-result.vue" title="搜索结果页面"/>
 </trees>

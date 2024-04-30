@@ -57,6 +57,11 @@ export enum SERVICE_ROUT{ // 后端路由
 
   MESSAGE_REMOVE="/message/remove"  ,//  设置为消息已经查看
 
+
+  SEARCH_RESULT_GET="/search/result", // 搜索结果
+  SEARCH_VIDEO_GET="/search/video", // 搜索结果视频  "/search/video/{page}",
+  SEARCH_USER_GET="/search/user", // 搜索结果 用户"/search/user/{page}"
+
   USER_COLLECTION="/user/collection",
   VIDEO_SOCKET="/socket/video/session",  // video 会话
   MASSAGE_SOCKET="/socket/massage/session"  // video 会话  /socket/massage/session/{userId}
@@ -367,4 +372,10 @@ export interface ViewMessage{
   videoImageSrc:string,// 图片路径
   view:boolean, // 是否观看了
 
+}
+
+
+export interface ViewSearchCard{
+  videoList:HomeViewCard[] // 视频列表
+  userList:ViewUserConcern[]  // 用户列表
 }

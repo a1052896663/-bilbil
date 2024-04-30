@@ -9,13 +9,14 @@ import {TabsPaneContext} from "element-plus";
 import * as http from "http";
 import HomeMainHome from "@/components/home/main/home-main-home.vue";
 import HomeUser from "@/components/home/user/home-main-manager-user.vue";
-import {active, homeMessageList, homeMessageShowSize} from '../../store/DataStore'
+import {active, homeMessageList, homeMessageShowSize, SearchText} from '../../store/DataStore'
 import HomeMsg from "@/components/home/msg/home-msg.vue";
 
 import {userImage} from '../../store/UserSrore'
 import HomeSpace from "@/components/home/space/home-space.vue";
 import HomeSpaceSelect from "@/components/home/space/home-space-select.vue";
 import HomeMsgHead from "@/components/home/msg/home-msg-head.vue";
+import {showToast} from "vant";
 const player = ref(null)
 let url=ref('')
 const streamUrl = ref('')
@@ -101,6 +102,21 @@ watch(active,(newValue,oldValue)=>{
 const input=ref("")
 const onSearch=()=>{
   // 回车
+  if(input.value.trim().length>0){
+    SearchText.value=input.value
+
+    setTimeout(()=>{
+      route.push("/searchResult")
+    },200)
+  }else {
+    showToast({
+      message: '输入内容为空',
+      position: 'top',
+    });
+
+  }
+
+
 }
 
 const errorHandler = () => true
@@ -127,6 +143,13 @@ async function  onRefresh(){
 }
 const count=ref(0)
 // https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png
+
+
+
+function OnChear(){
+  console.log("清空")
+}
+
 </script>
 
 <template>
@@ -156,14 +179,36 @@ const count=ref(0)
       <van-search
           v-model="input"
 
+          :right-icon="'aa'"
           shape="round"
           background="#ffffff"
           placeholder="请输入搜索关键词"
-          @search="onSearch"
+          @clear="OnChear"
+          @click-right-icon="OnChear"
+          @cancel="OnChear"
+          :clearable="false"
 
       />
-              <div id="home-search-font"><span>搜索</span></div>
-<!--      <i id="home-el-icon" class="el-icon-search"></i>-->
+<!--      <van-search-->
+<!--          v-model="input"-->
+<!--          show-action-->
+<!--          label="地址"-->
+<!--          placeholder="请输入搜索关键词"-->
+<!--          @search="onSearch"-->
+<!--          @cancel="OnChear"-->
+<!--          @clear.stop="OnChear"-->
+<!--      >-->
+<!--        <template #action>-->
+<!--          <div @click="onSearch">搜索</div>-->
+<!--        </template>-->
+<!--        <template #right-icon>-->
+<!--          <div>sdf</div>-->
+<!--        </template>-->
+<!--      </van-search>-->
+              <div id="home-search-font" @click.stop="onSearch"><span>搜索</span></div>
+
+
+      <!--      <i id="home-el-icon" class="el-icon-search"></i>-->
 
 
     </div>

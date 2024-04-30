@@ -31,7 +31,7 @@ export  function  setToken(token){
 }
 
 // 封装一下
-export  function  HttpGet(url:string,data?:object){
+export  function  HttpGet(url:string,data?:any){
     if(typeof data!='undefined'){
         return http.get(url+"?"+qs.stringify(data))
     }

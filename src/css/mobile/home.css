@@ -78,8 +78,12 @@
         text-align: center;
         align-items: center;
         color: #0264e7;
+        transition: color 0.2s ease;
     }
 
+    #home-search-font:active{
+        color: white;
+    }
 
 /*    main组件*/
     #home-main-home{

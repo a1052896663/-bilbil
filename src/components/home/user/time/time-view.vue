@@ -120,7 +120,7 @@ const onLoad =async () => {
         finished-text="没有更多了"
         @load="onLoad"
     >
-      <van-cell v-for="item in list" :key="item" >
+      <van-cell v-for="(item,index ) in list" :key="item" >
         <time-card  :homeViewCard="item"  :key="index"></time-card>
 
 <!--        <search-view   :recommend="item" ></search-view>-->

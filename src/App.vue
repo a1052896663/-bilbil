@@ -17,6 +17,7 @@ onMounted( async ()=>{
   try {
    // routerTo('/userDynamic')
    routerTo('/home')
+  // routerTo('/searchResult')
    //routerTo('/userConcern')
    //routerTo('/homeSpaceAdd')
   //  routerTo('/userSettingVideo')

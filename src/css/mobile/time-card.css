@@ -94,7 +94,7 @@
     }
     .time-view-item-size-time{
         display: inline-block;
-        flex: 0 0 26rem;
+        flex: 1 0 26rem;
         /*background: white;*/
         margin-left: 2rem;
     }
