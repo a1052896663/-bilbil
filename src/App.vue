@@ -16,7 +16,9 @@ onMounted( async ()=>{
   console.log("跳转home")
   try {
    // routerTo('/userDynamic')
-   routerTo('/home')
+  routerTo('/home')
+  // routerTo('/loginChange')
+  // routerTo('/login')
   // routerTo('/searchResult')
    //routerTo('/userConcern')
    //routerTo('/homeSpaceAdd')

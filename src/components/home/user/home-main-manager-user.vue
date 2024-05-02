@@ -4,13 +4,25 @@ import {ref} from "vue";
 import {active, typeShow, ViewUserDynamicId} from '../../../store/DataStore'
 import route from '../../../router/router.js'
 import {timeOrCollectionTitle} from '../../../store/DataStore'
-import {userName, userImage, userConcern, userSomeone, userSparkle, userCommunity, id} from "../../../store/UserSrore";
+import {
+  userName,
+  userImage,
+  userConcern,
+  userSomeone,
+  userSparkle,
+  userCommunity,
+  id,
+  userRole, UserDataClear
+} from "../../../store/UserSrore";
+import {USER_Role} from "@/util/type";
+import {showToast} from "vant";
 
 const visible=ref(true)
 
-function OnClickUserOut(){
+function OnClickUserOut(){  // 退出登录
   visible.value=false
   setTimeout(()=>{
+    UserDataClear()
     active.value=0
   },200)
 
@@ -23,6 +35,17 @@ function OnClickBar(){
 }
 
 function ToHistory(){
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
+
   setTimeout(()=>{
     timeOrCollectionTitle.value='历史记录'
     route.push('/timeView')
@@ -31,6 +54,17 @@ function ToHistory(){
 }
 
 function ToCollection(){
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
+
   setTimeout(()=>{
     timeOrCollectionTitle.value='我的收藏'
     route.push('/timeView')
@@ -38,6 +72,17 @@ function ToCollection(){
 }
 
 function ToUserStting(){
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
+
   setTimeout(()=>{
    // timeOrCollectionTitle.value='我的收藏'
     route.push('/userSetting') // 跳转用户信息修改
@@ -46,6 +91,16 @@ function ToUserStting(){
 }
 
 function ToUser(){
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
+
   setTimeout(()=>{
     ViewUserDynamicId.value=id.value
 
@@ -55,6 +110,17 @@ function ToUser(){
 }
 
 function ToVideoUpload(){
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
+
   setTimeout(()=>{
 
     route.push('/userVideoUploder') // 视频投稿
@@ -64,6 +130,19 @@ function ToVideoUpload(){
 
 
 function ToUserSettingVideo(){
+
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
+
+
   setTimeout(()=>{
 
     route.push('/userSettingVideo') // 视频投稿--修改
@@ -74,6 +153,19 @@ function ToUserSettingVideo(){
 
 // 跳转 关注列表
 function TouserConcern(){
+
+
+
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
   setTimeout(()=>{
 
     route.push('/userConcern') // 关注列表
@@ -82,12 +174,44 @@ function TouserConcern(){
 }
 // 跳转 关注列表 粉丝列表
 function TouserSomeone(){
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
+
   setTimeout(()=>{
 
     route.push('/userSomeone') // 粉丝列表
     // route.push('/timeView')
   },200)
 }
+
+
+
+function ToLogin(){ // 跳转登录
+  // 登录
+  setTimeout(()=>{
+
+    route.push('/login') // 登录
+    // route.push('/timeView')
+  },200)
+}
+
+function ToEnroll(){ // 跳转注册
+
+  setTimeout(()=>{
+
+    route.push('/loginEnroll')
+    // route.push('/timeView')
+  },200)
+}
+
 
 </script>
 
@@ -115,7 +239,9 @@ function TouserSomeone(){
 
 
         <div id="view-user-body-user">
-          <div class="user-name">{{userName}}
+          <div class="user-name">
+            <span v-if="USER_Role.VISITOR==userRole" style="color: #1989fa">游客/</span>
+            {{userName}}
 
             <el-icon @click="ToUserStting"  class="user-setting-font"  size="4.3rem"><EditPen /></el-icon>
           </div>
@@ -222,10 +348,16 @@ function TouserSomeone(){
 
       </div>
 
-      <div id="home-main-manager-user-out">
-        <el-button  size="large" round>切换账号</el-button>
+      <div   v-if="userRole==USER_Role.ROOT||userRole==USER_Role.USER"  class="home-main-manager-user-out">
+        <el-button @click="ToLogin" size="large" round>切换账号</el-button>
         <el-button @click="OnClickUserOut" size="large" id="user-out" type="danger" round>退出登录</el-button>
       </div>
+
+      <div    v-else-if="userRole==''||userRole==USER_Role.VISITOR"  class="home-main-manager-user-out">
+        <el-button   @click="ToEnroll"  size="large" round>注册</el-button>
+        <el-button @click="ToLogin"  color="#1989fa"  size="large" id="user-out" type="danger" round>登录</el-button>
+      </div>
+
     </div>
 
   </transition>

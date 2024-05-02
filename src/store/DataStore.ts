@@ -56,7 +56,9 @@ const DataStore={
     homeMessageShowSize:ref<number>(0), // 消息个数
 
 
-    SearchText:ref<string>("") // 搜索关键词
+    SearchText:ref<string>(""), // 搜索关键词
+
+    yzmText:ref<string>("") // 验证码
 }
 export const {shareShow}=DataStore
 export const {commentSectionReplyShow}=DataStore
@@ -86,3 +88,4 @@ export const {SpaceInputShowMsg}=DataStore
 export const {homeMessageList}=DataStore
 export const {homeMessageShowSize}=DataStore
 export const {SearchText}=DataStore
+export const {yzmText}=DataStore

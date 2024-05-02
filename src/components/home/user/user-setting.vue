@@ -151,6 +151,9 @@ async function upload(){
 
     closeToast(true)
     showSuccessToast('修改成功');
+    setTimeout(()=>{
+      route.back()
+    },500)
     await InitData()
   }catch (e){
     closeToast(true)
@@ -185,6 +188,15 @@ async function upload(){
 //
 // }
 
+
+// 跳转修改密码
+function ToUserChge(){
+  // 当前为游客 跳转--注册界面
+    setTimeout(()=>{
+      route.push('/loginChange')
+    })
+
+}
 
 </script>
 
@@ -269,6 +281,19 @@ async function upload(){
 <!--        <van-button round type="success">圆形按钮</van-button>-->
 <!--      </van-field>-->
 
+      <van-field
+          input-align="right"
+
+          is-link
+          readonly
+          label="更改密码"
+          placeholder="更改密码"
+          @click="ToUserChge"
+      >
+        <template #input>
+          <div>更改密码</div>
+        </template>
+      </van-field>
       <van-popup v-model:show="showPicker" round position="bottom">
         <van-picker
             title="性别"

@@ -32,7 +32,7 @@ onMounted( async ()=>{
   try {
 
 
-      play.value=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data
+      play.value=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_QT_GET)).data
 
 
     console.log("获得数据：HomeViewCard：",play.value)
@@ -90,7 +90,7 @@ async function EnrollInit(){ // 注册shij
 
       if (Number(el.scrollTop + el.clientHeight).toFixed(0) == el.scrollHeight) {
         console.log("滚动到底部")
-       const rep:Response<HomeViewCard[]>= await (await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data
+       const rep:Response<HomeViewCard[]>= await (await HttpGet(SERVICE_ROUT.VIDEO_INIT_QT_GET)).data
 
          if(rep.status==200){
            rep.body.pop() // 只要10 条数据
@@ -155,8 +155,8 @@ const onLoad =async () => {
     }
 
 
-    const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.VIDEO_INIT_GET,pp)).data
-    //const rep:Response<HomeViewCard[]>=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data;
+    const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.VIDEO_INIT_QT_GET,pp)).data
+    //const rep:Response<HomeViewCard[]>=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_QT_GET)).data;
     console.log("加载成功：",page.value," ",rep)
     if(rep.status==200){
       if(rep.body.length==0){

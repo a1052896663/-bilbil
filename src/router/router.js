@@ -20,6 +20,8 @@ import homeSpaceSelect from "@/components/home/space/home-space-select.vue";
 import userConcern from "@/components/home/user/user-concern.vue";
 import userSomeone from "@/components/home/user/user-someone.vue";
 import searchResult from "@/components/home/search/search-result.vue";
+import loginChange from "@/components/login/login-change.vue";
+import loginEnroll from "@/components/login/login-enroll.vue";
 
 
 
@@ -109,6 +111,14 @@ const routes=[
     {
         path: '/searchResult',
         component: searchResult // 搜索结果页面
+    },
+    {
+        path: '/loginChange',  //修改密码
+        component: loginChange
+    },
+    {
+        path: '/loginEnroll', // 注册
+        component: loginEnroll
     }
 ]
 

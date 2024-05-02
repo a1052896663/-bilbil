@@ -5,8 +5,8 @@ import route from "../../router/router";
 import {closeToast, showFailToast, showLoadingToast, showSuccessToast} from "vant";
 import LoginYazm from "@/components/login/login-yazm.vue";
 import {yzmText} from "@/store/DataStore";
-import {HttpPost} from "@/api/http";
 import {Response, SERVICE_ROUT, User} from "@/util/type";
+import {HttpPost, HttpPut} from "@/api/http";
 import {setUser} from "@/store/UserSrore";
 onMounted(()=>{
   console.log("组件login激活");
@@ -86,25 +86,17 @@ const asyncValidator = (val) =>
 
 const onFailed =async (errorInfo) => {
   console.log('failed', errorInfo);
-
   let isError=false
+
   if(yzmText.value.trim().toLowerCase()!=yzm.value.trim().toLowerCase()){
-    if(yzmText.value.trim().length<=0){
-      yamMsg.value="验证码为空"
-    }else {
-      yamMsg.value="验证码错误"
-    }
+    yamMsg.value="验证码错误"
     isError=true
   }
 
-
-
-
-
-  // if(my.value.trim().length<=0){
-  //   myMsg.value="密钥不能为空"
-  //   isError=true
-  // }
+  if(my.value.trim().length<=0){
+    myMsg.value="密钥不能为空"
+    isError=true
+  }
 
   if(errorInfo&& ('errors' in errorInfo)&&errorInfo.errors.length > 0){
     console.error("有错误")
@@ -112,6 +104,10 @@ const onFailed =async (errorInfo) => {
 
   }
 
+  if(password.value.trim()!=password2.value.trim()){
+    password2Msg.value="两次输入不相同"
+    isError=true
+  }
 
 
 
@@ -121,22 +117,24 @@ const onFailed =async (errorInfo) => {
   // TODO 登录
 
   const user={
+    name:name.value.trim(),
     account:account.value.trim(),
-    password:password.value.trim()
+    password:password.value.trim(),
+    secretKey:my.value.trim()
   }
-  console.log("登录")
+
   closeToast(true)
   showLoadingToast({
-    message: '登录中...',
+    message: '注册中...',
     forbidClick: true,
     duration:10000
   });
   try {
-    const rep:Response<User>= (await HttpPost(SERVICE_ROUT.USER_LOGIN_POST,user)).data
+    const rep:Response<User>= (await HttpPut(SERVICE_ROUT.USER_ENROLL_PUT,user)).data
 
     if(rep.status==200){
       closeToast(true)
-      showSuccessToast('登录成功');
+      showSuccessToast('注册成功');
 
       setUser(rep) // 更新信息
 
@@ -145,16 +143,15 @@ const onFailed =async (errorInfo) => {
       },500)
     }else {
       closeToast(true)
-      showFailToast('账号或密码错误');
+      showFailToast('用户已存在');
     }
   }catch (e){
     closeToast(true)
     showFailToast('网络错误');
-   // console.error(e)
+    // console.error(e)
     console.error(e)
   }
 
-  //console.log("登录结果：",rep)
 
 
 };
@@ -173,11 +170,10 @@ const yamMsg=ref("");
 
 const NoPassword=ref("点击找回密码")
 
-
 function OnClickBar(){
 
 
-    route.back()
+  route.back()
 
 
 }
@@ -185,11 +181,9 @@ function OnClickBar(){
 </script>
 
 <template>
-
   <div id="login">
-
     <van-nav-bar
-        title="登录"
+        title="注册"
         left-text="返回"
         left-arrow
         @click-left="OnClickBar"
@@ -197,92 +191,89 @@ function OnClickBar(){
 
     />
     <div id="login-b">
-      <van-form @failed="onFailed" @submit="onFailed">
-        <van-cell-group inset>
-          <!-- 通过 pattern 进行正则校验 -->
-          <!--        <van-field-->
-          <!--            v-model="name"-->
-          <!--            label="昵称"-->
-          <!--            name="name"-->
-          <!--            placeholder="请输入昵称"-->
-          <!--            :rules="[{ pattern, message: '不能超过15个字符' }]"-->
-          <!--        />-->
-          <!-- 通过 validator 进行函数校验 -->
-          <van-field
-              label="账号"
-              v-model="account"
-              name="account"
-              placeholder="函数校验"
-              :rules="[{ pattern: /^[a-zA-Z0-9]{8,15}$/, message: '只能输入8~15位字母或数字' }]"
-          />
-          <!-- 通过 validator 返回错误提示 -->
-          <van-field
-              label="密码"
-              v-model="password"
-              name="password"
-              placeholder="密码"
-              type="password"
-              :rules="[{ pattern:  /^[a-zA-Z0-9]{8,15}$/, message: '只能输入8~15位字母或数字'}]"
-          />
-          <!-- 通过 validator 进行异步函数校验 -->
-          <!--        <van-field-->
-          <!--            label="再次输入密码"-->
-          <!--            v-model="password2"-->
-          <!--            name="password2"-->
-          <!--            placeholder="再次输入密码"-->
-          <!--            :error-message="password2Msg"-->
-          <!--            @focus="password2Msg=''"-->
-          <!--            type="password"-->
-          <!--            :rules="[{ pattern:  /^[a-zA-Z0-9]{8,15}$/, message: '只能输入8~15位字母或数子' }]"-->
-          <!--        />-->
-          <van-field
-              v-model="yzm"
-              center
-              clearable
-              name="yzm"
-              label="验证码"
-              :rules="[{ pattern, message: '' }]"
-              :error-message="yamMsg"
-              placeholder="请输入验证码"
-              @focus="yamMsg=''"
-          >
-            <template #button>
-              <login-yazm></login-yazm>
-            </template>
-          </van-field>
+    <van-form @failed="onFailed" @submit="onFailed">
+      <van-cell-group inset>
+        <!-- 通过 pattern 进行正则校验 -->
+        <van-field
+            v-model="name"
+            label="昵称"
+            name="name"
+            placeholder="请输入昵称"
+            :rules="[{ pattern, message: '不能超过15个字符' }]"
+        />
+        <!-- 通过 validator 进行函数校验 -->
+        <van-field
+            label="账号"
+            v-model="account"
+            name="account"
+            placeholder="函数校验"
+            :rules="[{ pattern: /^[a-zA-Z0-9]{8,15}$/, message: '只能输入8~15位字母或数字' }]"
+        />
+        <!-- 通过 validator 返回错误提示 -->
+        <van-field
+            label="密码"
+            v-model="password"
+            name="password"
+            placeholder="密码"
+            type="password"
+            :rules="[{ pattern:  /^[a-zA-Z0-9]{8,15}$/, message: '只能输入8~15位字母或数字'}]"
+        />
+        <!-- 通过 validator 进行异步函数校验 -->
+        <van-field
+            label="再次输入密码"
+            v-model="password2"
+            name="password2"
+            placeholder="再次输入密码"
+            :error-message="password2Msg"
+            @focus="password2Msg=''"
+            type="password"
+            :rules="[{ pattern:  /^[a-zA-Z0-9]{8,15}$/, message: '只能输入8~15位字母或数子' }]"
+        />
+        <van-field
+            v-model="yzm"
+            center
+            clearable
+            name="yzm"
+            label="验证码"
+            :rules="[{ pattern, message: '' }]"
+            :error-message="yamMsg"
+            placeholder="请输入验证码"
+            @focus="yamMsg=''"
+        >
+          <template #button>
+            <login-yazm></login-yazm>
+          </template>
+        </van-field>
 
-          <!--        <van-field-->
-          <!--            label="密钥"-->
-          <!--            v-model="my"-->
-          <!--            name="password2"-->
-          <!--            placeholder="用于找回密码"-->
-          <!--            :error-message="myMsg"-->
-          <!--            @focus="my=''"-->
-          <!--        />-->
+        <van-field
+            label="密钥"
+            v-model="my"
+            name="password2"
+            placeholder="用于找回密码"
+            :error-message="myMsg"
+        />
 
 
-          <!--        <van-field-->
+<!--        <van-field-->
 
-          <!--            v-model="NoPassword"-->
-          <!--            is-link-->
-          <!--            readonly-->
-          <!--            name="datePicker"-->
-          <!--            label="忘记密码"-->
-          <!--            placeholder="忘记密码"-->
+<!--            v-model="NoPassword"-->
+<!--            is-link-->
+<!--            readonly-->
+<!--            name="datePicker"-->
+<!--            label="忘记密码"-->
+<!--            placeholder="忘记密码"-->
 
-          <!--        />-->
+<!--        />-->
 
-        </van-cell-group>
-        <div style="margin: 16px;">
-          <van-button round block type="primary" native-type="submit">
-            登录
-          </van-button>
-        </div>
+      </van-cell-group>
+      <div style="margin: 16px;">
+        <van-button round block type="primary" native-type="submit">
+          注册
+        </van-button>
+      </div>
 
-      </van-form>
-
+    </van-form>
     </div>
-
 
 <!--    <van-form @failed="onFailed">-->
 <!--      <van-cell-group inset>-->
@@ -337,7 +328,9 @@ function OnClickBar(){
 
     background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
 
+
   }
+
   #login-b{
     width: 100vw;
     height: 70vh;

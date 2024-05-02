@@ -6,11 +6,17 @@ export enum SERVICE_ROUT{ // 后端路由
   //ServerPath="http://127.0.0.1:8080",
   HELLO_GET="/hello",
   TOKEN_LOGIN="user/token/login", // 使用token自动登录
-  LOGIN_OST="/user/login", 
+  USER_LOGIN_POST="/user/login",
   OUT_DELETE="/user/out", // 退出登录
-  ENROLL_PUT="/user/enroll" ,//注册
+  USER_ENROLL_PUT="/user/enroll" ,//注册
   AVATAR_POST="/user/avatar", // 设置用户头像
   VIDEO_INIT_GET="/video/init",  // 获得视频推荐
+  VIDEO_INIT_DM_GET="/video/init/dm",  // 获得视频推荐
+  VIDEO_INIT_SH_GET="/video/init/sh",  // 获得视频推荐
+  VIDEO_INIT_YS_GET="/video/init/ys",  // 获得视频推荐
+  VIDEO_INIT_QT_GET="/video/init/qt",  // 获得视频推荐
+
+
   VIDEO_COMMENTS_PUT="/video/comments", // 视频评论
   VIDEO_COLLECTION_PUT="/video/collection", // 视频取消收藏
   VIDEO_COLLECTION_DELETE="/video/collection", // 视频收藏
@@ -28,6 +34,7 @@ export enum SERVICE_ROUT{ // 后端路由
   USER_SOCKET="",
   USER_HISTORY="/user/history",
 
+  USER_CHANGE_POST="/user/change",  // 用户密码更改
   USER_CONCERN_PUT="/user/concern",
   USER_SETTING_POST="/user/setting",
   USER_SETTING_NOIMAGE_POST="/user/setting/no",
@@ -378,4 +385,10 @@ export interface ViewMessage{
 export interface ViewSearchCard{
   videoList:HomeViewCard[] // 视频列表
   userList:ViewUserConcern[]  // 用户列表
+}
+
+export enum USER_Role{
+  VISITOR='VISITOR',
+  USER='USER',
+  ROOT='ROOT'
 }

@@ -45,4 +45,8 @@
     <tree path="/src/store/UserSrore.ts" title="用户信息"/>
     <tree path="/src/components/home/msg" title="消息提示"/>
     <tree path="/src/components/home/search/search-result.vue" title="搜索结果页面"/>
+    <tree path="/src/components/login/login-enroll.vue" title="注册"/>
+    <tree path="/src/components/login/login.vue" title="登录"/>
+    <tree path="/src/components/login/login-yazm.vue" title="验证码组件"/>
+    <tree path="/src/components/login/login-change.vue" title="修改密码"/>
 </trees>

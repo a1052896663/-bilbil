@@ -92,25 +92,25 @@ const fileList=ref( [
 
     />
 
-    <div style="width: 100%;height: 6rem;background:  #dedfe0;">
 
+    <div style="  padding-top: 6rem;">
+      <van-cell-group inset >
+
+        <el-input
+            v-model="title"
+            style="width: 87rem;height: 35rem;  margin: 2rem 2rem;"
+            :input-style="{height: '35rem',fontSize:'4rem'}"
+            :rows="2"
+            type="textarea"
+            placeholder="标题"
+            maxlength="300"
+            show-word-limit="true"
+        />
+
+        <van-uploader style="margin: 5.2rem 5.2rem;" preview-size="25rem" v-model="fileList" multiple />
+      </van-cell-group>
     </div>
 
-    <van-cell-group inset >
-
-      <el-input
-          v-model="title"
-          style="width: 87rem;height: 35rem;  margin: 2rem 2rem;"
-          :input-style="{height: '35rem',fontSize:'4rem'}"
-          :rows="2"
-          type="textarea"
-          placeholder="标题"
-          maxlength="300"
-          show-word-limit="true"
-      />
-
-      <van-uploader style="margin: 5.2rem 5.2rem;" preview-size="25rem" v-model="fileList" multiple />
-    </van-cell-group>
 
 
   </div>
@@ -122,7 +122,8 @@ const fileList=ref( [
   #home-space-add{
     width: 100vw;
     height: 100vh;
-    background:  #dedfe0;
+
+    background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
 
   }
 

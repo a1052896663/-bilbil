@@ -145,7 +145,7 @@
     .home-main-manager-user-list-item:active {
         background-color: #e9e9eb; /* 点击后改变背景颜色 */
     }
-    #home-main-manager-user-out{
+    .home-main-manager-user-out{
         width: 100%;
         flex: 0 0 20rem;
         display: flex;

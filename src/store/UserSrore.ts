@@ -1,4 +1,4 @@
-import {Response, SERVICE_ROUT, User} from "../util/type";
+import {Response, SERVICE_ROUT, User, USER_Role} from "../util/type";
 import {ref} from "vue";
 import {HttpPost, HttpPut} from "../api/http";
 
@@ -16,6 +16,8 @@ export const USER_TEMP={
     userSomeone:ref<number>(0),// 粉丝数量
     userCommunity:ref<number>(0), // 社区动态数量
     userVideoSize:ref<number>(0),// 视频数量
+
+    userRole:ref<string>(''), // 用户权限
 
     userGender:ref<string>('保密'), // 保密
     userBrief:ref<string>("我没有简介 >_<" ), // 简介
@@ -39,6 +41,7 @@ export const {userCommunity} =USER_TEMP
 export const {userVideoSize} =USER_TEMP
 export const {userBrief} =USER_TEMP
 export const {userGender} =USER_TEMP
+export const {userRole} =USER_TEMP
 
 // 自动登录--token登录--token登录失败--保存密码
 // TODO 存储浏览器 -- 添加评论-- 添加粉丝--点赞-- 删除评论--收藏--soket
@@ -71,6 +74,8 @@ export const {userGender} =USER_TEMP
             USER_TEMP. userBrief.value=user.body.brief
             USER_TEMP. userGender.value=user.body.gender
 
+            USER_TEMP.userRole.value=user.body.role // 设置权限
+
             localStorage.setItem('user-token',user.token)
             localStorage.   setItem('user-id',String( user.body.id))
             localStorage.   setItem('user-account',user.body.account)
@@ -95,6 +100,7 @@ export const {userGender} =USER_TEMP
 
 
 
+
             console.log("自动登录成功：",user)
         }
     }catch (e){
@@ -102,6 +108,75 @@ export const {userGender} =USER_TEMP
     }
 
 }
+
+// 清空个人信息
+export function UserDataClear(){
+    localStorage.clear()
+    USER_TEMP.id.value=-1;
+    USER_TEMP.token='';
+    USER_TEMP.userImage.value=''; // 改成路径
+    USER_TEMP.role=USER_Role.VISITOR
+    USER_TEMP.userName.value="未登录";
+
+
+    USER_TEMP.userSparkle.value=0;
+    USER_TEMP.userCommunity.value=0;
+    USER_TEMP.userConcern.value=0;
+    USER_TEMP.userSomeone.value=0;
+    USER_TEMP.userVideoSize.value=0;
+
+    USER_TEMP. userBrief.value="我没有简介 >_<"
+    USER_TEMP. userGender.value='保密'
+
+    USER_TEMP.userRole.value=USER_Role.VISITOR // 设置权限
+
+}
+
+export function setUser(user:Response<User>){
+    USER_TEMP.id.value=user.body.id;
+    USER_TEMP.token=user.token;
+    USER_TEMP.userImage.value=user.body.imageSrc; // 改成路径
+    USER_TEMP.role=user.body.role
+    USER_TEMP.userName.value=user.body.name;
+
+
+    USER_TEMP.userSparkle.value=user.body.sparkle;
+    USER_TEMP.userCommunity.value=user.body.community;
+    USER_TEMP.userConcern.value=user.body.concern;
+    USER_TEMP.userSomeone.value=user.body.someone;
+    USER_TEMP.userVideoSize.value=user.body.videoSize;
+
+    USER_TEMP. userBrief.value=user.body.brief
+    USER_TEMP. userGender.value=user.body.gender
+
+    USER_TEMP.userRole.value=user.body.role // 设置权限
+
+    localStorage.setItem('user-token',user.token)
+    localStorage.   setItem('user-id',String( user.body.id))
+    localStorage.   setItem('user-account',user.body.account)
+    localStorage.   setItem('user-avatar',user.body.avatar)
+    localStorage.  setItem('user-userName',user.body.name)
+    localStorage   . setItem('user-userImage',user.body.imageSrc)
+    localStorage.   setItem('user-role',user.body.role)
+
+    localStorage.   setItem('user-sparkle',String(user.body.sparkle) )
+
+
+
+    localStorage.   setItem('user-community',String(user.body.community) )
+    localStorage.   setItem('user-concern',String(user.body.concern) )
+    localStorage.   setItem('user-someone',String(user.body.someone) )
+    localStorage.   setItem('user-videoSize',String(user.body.videoSize) )
+
+
+    localStorage.   setItem('user-gender',String(user.body.gender) )
+    localStorage.   setItem('user-brief',String(user.body.brief) )
+
+
+
+}
+
+
 
 // 初始化用户数据
 export async function InitData(){
@@ -128,6 +203,7 @@ async function localhostData(){
     USER_TEMP.userName.value= localStorage.  getItem('user-userName')
     USER_TEMP.userImage.value= localStorage. getItem('user-userImage')
     USER_TEMP.role=  localStorage.           getItem('user-role')
+    USER_TEMP.userRole.value=  localStorage.           getItem('user-role')
 
     USER_TEMP.userSparkle.value=Number( localStorage.getItem('user-sparkle' ))
 
@@ -140,6 +216,9 @@ async function localhostData(){
     USER_TEMP.userGender.value=  localStorage. getItem('user-gender')
     USER_TEMP.userBrief.value= localStorage. getItem('user-brief')
 
+
+
+
 }
 
 
@@ -148,8 +227,9 @@ export function getUserToken(){
     return USER_TEMP.token
 }
 
-export function setUserToken(_:any){
-
+export function setUserToken(token:string){
+    USER_TEMP.token=token
+    localStorage.setItem('user-token', USER_TEMP.token)
 }
 
 

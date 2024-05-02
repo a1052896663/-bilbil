@@ -17,6 +17,10 @@ import HomeSpace from "@/components/home/space/home-space.vue";
 import HomeSpaceSelect from "@/components/home/space/home-space-select.vue";
 import HomeMsgHead from "@/components/home/msg/home-msg-head.vue";
 import {showToast} from "vant";
+import HomeMainHomeDm from "@/components/home/main/home-main-home-dm.vue";
+import HomeMainHomeSh from "@/components/home/main/home-main-home-sh.vue";
+import HomeMainHomeYs from "@/components/home/main/home-main-home-ys.vue";
+import HomeMainHomeQt from "@/components/home/main/home-main-home-qt.vue";
 const player = ref(null)
 let url=ref('')
 const streamUrl = ref('')
@@ -224,9 +228,13 @@ function OnChear(){
 <!--      </van-pull-refresh>-->
 <!--主页显示-->
       <home-main-home    v-show="active==0&&Tap_active==0"></home-main-home>
+      <home-main-home-dm    v-show="active==0&&Tap_active==1"></home-main-home-dm>
+      <home-main-home-sh      v-show="active==0&&Tap_active==2"></home-main-home-sh>
+      <home-main-home-ys    v-show="active==0&&Tap_active==3"></home-main-home-ys>
+      <home-main-home-qt    v-show="active==0&&Tap_active==4"></home-main-home-qt>
 <!--        <view v-show="true"></view>-->
 
-      <div id="home-main-qr"    v-if="active==1">
+      <div id="home-main-qr"    v-show="active==1">
         <home-space-select></home-space-select>
 <!--        <van-skeleton>-->
 <!--          <template #template>-->
@@ -282,6 +290,13 @@ function OnChear(){
 
 @import "@/css/pc/home.css";
 @import "@/css/mobile/home.css";
+
+
+
+
+
+
+
 
 </style>
 

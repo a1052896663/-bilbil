@@ -239,14 +239,18 @@ const list = ref([]); // 播放列表
 const page=ref<number>(1) // 分页数据
 const loading = ref(false);
 const finished = ref(false);
-
+const refreshing = ref(false);
 const onLoad =async () => {
   // 异步更新数据
   // setTimeout 仅做示例，真实场景中一般为 ajax 请求
   page.value++;
   console.log("到达底部")
   try {
-
+    if (refreshing.value) {
+      list.value = [];
+      page.value=1
+      refreshing.value = false;
+    }
     const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.SPACE_ALL_GET+"/"+page.value)).data
     //const rep:Response<HomeViewCard[]>=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data;
     console.log("加载成功：",page.value," ",rep)
@@ -267,7 +271,15 @@ const onLoad =async () => {
 
 
 
+const onRefresh = () => {
+  // 清空列表数据
+  finished.value = false;
 
+  // 重新加载数据
+  // 将 loading 设置为 true，表示处于加载状态
+  loading.value = true;
+  onLoad();
+};
 
 
 </script>
@@ -277,7 +289,7 @@ const onLoad =async () => {
 
 <!--    <home-space-video-card  v-for="i in 3" v-if="tt1" :Date2="tt1"></home-space-video-card>-->
 
-
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
     <van-list
         v-model:loading="loading"
         :finished="finished"
@@ -293,6 +305,7 @@ const onLoad =async () => {
         </div>
       </van-cell>
     </van-list>
+    </van-pull-refresh>
 
     <div :style="{'font-size':'4rem' }"   @click.stop="OnInputDiv"  v-show="SpaceInputShow">
       <div @click.stop=""  id="input-comment-inputDm"  style="position: fixed;background: #E6E8EB; display: flex;align-items: center; bottom: 13rem;width: 100%;min-height:10rem">
@@ -346,7 +359,7 @@ const onLoad =async () => {
 
 
     </div>
-    <van-floating-bubble style="margin-left: 8rem" gap="60" icon="plus" @click="onClick" />
+<!--    <van-floating-bubble style="margin-left: 8rem" gap="60" icon="plus" @click="onClick" />-->
 
   </div>
 

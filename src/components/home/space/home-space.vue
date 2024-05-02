@@ -24,7 +24,7 @@ import {
   Comments,
   COMMENTS_TYPE,
   SERVICE_ROUT,
-  HomeViewCard
+  HomeViewCard, USER_Role
 } from "../../../util/type";
 import {SpaceInputComment, SpaceInputDom, SpaceInputShow, SpaceInputShowMsg} from "../../../store/DataStore";
 import {showToast} from "vant";
@@ -32,6 +32,7 @@ import HomeSpaceShuoCard from "@/components/home/space/home-space-shuo-card.vue"
 import route from '../../../router/router.js'
 
 import {HttpGet, HttpPut} from "@/api/http";
+import {userRole} from "@/store/UserSrore";
 
 
 const spaceList=ref<ViewSpaceCard[]>(null)
@@ -216,7 +217,17 @@ function OnAppClick(){  // 清除冒泡
 
 // 点击发布表
 const onClick = () => {
- // showToast('点击气泡');
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
+  // showToast('点击气泡');
   setTimeout(()=>{
 
     route.push('/homeSpaceAdd')
@@ -239,13 +250,18 @@ const list = ref([]); // 播放列表
 const page=ref<number>(1) // 分页数据
 const loading = ref(false);
 const finished = ref(false);
-
+const refreshing = ref(false);
 const onLoad =async () => {
   // 异步更新数据
   // setTimeout 仅做示例，真实场景中一般为 ajax 请求
   page.value++;
   console.log("到达底部")
   try {
+    if (refreshing.value) {
+      list.value = [];
+      page.value=1
+      refreshing.value = false;
+    }
 
     const rep:  Response<ViewSpaceCard[]>=  (await  HttpGet(SERVICE_ROUT.SPACE_GET+"/"+page.value)).data
     //const rep:Response<HomeViewCard[]>=(await HttpGet(SERVICE_ROUT.VIDEO_INIT_GET)).data;
@@ -267,7 +283,15 @@ const onLoad =async () => {
 
 
 
+const onRefresh = () => {
+  // 清空列表数据
+  finished.value = false;
 
+  // 重新加载数据
+  // 将 loading 设置为 true，表示处于加载状态
+  loading.value = true;
+  onLoad();
+};
 
 
 </script>
@@ -277,7 +301,7 @@ const onLoad =async () => {
 
 <!--    <home-space-video-card  v-for="i in 3" v-if="tt1" :Date2="tt1"></home-space-video-card>-->
 
-
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
     <van-list
         v-model:loading="loading"
         :finished="finished"
@@ -293,6 +317,7 @@ const onLoad =async () => {
         </div>
       </van-cell>
     </van-list>
+    </van-pull-refresh>
 
     <div :style="{'font-size':'4rem' }"   @click.stop="OnInputDiv"  v-show="SpaceInputShow">
       <div @click.stop=""  id="input-comment-inputDm"  style="position: fixed;background: #E6E8EB; display: flex;align-items: center; bottom: 13rem;width: 100%;min-height:10rem">
@@ -346,7 +371,7 @@ const onLoad =async () => {
 
 
     </div>
-    <van-floating-bubble style="margin-left: 15rem" gap="90" icon="plus" @click="onClick" />
+<!--    <van-floating-bubble style="margin-left: 15rem" gap="90" icon="plus" @click="onClick" />-->
 
   </div>
 

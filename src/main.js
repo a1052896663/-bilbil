@@ -84,6 +84,14 @@ import { Dialog } from 'vant';
 import { FloatingBubble } from 'vant';
 import { Switch } from 'vant';
 
+import { Form } from 'vant';
+
+import { Empty } from 'vant';
+
+
+app.use(Empty)
+
+app.use(Form)
 app.use(Switch)
 app.use(FloatingBubble)
 
