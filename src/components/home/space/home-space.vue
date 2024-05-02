@@ -35,6 +35,8 @@ import {HttpGet, HttpPut} from "@/api/http";
 import {userRole} from "@/store/UserSrore";
 
 
+const IsNOLL=ref(false)
+
 const spaceList=ref<ViewSpaceCard[]>(null)
 
 onMounted(async ()=>{
@@ -43,6 +45,11 @@ onMounted(async ()=>{
 
   if(rep.status==200){
     console.log("获得动态卡片数据:",rep.body)
+
+
+    if(rep.body.length==0){
+      IsNOLL.value=true
+    }
 
     spaceList.value=rep.body
     list.value.push(rep.body)
@@ -271,11 +278,18 @@ const onLoad =async () => {
         finished.value = true;
         return;
       }
+
+
+
+
+
       list.value.push(rep.body)
       loading.value = false;
     }
 
   }catch (e){
+    //loading.value = false;
+  //  loading.value = false;
     console.error(e)
   }
 
@@ -301,23 +315,37 @@ const onRefresh = () => {
 
 <!--    <home-space-video-card  v-for="i in 3" v-if="tt1" :Date2="tt1"></home-space-video-card>-->
 
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+    <van-pull-refresh   v-model="refreshing" @refresh="onRefresh"
+
+    min-hig
+    >
     <van-list
         v-model:loading="loading"
         :finished="finished"
         finished-text="没有更多了"
         error-text="请求失败，点击重新加载"
+
+        style="min-height: 90vh"
         @load="onLoad"
     >
 
-      <van-cell v-for="item2 in list" :key="item2" >
+      <van-cell  v-if="(list&&list.length>0&&list[0].length>0)"   v-for="item2 in list" :key="item2" >
         <div v-for="item in item2" :key="item.spaceId">
           <home-space-shuo-card  v-if="item.type==SPACE_TYPE.SHOW" :Date2="item"></home-space-shuo-card>
           <home-space-video-card  v-if="item.type==SPACE_TYPE.VIDEO"  :Date2="item"></home-space-video-card>
         </div>
       </van-cell>
+
+
+      <div v-if="IsNOLL&&loading==false">
+        <van-empty description="暂无数据>_<" />
+      </div>
+
     </van-list>
+
     </van-pull-refresh>
+
+
 
     <div :style="{'font-size':'4rem' }"   @click.stop="OnInputDiv"  v-show="SpaceInputShow">
       <div @click.stop=""  id="input-comment-inputDm"  style="position: fixed;background: #E6E8EB; display: flex;align-items: center; bottom: 13rem;width: 100%;min-height:10rem">

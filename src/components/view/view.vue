@@ -595,15 +595,47 @@ const showShare=ref(false)
 
 //const showShare = ref(false);
 const optionsSheet = [
-  { name: '微信', icon: 'wechat' },
-  { name: '微博', icon: 'weibo' },
-  { name: '复制链接', icon: 'link' },
-  { name: '分享海报', icon: 'poster' },
-  { name: '二维码', icon: 'qrcode' },
+  { name: '复制链接', icon: 'font' },
+
 ];
 
 const onSelect = (option) => {
-  showToast(option.name);
+  if(option.name=="复制链接"){
+    // 创建一个虚拟的下载链接
+   //  var link = document.createElement("a");
+   //  // 设置链接的 href 属性为文件的路径
+   //  link.href = viewCard.value.body.videoSrc; // 替换为实际文件的路径
+   //
+   //  // 设置下载文件的名称
+   //  link.download =''+ Date.now()+'.mp4'; // 替换为实际文件的名称
+   //
+   //  // 将链接添加到页面中
+   // // document.body.appendChild(link);
+   //
+   //  // 模拟点击链接进行下载
+   //  link.click();
+   //
+   //  // 删除链接，避免在页面中显示
+   //  document.body.removeChild(link);
+
+
+
+    const text =viewCard.value.body.videoSrc;
+
+    navigator.clipboard.writeText(text)
+        .then(function() {
+          showToast("已复制链接");
+          console.log('已复制链接');
+          showShare.value = false;
+        })
+        .catch(function(error) {
+          showShare.value = false;
+          console.error('复制已复制链接:', error);
+        });
+
+
+  }
+ // showToast(option.name);
   showShare.value = false;
 };
 
@@ -987,7 +1019,7 @@ const onLoad =async () => {
       </div>
       <van-share-sheet
           v-model:show="shareShow"
-          title="立即分享给好友"
+          title="下载"
           :options="optionsSheet"
           @select="onSelect"
       />

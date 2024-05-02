@@ -33,7 +33,7 @@ import route from '../../../router/router.js'
 
 import {HttpGet, HttpPut} from "@/api/http";
 
-
+const IsNOLL=ref(false)
 const spaceList=ref<ViewSpaceCard[]>(null)
 
 onMounted(async ()=>{
@@ -42,6 +42,11 @@ onMounted(async ()=>{
 
   if(rep.status==200){
     console.log("获得动态卡片数据:",rep.body)
+
+    if(rep.body.length==0){
+      IsNOLL.value=true
+    }
+
 
     spaceList.value=rep.body
     list.value.push(rep.body)
@@ -176,6 +181,7 @@ const temp= SpaceInputComment.value
     findResult.commentList.push(temp)
     const rep:Response<number>  =(await  HttpPut(SERVICE_ROUT.SPACE_APP_COMMENT_PUT,temp)).data;
     if(rep.status==200){
+     // if()
       setTimeout(()=>{
         temp.upload=true
         temp.id=rep.body
@@ -259,6 +265,10 @@ const onLoad =async () => {
         finished.value = true;
         return;
       }
+      if(rep.body.length>0&&IsNOLL.value){
+        IsNOLL.value=false
+      }
+
       list.value.push(rep.body)
       loading.value = false;
     }
@@ -289,7 +299,7 @@ const onRefresh = () => {
 
 <!--    <home-space-video-card  v-for="i in 3" v-if="tt1" :Date2="tt1"></home-space-video-card>-->
 
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+    <van-pull-refresh   v-model="refreshing" @refresh="onRefresh">
     <van-list
         v-model:loading="loading"
         :finished="finished"
@@ -304,8 +314,13 @@ const onRefresh = () => {
           <home-space-video-card  v-if="item.type==SPACE_TYPE.VIDEO"  :Date2="item"></home-space-video-card>
         </div>
       </van-cell>
+
+
     </van-list>
     </van-pull-refresh>
+    <div v-if="IsNOLL">
+      <van-empty description="暂无数据>_<" />
+    </div>
 
     <div :style="{'font-size':'4rem' }"   @click.stop="OnInputDiv"  v-show="SpaceInputShow">
       <div @click.stop=""  id="input-comment-inputDm"  style="position: fixed;background: #E6E8EB; display: flex;align-items: center; bottom: 13rem;width: 100%;min-height:10rem">

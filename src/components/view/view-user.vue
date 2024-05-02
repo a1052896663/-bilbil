@@ -335,8 +335,8 @@ function ToUser(){
         </div>
 
         <div class="view-user-like-item">
-          <van-icon  @click="(buttonShare=!buttonShare)&(shareShow = !shareShow)" size="7rem" name="share" />
-          <div class="view-user-like-item-font">分享</div>
+          <van-icon  @click="(buttonShare=!buttonShare)&(shareShow = !shareShow)" size="7rem" name="descending" />
+          <div class="view-user-like-item-font">下载</div>
         </div>
 
       </div>

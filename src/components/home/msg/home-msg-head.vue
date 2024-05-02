@@ -106,6 +106,9 @@ function  mm(){
         <!--    动态回复  -->
         <home-msg-space-comment             :Obj="item"  v-else-if="item&&item.type==MESSAGE_TYPE.SPACE_COMMENTS"></home-msg-space-comment>
       </div>
+      <div>
+        <van-empty description="暂无数据>_<" />
+      </div>
 
 <!--      <home-msg-comment-like  :Obj="homeMessageList[1]"  > </home-msg-comment-like>-->
 <!--      <home-msg-comment-reply @click="mm"  :style="{ animation: (reMore==false)?' backgroundColorChange 3s infinite':''}" :Obj="homeMessageList[0]"></home-msg-comment-reply>-->

@@ -12,9 +12,10 @@ import {
   replyObject,
   viewVideoId
 } from '../../store/DataStore'
-import {COMMENTS_TYPE, ViewComment} from "../../util/type";
+import {COMMENTS_TYPE, USER_Role, ViewComment} from "../../util/type";
 import {getCOMMENTS_TYPE} from "../../util/util";
-import {userImage, id,userName} from "../../store/UserSrore";
+import {userImage, id, userName, userRole} from "../../store/UserSrore";
+import {showToast} from "vant";
 
 
 // 表情元素
@@ -83,8 +84,22 @@ function InsertEmote(emo){
 const show = ref(false); // 消息控件
 function OnClickSend(e){
 
+
+
+
   emojiShow.value=false // 关闭表情框--控件2
   inputCommentTopShow.value=false // 输入框是否需要悬浮在背景框
+
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
  // InputDomState.value=false // 关闭
   e.preventDefault()
   e.stopPropagation();

@@ -407,6 +407,11 @@ function OnClickHortOrTime(){ // 换颜色
           <div class="comment-section-popup-content-main-font" @click="OnClickHortOrTime" :style="{color:fontColor}" ><van-icon :color="fontColor" name="list-switch" /> {{OnTime?'按时间':'按热度'}}</div>
         </div>
         <comment-section-card :itemData="item"  v-for="(item,index) in ViewCommentArray" :key="item.id" ></comment-section-card>
+
+        <div v-if="!(ViewCommentArray&&ViewCommentArray.length!=0)">
+          <van-empty description="暂无数据>_<" />
+        </div>
+
         <div class="comment-section-popup-content-main-zw"></div>
       </div>
 

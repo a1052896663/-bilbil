@@ -139,6 +139,9 @@ const  inputCommentInputDmInput=ref(null) // 真实弹幕输入框
 
 function inputComment(item:ViewComment){
 
+
+
+
   replyObject.value=item
   console.log("回复对象：",replyObject.value)
   try {

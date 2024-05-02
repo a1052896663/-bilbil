@@ -182,7 +182,7 @@ function OnChear(){
 <!--        <div id="home-search-font">搜索</div>-->
       <van-search
           v-model="input"
-
+          style="flex: 1 1 20rem"
           :right-icon="'aa'"
           shape="round"
           background="#ffffff"
