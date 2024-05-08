@@ -6,7 +6,7 @@ import {onMounted, ref, watch} from "vue";
 
 import {HttpFile, HttpGet, HttpGetFileObj} from "../../../api/http";
 import {Base64ToImage, formatDateTime, VideoGetImage} from "../../../util/util";
-import {userBrief} from "@/store/UserSrore";
+import {InitData, userBrief} from "@/store/UserSrore";
 import {closeToast, showFailToast, showLoadingToast, showSuccessToast} from "vant";
 import {UserSettingVideo} from "@/store/DataStore";
 
@@ -191,7 +191,7 @@ const Upload=async ()=>{
   try {
 
     await HttpFile(SERVICE_ROUT.USER_UPLOAD_POST,formData,progressVue)
-
+    await InitData();
   }catch (e){
     closeToast(true)
     showFailToast('发布失败');

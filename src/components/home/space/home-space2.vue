@@ -24,7 +24,7 @@ import {
   Comments,
   COMMENTS_TYPE,
   SERVICE_ROUT,
-  HomeViewCard
+  HomeViewCard, USER_Role
 } from "../../../util/type";
 import {SpaceInputComment, SpaceInputDom, SpaceInputShow, SpaceInputShowMsg} from "../../../store/DataStore";
 import {showToast} from "vant";
@@ -32,6 +32,7 @@ import HomeSpaceShuoCard from "@/components/home/space/home-space-shuo-card.vue"
 import route from '../../../router/router.js'
 
 import {HttpGet, HttpPut} from "@/api/http";
+import {userRole} from "@/store/UserSrore";
 
 const IsNOLL=ref(false)
 const spaceList=ref<ViewSpaceCard[]>(null)
@@ -166,6 +167,16 @@ function findSpaceItem(spaceId:number){
 }
 // 发送消息
 async  function sendMsg(){  // 评论
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
   console.log("发送消息")
   SpaceInputComment.value.content=barrage.value;
 const temp= SpaceInputComment.value
@@ -323,7 +334,7 @@ const onRefresh = () => {
     </div>
 
     <div :style="{'font-size':'4rem' }"   @click.stop="OnInputDiv"  v-show="SpaceInputShow">
-      <div @click.stop=""  id="input-comment-inputDm"  style="position: fixed;background: #E6E8EB; display: flex;align-items: center; bottom: 13rem;width: 100%;min-height:10rem">
+      <div @click.stop=""  id="input-comment-inputDm"  style="z-index: 9999;position: fixed;background: #E6E8EB; display: flex;align-items: center; bottom: 12rem;width: 100%;min-height:10rem">
 
         <!--      <input type="text" ref="inputCommentInputDmInput" :placeholder="InputPlaceholder" @keyup.enter="OnClickSend" id="input-comment-inputDm-input" v-model="barrage" @click="OnClickinputDmInput"    @focus="onInputFocus" @blur="onInputBlur" >-->
 

@@ -12,7 +12,7 @@ import {
   userSparkle,
   userCommunity,
   id,
-  userRole, UserDataClear
+  userRole, UserDataClear, userVideoSize
 } from "../../../store/UserSrore";
 import {USER_Role} from "@/util/type";
 import {showToast} from "vant";
@@ -277,10 +277,10 @@ function ToEnroll(){ // 跳转注册
 
         <div class="home-main-manager-user-car-item" @click="ToUser">
           <div class="home-main-manager-user-car-item-size">
-            {{userCommunity}}
+            {{userVideoSize}}
           </div>
           <div class="home-main-manager-user-car-item-font">
-            动态
+            稿件
           </div>
         </div>
       </div>

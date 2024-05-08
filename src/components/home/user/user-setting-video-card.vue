@@ -11,6 +11,7 @@ import {HttpDelete} from "@/api/http";
 import {SERVICE_ROUT} from "@/util/type";
 
 import route from '../../../router/router.js'
+import {InitData} from "@/store/UserSrore";
 
 const imageSrc=ref('src/public/interlude_Miku_in_Museland_3.png')
 
@@ -58,6 +59,7 @@ function toView(videoId:number){
       await HttpDelete(SERVICE_ROUT.USER_VIDEO_LIST_DELETE+"/"+videoId);
       closeToast(true)
       showSuccessToast('删除成功');
+      await InitData();
       try {
         ProP.recommend.splice(index,1)
       }catch (e) {
@@ -136,7 +138,7 @@ const onSelect = (option) => {
           {{item.title}}
         </div>
         <div>
-          <div class="view-search-item-view"  v-if="!item.review" style="color:red"> {{item.reviewMsg}}</div>
+          <div class="view-search-item-view"  v-if="!item.showVideo" style="color:red"> {{item.reviewMsg}}</div>
           <div class="view-search-item-size" style="position: relative">{{formatDateTime(item.date)}}  <van-icon   @click.stop="OnclickSheet(item.videoId,index)" class="user-video-setting-card-font"  size="5rem" name="ellipsis" /></div>
 
         </div>

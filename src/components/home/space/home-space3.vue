@@ -24,7 +24,7 @@ import {
   Comments,
   COMMENTS_TYPE,
   SERVICE_ROUT,
-  HomeViewCard
+  HomeViewCard, USER_Role
 } from "../../../util/type";
 import {
   SpaceInputComment,
@@ -38,6 +38,7 @@ import HomeSpaceShuoCard from "@/components/home/space/home-space-shuo-card.vue"
 import route from '../../../router/router.js'
 
 import {HttpGet, HttpPut} from "@/api/http";
+import {userRole} from "@/store/UserSrore";
 
 
 const spaceList=ref<ViewSpaceCard[]>(null)
@@ -167,6 +168,17 @@ function findSpaceItem(spaceId:number){
 }
 // 发送消息
 async  function sendMsg(){  // 评论
+
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
   console.log("发送消息")
   SpaceInputComment.value.content=barrage.value;
 const temp= SpaceInputComment.value

@@ -6,11 +6,11 @@
 <script setup lang="ts">
 import {ref, toRefs} from "vue";
 import {shareShow, videoSocket, ViewUserDynamicId, viewVideoId} from '../../store/DataStore'
-import {id} from '../../store/UserSrore'
+import {id, userRole} from '../../store/UserSrore'
 import {formatDateTime3} from  '../../util/util'
 import Search from "@/components/home/search/search-view.vue";
 import {HttpDelete, HttpPut} from "@/api/http";
-import {Response, SERVICE_ROUT} from "../../util/type";
+import {Response, SERVICE_ROUT, USER_Role} from "../../util/type";
 import {showToast} from "vant";
 import route from '../../router/router.js'
 import {InitData} from "../../store/UserSrore";
@@ -69,6 +69,15 @@ labe.value=labs
 
 const userButton=ref<boolean>(ProP.viewCardBody.concern) // 关注状态
 async function  OnClickConcern(){  //
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
   if(userButton.value){
     // 取消关注
     userButton.value=false

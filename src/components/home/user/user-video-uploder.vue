@@ -6,7 +6,7 @@ import {ref, watch} from "vue";
 
 import {HttpFile} from "../../../api/http";
 import {Base64ToImage, formatDateTime, VideoGetImage} from "../../../util/util";
-import {userBrief} from "@/store/UserSrore";
+import {InitData, userBrief} from "@/store/UserSrore";
 import {closeToast, showFailToast, showLoadingToast, showSuccessToast} from "vant";
 const visible=ref(true)
 function OnClickBar(){
@@ -132,6 +132,7 @@ const Upload=async ()=>{
   try {
     loadeStart.value=true
     await HttpFile(SERVICE_ROUT.VIDEO_UPLOAD_POST,formData,progressVue)
+    await InitData();
 
   }catch (e){
     closeToast(true)

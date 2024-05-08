@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import route from '../../../router/router.js'
-import { showImagePreview } from 'vant';
+import {showImagePreview, showToast} from 'vant';
 import {onMounted, ref} from "vue";
 import {
   userCommunity,
@@ -11,9 +11,9 @@ import {
   id,
   userSomeone,
   userName,
-  userBrief, InitData
+  userBrief, InitData, userRole
 } from "../../../store/UserSrore";
-import {HomeViewCard, Response, SERVICE_ROUT, User, ViewUserCard} from "../../../util/type";
+import {HomeViewCard, Response, SERVICE_ROUT, User, USER_Role, ViewUserCard} from "../../../util/type";
 import {HttpGet, HttpDelete, HttpPut} from "@/api/http";
 import SearchView from "@/components/home/search/search-view.vue";
 import {Check, Plus} from "@element-plus/icons-vue";
@@ -70,6 +70,16 @@ const edit=ref<boolean>(false); // 是否显示 编辑资料
 
 
 async function  OnClickConcern(){  //
+
+  if(userRole.value==null||userRole.value==''||userRole.value==USER_Role.VISITOR){
+    showToast({
+      message: '账号未登录',
+      position: 'top',
+    });
+
+    return;
+  }
+
   if(edit.value){
     // 取消关注
     edit.value=false

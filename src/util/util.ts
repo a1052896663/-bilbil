@@ -125,90 +125,90 @@ export function formatDateTime4(time:number) {   // 时间格式化--时间搓
 
 
 const TestData:CommentsData[]=[]
-
-const data1: Comments={
-  id: 0,
-  videoId: 1,
-  userId: 2,
-  commentsType: COMMENTS_TYPE.VIDEO,
-  content: "你好1",
-  toCommentId: -1,
-  parentId: -1,
-  likeNum: 0,
-  date: 0,
-  review: false,
-  deleted: 0,
-  userName:"小王",
-  userImageSrc:""
-}
-
-const data2: Comments={
-  id: 2,
-  videoId: 1,
-  userId: 2,
-  commentsType: COMMENTS_TYPE.VIDEO,
-  content: "你好2",
-  toCommentId: -1,
-  parentId: -1,
-  likeNum: 0,
-  date: 0,
-  review: false,
-  deleted: 0,
-  userName:"小红",
-  userImageSrc:""
-}
-
-const data3: Comments={
-  id: 3,
-  videoId: 1,
-  userId: 2,
-  commentsType: COMMENTS_TYPE.VIDEO_REPLY,
-  content: "你好呀小王",
-  toCommentId: 0,
-  parentId: 0,
-  likeNum: 0,
-  date: 0,
-  review: false,
-  deleted: 0,
-  userName:"小白",
-  userImageSrc:""
-}
-
-const data4: Comments={
-  id: 4,
-  videoId: 1,
-  userId: 3,
-  commentsType: COMMENTS_TYPE.VIDEO_REFUTATION,
-  content: "你好呀小白",
-  toCommentId: 3,
-  parentId: 0,
-  likeNum: 0,
-  date: 0,
-  review: false,
-  deleted: 0,
-  userName:"小李",
-  userImageSrc:""
-}
-const a1:CommentsData={
-  comments:data1,
-  likeState:false
-}
-const a2:CommentsData={
-  comments:data2,
-  likeState:false
-}
-const a3:CommentsData={
-  comments:data3,
-  likeState:false
-}
-const a4:CommentsData={
-  comments:data4,
-  likeState:false
-}
-TestData.push(a1)
-TestData.push(a2)
-TestData.push(a3)
-TestData.push(a4)
+//
+// const data1: Comments={
+//   id: 0,
+//   videoId: 1,
+//   userId: 2,
+//   commentsType: COMMENTS_TYPE.VIDEO,
+//   content: "你好1",
+//   toCommentId: -1,
+//   parentId: -1,
+//   likeNum: 0,
+//   date: 0,
+//   review: false,
+//   deleted: 0,
+//   userName:"小王",
+//   userImageSrc:""
+// }
+//
+// const data2: Comments={
+//   id: 2,
+//   videoId: 1,
+//   userId: 2,
+//   commentsType: COMMENTS_TYPE.VIDEO,
+//   content: "你好2",
+//   toCommentId: -1,
+//   parentId: -1,
+//   likeNum: 0,
+//   date: 0,
+//   review: false,
+//   deleted: 0,
+//   userName:"小红",
+//   userImageSrc:""
+// }
+//
+// const data3: Comments={
+//   id: 3,
+//   videoId: 1,
+//   userId: 2,
+//   commentsType: COMMENTS_TYPE.VIDEO_REPLY,
+//   content: "你好呀小王",
+//   toCommentId: 0,
+//   parentId: 0,
+//   likeNum: 0,
+//   date: 0,
+//   review: false,
+//   deleted: 0,
+//   userName:"小白",
+//   userImageSrc:""
+// }
+//
+// const data4: Comments={
+//   id: 4,
+//   videoId: 1,
+//   userId: 3,
+//   commentsType: COMMENTS_TYPE.VIDEO_REFUTATION,
+//   content: "你好呀小白",
+//   toCommentId: 3,
+//   parentId: 0,
+//   likeNum: 0,
+//   date: 0,
+//   review: false,
+//   deleted: 0,
+//   userName:"小李",
+//   userImageSrc:""
+// }
+// const a1:CommentsData={
+//   comments:data1,
+//   likeState:false
+// }
+// const a2:CommentsData={
+//   comments:data2,
+//   likeState:false
+// }
+// const a3:CommentsData={
+//   comments:data3,
+//   likeState:false
+// }
+// const a4:CommentsData={
+//   comments:data4,
+//   likeState:false
+// }
+// TestData.push(a1)
+// TestData.push(a2)
+// TestData.push(a3)
+// TestData.push(a4)
 let VIDEO_DATA:CommentsData[]=[]
 let VIDEO_REPLY_DATA:CommentsData[]=[]
 let VIDEO_REFUTATION_DATA:CommentsData[]=[]
