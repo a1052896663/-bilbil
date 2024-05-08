@@ -31,7 +31,28 @@ const ProP=  defineProps({
   }
 });
 
-function toView(videoId:number){
+function toView(videoId:number,item:any){
+  if(item&&('review' in item)&& item.review==false){
+    // 视频审核中
+    showToast({
+      message: '视频审核中',
+      position: 'top',
+    });
+
+    return
+  }
+
+
+  if(item&&('showVideo' in item)&& item.showVideo==false){
+    // 视频审核中
+    showToast({
+      message: '视频审核未通过',
+      position: 'top',
+    });
+
+    return
+  }
+
   console.log("跳转o:",videoId)
   viewVideoId.value=videoId
 
@@ -121,7 +142,7 @@ const onSelect = (option) => {
 <template>
 
   <div id="view-search">
-    <div class="view-search-item"   :key="item.videoId" v-for="(item,index) in recommend" @click="toView(item.videoId)">
+    <div class="view-search-item"   :key="item.videoId" v-for="(item,index) in recommend" @click="toView(item.videoId,item)">
       <div class="view-search-item-image">
         <van-image
 
@@ -138,7 +159,7 @@ const onSelect = (option) => {
           {{item.title}}
         </div>
         <div>
-          <div class="view-search-item-view"  v-if="!item.showVideo" style="color:red"> {{item.reviewMsg}}</div>
+          <div class="view-search-item-view"  v-if="item.showVideo==false" style="color:red"> {{item.reviewMsg}}</div>
           <div class="view-search-item-size" style="position: relative">{{formatDateTime(item.date)}}  <van-icon   @click.stop="OnclickSheet(item.videoId,index)" class="user-video-setting-card-font"  size="5rem" name="ellipsis" /></div>
 
         </div>

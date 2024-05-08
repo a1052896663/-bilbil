@@ -272,6 +272,8 @@ export interface HomeViewCard{
   date:number,// 日期
   reviewMsg:string, // 审核信息  50 个字体
   review:boolean // 审核状态
+  showVideo:boolean
+
 
 }
 

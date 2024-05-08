@@ -35,7 +35,7 @@ onMounted(async ()=>{
     if(rep.status==200){
 
       userVideo.value=rep.body
-      list.value.push(rep.body)
+      list.value.unshift(rep.body)
       console.log("播放数据：",userVideo.value)
 
       console.log("返回数据：",rep)

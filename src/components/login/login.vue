@@ -212,7 +212,7 @@ function OnClickBar(){
               label="账号"
               v-model="account"
               name="account"
-              placeholder="函数校验"
+              placeholder="账号"
               :rules="[{ pattern: /^[a-zA-Z0-9]{8,15}$/, message: '只能输入8~15位字母或数字' }]"
           />
           <!-- 通过 validator 返回错误提示 -->
